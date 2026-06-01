@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>WhatsApp · Launch → Order → Chatbot Flow</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  background:#f0f2f5;
+  color:#111;
+  font-family:'Inter',sans-serif;
+  line-height:1.5;
+  padding:40px 60px 80px;
+}
+
+.page-header{margin-bottom:48px;}
+.page-title{font-size:1.75rem;font-weight:700;color:#111;margin-bottom:4px;}
+.page-subtitle{font-size:0.875rem;color:#666;}
+
+.section-label{display:flex;align-items:center;gap:12px;margin-bottom:20px;margin-top:48px;}
+.section-label:first-of-type{margin-top:0;}
+.section-num{width:28px;height:28px;border-radius:50%;background:#075E54;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.section-name{font-size:1.1rem;font-weight:700;color:#111;}
+.section-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(7,94,84,0.1);color:#075E54;}
+
+.mockup-row{
+  display:grid;grid-template-columns:330px 1fr;gap:32px;align-items:start;
+  background:#1e2028;border-radius:16px;border:1px solid rgba(255,255,255,0.07);
+  padding:28px;margin-bottom:20px;
+}
+
+/* Info panel */
+.uc-name{font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:6px;}
+.uc-meta-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.journey-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(37,211,102,0.15);color:#25D366;}
+.ch-pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;}
+.ch-wa{background:rgba(37,211,102,0.12);color:#25D366;border:1px solid rgba(37,211,102,0.25);}
+.ch-sms{background:rgba(52,199,89,0.1);color:#34C759;border:1px solid rgba(52,199,89,0.25);}
+.uc-desc{font-size:0.82rem;color:rgba(255,255,255,0.6);line-height:1.65;margin-bottom:16px;}
+.uc-desc strong{color:rgba(255,255,255,0.9);}
+.uc-desc code{font-size:11px;background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:3px;color:#a8d8b0;}
+
+.h-flow{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;margin-bottom:16px;}
+.h-flow-header{display:flex;align-items:center;gap:7px;margin-bottom:12px;}
+.h-flow-dot{width:7px;height:7px;border-radius:50%;background:#25D366;}
+.h-flow-title{font-size:10px;font-weight:700;color:#fff;letter-spacing:.06em;text-transform:uppercase;}
+.flow-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;background:rgba(37,211,102,0.18);color:#25D366;}
+.h-flow-steps{display:flex;align-items:flex-start;overflow-x:auto;scrollbar-width:none;}
+.h-flow-steps::-webkit-scrollbar{display:none;}
+.h-step{display:flex;flex-direction:column;align-items:center;min-width:82px;flex-shrink:0;padding:0 4px;}
+.h-bubble{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;}
+.h-bubble.active{background:rgba(37,211,102,0.2);color:#25D366;box-shadow:0 0 0 2px rgba(37,211,102,0.3);}
+.h-bubble.done{background:rgba(37,211,102,0.12);color:#25D366;}
+.h-bubble.pending{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.3);}
+.h-step-label{font-size:9px;color:rgba(255,255,255,0.8);text-align:center;line-height:1.3;margin-top:5px;}
+.h-step-sub{font-size:8px;color:rgba(255,255,255,0.35);text-align:center;margin-top:2px;line-height:1.3;}
+.h-arrow{color:rgba(255,255,255,0.2);font-size:12px;padding:0 1px;align-self:flex-start;margin-top:4px;line-height:20px;}
+
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.kpi-block{background:rgba(37,211,102,0.07);border:1px solid rgba(37,211,102,0.18);border-radius:8px;padding:10px;text-align:center;}
+.kpi-val{font-size:1.35rem;font-weight:700;color:#25D366;}
+.kpi-lbl{font-size:10px;color:rgba(255,255,255,0.5);margin-top:3px;line-height:1.3;}
+.caps-row{display:flex;flex-wrap:wrap;gap:5px;}
+.cap{font-size:10px;font-weight:600;padding:3px 8px;border-radius:3px;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.09);}
+.portal-link{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-top:12px;
+  font-size:10.5px;font-weight:500;
+  color:rgba(255,255,255,0.35);
+  font-family:'Roboto',monospace;
+  text-decoration:none;
+  border-top:1px solid rgba(255,255,255,0.06);
+  padding-top:10px;
+  width:100%;
+  transition:color .15s;
+  word-break:break-all;
+}
+.portal-link::before{content:'↗';font-size:11px;flex-shrink:0;}
+.portal-link:hover{color:rgba(255,255,255,0.7);}
+
+/* ── PHONE FRAME (original style) ── */
+.phone-col{display:flex;flex-direction:column;align-items:center;gap:10px;}
+
+.phone-frame{
+  width:300px;height:580px;background:white;border-radius:44px;
+  box-shadow:0 0 0 2px rgba(37,211,102,0.5),0 0 20px rgba(37,211,102,0.15),0 20px 60px rgba(0,0,0,0.5);
+  overflow:hidden;display:flex;flex-direction:column;
+  border:10px solid #1a1a1a;position:relative;
+}
+.phone-frame::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:120px;height:24px;background:#1a1a1a;border-radius:0 0 20px 20px;z-index:100;
+}
+.phone-frame-inner{width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;position:relative;}
+
+.phone-status{
+  background:#1a1a1a;color:white;padding:6px 14px;display:flex;
+  justify-content:space-between;align-items:center;font-size:11px;
+  height:38px;padding-top:24px;font-family:'Roboto',sans-serif;font-weight:500;
+}
+
+.wa-hdr{
+  background:#075E54;color:white;padding:10px 14px;
+  display:flex;align-items:center;gap:10px;height:48px;flex-shrink:0;
+}
+.wa-hdr-avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,#25D366,#128C7E);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:#fff;flex-shrink:0;position:relative;
+}
+.wa-hdr-avatar::after{
+  content:'✓';position:absolute;bottom:-1px;right:-2px;
+  width:12px;height:12px;background:#25D366;border-radius:50%;
+  border:1.5px solid #075E54;font-size:7px;color:#fff;
+  display:flex;align-items:center;justify-content:center;line-height:12px;text-align:center;
+}
+.wa-hdr-info h3{font-size:14px;font-weight:600;margin:0;font-family:'Roboto',sans-serif;}
+.wa-hdr-info p{font-size:11px;opacity:0.8;margin:0;font-family:'Roboto',sans-serif;}
+.wa-hdr-actions{margin-left:auto;font-size:16px;opacity:0.7;}
+
+.chat-area{
+  flex:1;overflow-y:auto;padding:10px 8px;
+  display:flex;flex-direction:column;gap:2px;
+  background-color:#ECE5DD;
+  background-image:url("data:image/svg+xml,%3Csvg width='304' height='304' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23a09b93' fill-opacity='0.06'%3E%3Cpath d='M56 0h8v16h-8zM24 0h8v16h-8zM88 0h8v16h-8zM0 56V48h16v8zM0 24V16h16v8zM0 88V80h16v8z'/%3E%3C/g%3E%3C/svg%3E");
+  scrollbar-width:none;
+}
+.chat-area::-webkit-scrollbar{display:none;}
+
+.wa-datechip{
+  display:block;width:fit-content;background:rgba(255,255,255,0.87);
+  padding:3px 10px;border-radius:6px;font-size:10px;font-weight:500;color:#54656F;
+  margin:4px auto 6px;box-shadow:0 1px 1px rgba(0,0,0,.06);
+  font-family:'Roboto',sans-serif;align-self:center;
+}
+.wa-bot-chip{
+  display:block;width:fit-content;background:rgba(255,249,196,0.95);
+  padding:3px 10px;border-radius:6px;font-size:9.5px;color:#7c6f00;
+  margin:3px auto 5px;box-shadow:0 1px 1px rgba(0,0,0,.05);
+  font-family:'Roboto',sans-serif;align-self:center;
+}
+
+/* ── MESSAGES: display:none initially ── */
+.wa-msg{
+  max-width:85%;
+  border-radius:8px;
+  font-size:13px;line-height:1.4;
+  color:#111B21;
+  font-family:'Roboto',sans-serif;
+  position:relative;
+  margin-bottom:3px;
+  box-shadow:0 1px 0.5px rgba(0,0,0,.07);
+  display:none; /* hidden until shown */
+}
+.wa-msg.show{
+  display:block;
+  animation:msgIn .22s ease forwards;
+}
+@keyframes msgIn{
+  from{opacity:0;transform:translateY(5px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.wa-msg-bot{background:#fff;border-top-left-radius:0;align-self:flex-start;margin-right:auto;}
+.wa-msg-bot.first::before{
+  content:'';position:absolute;top:0;left:-7px;
+  border-bottom:8px solid transparent;border-right:7px solid #fff;
+}
+.wa-msg-user{background:#D9FDD3;border-top-right-radius:0;align-self:flex-end;margin-left:auto;}
+.wa-msg-user.first::before{
+  content:'';position:absolute;top:0;right:-7px;
+  border-bottom:8px solid transparent;border-left:7px solid #D9FDD3;
+}
+
+.msg-body{padding:5px 8px 2px;word-break:break-word;}
+.msg-meta{display:flex;justify-content:flex-end;align-items:center;gap:2px;padding:0 7px 4px;}
+.msg-time{font-size:10px;color:#8696A0;}
+.msg-ticks{font-size:11px;color:#53BDEB;}
+.msg-ticks.grey{color:#8696A0;}
+
+/* Bubble image area */
+.msg-img{border-radius:6px 6px 0 0;overflow:hidden;}
+
+/* ── Inline reply/url buttons inside bubble ── */
+.wa-msg-btns{border-top:1px solid rgba(0,0,0,0.09);overflow:hidden;border-radius:0 0 8px 8px;}
+.wa-btn{
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  padding:9px 12px;
+  font-size:13px;font-weight:500;color:#027EB5;
+  font-family:'Roboto',sans-serif;
+  border-top:1px solid rgba(0,0,0,0.07);
+  background:#fff;
+  cursor:pointer;
+  user-select:none;
+  transition:background .12s, color .12s;
+  position:relative;
+}
+.wa-btn:first-child{border-top:none;}
+.wa-btn.type-reply::before{content:'↩';font-size:14px;color:#027EB5;transition:color .12s;}
+.wa-btn.type-url::before{content:'↗';font-size:13px;color:#027EB5;}
+
+/* Tapped: filled teal/blue bg, white text — real WA behaviour */
+.wa-btn.tapped{
+  background:#128C7E;
+  color:#fff;
+}
+.wa-btn.tapped::before{color:#fff;}
+
+/* After selection: unchosen buttons dimmed, chosen stays teal */
+.wa-btn.chosen{
+  background:#128C7E;
+  color:#fff;
+  pointer-events:none;
+}
+.wa-btn.chosen::before{color:#fff;}
+.wa-btn.unchosen{
+  background:#fff;
+  color:rgba(2,126,181,0.35);
+  pointer-events:none;
+}
+.wa-btn.unchosen::before{color:rgba(2,126,181,0.35);}
+
+/* Quoted reply inside user bubble */
+.msg-quoted{
+  border-left:3px solid #075E54;
+  background:rgba(0,0,0,0.06);
+  border-radius:0 4px 4px 0;
+  padding:4px 8px;
+  margin:4px 0 2px;
+  font-size:11px;
+  color:#667781;
+  font-family:'Roboto',sans-serif;
+  line-height:1.35;
+}
+.msg-quoted-sender{font-size:11px;font-weight:600;color:#075E54;margin-bottom:1px;}
+.msg-quoted-text{font-size:11px;color:#667781;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* Carousel wrapper — NOT a message bubble */
+.wa-carousel-wrap{
+  align-self:flex-start;
+  width:calc(100% + 2px);
+  margin-left:-1px;
+  display:none;
+  flex-direction:column;
+  gap:0;
+  margin-bottom:3px;
+}
+.wa-carousel-wrap.show{
+  display:flex;
+  animation:msgIn .22s ease forwards;
+}
+.wa-carousel-scroll{
+  display:flex;gap:6px;overflow-x:auto;
+  padding:4px 8px 6px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(0,0,0,0.2) transparent;
+}
+.wa-carousel-scroll::-webkit-scrollbar{height:3px;}
+.wa-carousel-scroll::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.2);border-radius:3px;}
+.carousel-card{
+  min-width:138px;max-width:138px;
+  background:#fff;border-radius:8px;overflow:hidden;
+  flex-shrink:0;
+  box-shadow:0 1px 3px rgba(0,0,0,.12);
+}
+.carousel-card-img{height:84px;overflow:hidden;position:relative;}
+.carousel-card-body{padding:6px 8px 4px;}
+.carousel-card-title{font-size:11px;font-weight:600;color:#111B21;line-height:1.3;font-family:'Roboto',sans-serif;}
+.carousel-card-sub{font-size:10px;color:#667781;margin-top:2px;line-height:1.3;font-family:'Roboto',sans-serif;}
+.carousel-card-price{font-size:10px;font-weight:700;color:#111B21;margin-top:2px;font-family:'Roboto',sans-serif;}
+.carousel-card-price s{color:#999;font-weight:400;margin-right:2px;}
+.carousel-card-cta{text-align:center;font-size:11px;font-weight:600;color:#027EB5;padding:6px;border-top:1px solid rgba(0,0,0,0.06);cursor:pointer;font-family:'Roboto',sans-serif;}
+.carousel-meta{display:flex;justify-content:flex-end;padding:0 8px 4px;}
+.carousel-meta-time{font-size:10px;color:#8696A0;font-family:'Roboto',sans-serif;}
+.carousel-meta-ticks{font-size:11px;color:#53BDEB;}
+
+/* Quick reply pills below carousel or message */
+.wa-qr-wrap{
+  align-self:flex-start;
+  display:none;
+  flex-wrap:wrap;gap:5px;
+  margin:2px 0 4px 0;
+  max-width:92%;
+}
+.wa-qr-wrap.show{
+  display:flex;
+  animation:msgIn .22s ease forwards;
+}
+.wa-qr-pill{
+  background:#fff;border:1px solid rgba(0,0,0,0.1);border-radius:20px;
+  padding:7px 14px;font-size:13px;font-weight:500;color:#027EB5;
+  font-family:'Roboto',sans-serif;cursor:pointer;
+  box-shadow:0 1px 2px rgba(0,0,0,.07);
+  display:flex;align-items:center;gap:4px;
+  user-select:none;
+  transition:background .1s;
+}
+.wa-qr-pill::before{content:'↩';font-size:12px;}
+.wa-qr-pill.tapped{background:rgba(2,126,181,0.12);}
+.wa-qr-pill.dimmed{opacity:0.38;pointer-events:none;}
+
+/* Typing indicator */
+.wa-typing{
+  display:none;align-items:center;gap:3px;
+  background:#fff;border-radius:0 8px 8px 8px;
+  padding:6px 10px;width:42px;margin-bottom:3px;
+  box-shadow:0 1px 0.5px rgba(0,0,0,.07);
+  position:relative;align-self:flex-start;
+}
+.wa-typing::before{
+  content:'';position:absolute;top:0;left:-7px;
+  border-bottom:8px solid transparent;border-right:7px solid #fff;
+}
+.wa-typing.show{display:flex;}
+.wa-dot{width:6px;height:6px;background:#8696A0;border-radius:50%;animation:waBounce 1.3s infinite;}
+.wa-dot:nth-child(2){animation-delay:.22s;}
+.wa-dot:nth-child(3){animation-delay:.44s;}
+@keyframes waBounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-4px)}}
+
+.wa-input-bar{
+  background:#f0f2f5;padding:6px 10px;
+  display:flex;align-items:center;gap:6px;flex-shrink:0;
+}
+.wa-input-field{flex:1;background:#fff;border-radius:18px;padding:6px 12px;font-size:13px;color:#8696A0;font-family:'Roboto',sans-serif;}
+.wa-send-btn{width:32px;height:32px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:14px;}
+
+.replay-wrap{display:flex;justify-content:center;}
+.replay-btn{
+  background:#fff;border:1.5px solid #25D366;color:#25D366;
+  border-radius:20px;padding:5px 20px;font-size:11.5px;font-weight:600;
+  cursor:pointer;font-family:'Inter',sans-serif;
+  transition:background .15s;box-shadow:0 1px 4px rgba(0,0,0,.08);
+}
+.replay-btn:hover{background:rgba(37,211,102,0.07);}
+
+/* ── CSS Product Images ── */
+.img-cs{
+  width:100%;height:130px;
+  background:linear-gradient(160deg,#1a1510 0%,#2c2418 50%,#1a1510 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  position:relative;overflow:hidden;
+}
+.img-cs::before{content:'';position:absolute;width:160px;height:160px;border-radius:50%;
+  background:radial-gradient(circle,rgba(212,196,168,0.06) 0%,transparent 70%);top:-30px;right:-30px;}
+.cs-eyebrow{font-size:8px;letter-spacing:3px;color:rgba(212,196,168,0.5);text-transform:uppercase;font-family:'Inter',sans-serif;}
+.cs-main{font-size:20px;font-weight:700;letter-spacing:5px;color:#d4c4a8;text-transform:uppercase;font-family:'Inter',sans-serif;}
+.cs-line{width:40px;height:1px;background:rgba(212,196,168,0.3);}
+
+.img-bottle{
+  width:100%;height:130px;
+  background:linear-gradient(160deg,#f5f0e8 0%,#ede5d5 100%);
+  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+}
+.bottle{
+  width:50px;height:92px;position:relative;
+  background:linear-gradient(180deg,#c9b99a 0%,#a8916e 55%,#8a7255 100%);
+  border-radius:8px 8px 12px 12px;
+  box-shadow:3px 3px 12px rgba(0,0,0,.18),-1px -1px 4px rgba(255,255,255,.3);
+}
+.bottle::before{content:'';position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  width:20px;height:14px;background:linear-gradient(180deg,#8a7255 0%,#c9b99a 100%);border-radius:4px 4px 0 0;}
+.bottle-label{position:absolute;top:28px;left:50%;transform:translateX(-50%);
+  font-size:5.5px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,.9);
+  text-transform:uppercase;white-space:nowrap;z-index:2;text-align:center;line-height:1.6;}
+.bottle-glow{position:absolute;width:80px;height:80px;border-radius:50%;
+  background:radial-gradient(circle,rgba(212,196,168,0.3) 0%,transparent 70%);
+  bottom:-15px;left:50%;transform:translateX(-50%);}
+
+.img-c1{
+  width:100%;height:84px;background:linear-gradient(135deg,#1c1c1c 0%,#2a2420 100%);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.img-c1::before{content:'';position:absolute;width:32px;height:60px;
+  background:linear-gradient(180deg,#bfad94 0%,#8a7255 100%);
+  border-radius:5px 5px 8px 8px;box-shadow:2px 2px 8px rgba(0,0,0,.3);left:50%;transform:translateX(-50%);}
+.img-c1-text{position:absolute;bottom:6px;font-size:5.5px;letter-spacing:1.5px;color:rgba(255,255,255,.45);text-transform:uppercase;font-family:'Inter',sans-serif;}
+
+.img-c2{
+  width:100%;height:84px;background:linear-gradient(135deg,#e8f4e8 0%,#d8edd8 100%);
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:8px 10px;gap:4px;
+}
+.ing-line{display:flex;align-items:center;gap:5px;font-size:9px;color:#3d6b3d;font-family:'Roboto',sans-serif;}
+.ing-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+
+.img-c3{
+  width:100%;height:84px;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+}
+.c3-pct{font-size:24px;font-weight:700;color:#e4c97a;line-height:1;}
+.c3-sub{font-size:8px;color:rgba(255,255,255,.6);font-family:'Roboto',sans-serif;text-align:center;}
+.c3-stars{font-size:11px;}
+
+.img-order{
+  width:100%;height:72px;background:linear-gradient(135deg,#f8f4ef,#ede5d8);
+  display:flex;align-items:center;justify-content:center;
+}
+.img-order span{font-size:36px;opacity:.85;}
+
+.img-shipped{
+  width:100%;height:64px;background:linear-gradient(135deg,#e8f0f8,#dce8f4);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.img-shipped span{font-size:28px;}
+
+.img-ba{
+  width:100%;height:84px;display:flex;overflow:hidden;
+}
+.ba-l{flex:1;background:linear-gradient(160deg,#c9a898,#b89080);display:flex;align-items:flex-end;justify-content:center;padding-bottom:5px;}
+.ba-r{flex:1;background:linear-gradient(160deg,#f0e0d0,#e4d0bc);display:flex;align-items:flex-end;justify-content:center;padding-bottom:5px;}
+.ba-lbl{font-size:7px;font-weight:700;color:rgba(0,0,0,.4);letter-spacing:1px;text-transform:uppercase;}
+.ba-sep{width:2px;background:#fff;flex-shrink:0;position:relative;}
+
+.img-weeks{
+  width:100%;height:70px;background:linear-gradient(135deg,#1a1a2e,#16213e);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+}
+.wk-big{font-size:18px;font-weight:700;color:#e4c97a;line-height:1;}
+.wk-sub{font-size:8px;color:rgba(255,255,255,.55);font-family:'Roboto',sans-serif;text-align:center;padding:0 6px;}
+
+@media(max-width:900px){
+  body{padding:20px;}
+  .mockup-row{grid-template-columns:1fr;gap:20px;}
+  .phone-col{margin:0 auto;}
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="page-title">WhatsApp · Launch → Order → Chatbot Flow</div>
+  <div class="page-subtitle">End-to-end customer journey demo &nbsp;·&nbsp; Scroll to explore each phase</div>
+</div>
+
+<!-- ══════════════ SECTION 1 ══════════════ -->
+<div class="section-label">
+  <div class="section-num">1</div>
+  <div class="section-name">Product Launch Campaign</div>
+  <span class="section-tag">Marketing Journey</span>
+</div>
+
+<!-- D-7 Teaser -->
+<div class="mockup-row" data-chat="c1">
+  <div class="phone-col">
+    <div class="phone-frame">
+      <div class="phone-frame-inner">
+        <div class="phone-status"><span>9:41</span><span>▲◼▮▮</span></div>
+        <div class="wa-hdr">
+          <div class="wa-hdr-avatar">N</div>
+          <div class="wa-hdr-info"><h3>Noname</h3><p>online</p></div>
+          <div class="wa-hdr-actions">⋮</div>
+        </div>
+        <div class="chat-area" id="ca1">
+          <span class="wa-datechip">Today</span>
+
+          <div class="wa-msg wa-msg-bot first" id="m1_1">
+            <div class="msg-img"><div class="img-cs"><div class="cs-eyebrow">Sign up for first access</div><div class="cs-line"></div><div class="cs-main">Coming Soon</div><div class="cs-line"></div></div></div>
+            <div class="msg-body">Something NEW is coming... ✨<br><br>Our most-awaited launch is just 7 days away.<br><br>Be the first to know — and get exclusive early access.</div>
+            <div class="wa-msg-btns">
+              <div class="wa-btn type-reply" data-chat="c1" data-reply-id="m1_u1" data-reply-text="↩ Notify Me">Notify Me</div>
+              <div class="wa-btn type-url">Learn More</div>
+            </div>
+            <div class="msg-meta"><span class="msg-time">10:02</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <div class="wa-msg wa-msg-user first" id="m1_u1" data-btn-for="m1_1" data-btn-text="Notify Me">
+            <div class="msg-body">
+              <div class="msg-quoted"><div class="msg-quoted-sender">Noname</div><div class="msg-quoted-text">Something NEW is coming... ✨ Our most-awaited launch is just 7 days away.</div></div>
+              Notify Me
+            </div>
+            <div class="msg-meta"><span class="msg-time">10:02</span><span class="msg-ticks grey">✓✓</span></div>
+          </div>
+
+          <div class="wa-msg wa-msg-bot first" id="m1_2">
+            <div class="msg-body">You're in! 🎉<br>We'll send you an exclusive preview the night before launch.</div>
+            <div class="msg-meta"><span class="msg-time">10:03</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <div class="wa-typing" id="ty1"><div class="wa-dot"></div><div class="wa-dot"></div><div class="wa-dot"></div></div>
+        </div>
+        <div class="wa-input-bar"><div class="wa-input-field">Message</div><div class="wa-send-btn">➤</div></div>
+      </div>
+    </div>
+    <div class="replay-wrap"><button class="replay-btn" onclick="playChat('c1')">▶ Replay</button></div>
+  </div>
+  <div>
+    <div class="uc-name">D-7 · Teaser Message</div>
+    <div class="uc-meta-row"><span class="journey-tag">Marketing Journey</span><span class="ch-pill ch-wa">WhatsApp</span></div>
+    <div class="uc-desc">Pre-launch teaser sent to a <strong>predefined audience</strong> 7 days before launch. Tapping <strong>Notify Me</strong> sets <code>notify_me = true</code> and routes into the D-1 Countdown flow for early-access pricing. No response in 7 days → journey exits.</div>
+    <div class="h-flow">
+      <div class="h-flow-header"><div class="h-flow-dot"></div><div class="h-flow-title">Launch Journey</div><span class="flow-badge">MAIN</span></div>
+      <div class="h-flow-steps">
+        <div class="h-step"><div class="h-bubble active">D-7</div><div class="h-step-label">Teaser</div><div class="h-step-sub">Notify Me</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble pending">D-1</div><div class="h-step-label">Countdown</div><div class="h-step-sub">Opt-in only</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble pending">D-Day</div><div class="h-step-label">Launch</div><div class="h-step-sub">Carousel</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble pending">D+2</div><div class="h-step-label">No Purchase</div><div class="h-step-sub">Re-engage</div></div>
+      </div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-block"><div class="kpi-val">68%</div><div class="kpi-lbl">Notify Me opt-in rate</div></div>
+      <div class="kpi-block"><div class="kpi-val">4.2×</div><div class="kpi-lbl">Launch-day conversion vs. no opt-in</div></div>
+    </div>
+    <div class="caps-row"><span class="cap">Predefined Audience</span><span class="cap">Reply Button</span><span class="cap">Attribute Tag</span><span class="cap">Conditional Branch</span></div>
+    <a class="portal-link" href="https://portal.infobip.com/journeys/200000037739888" target="_blank">portal.infobip.com/journeys/200000037739888</a>
+  </div>
+</div>
+
+<!-- D-1 + D-Day Carousel -->
+<div class="mockup-row" data-chat="c2">
+  <div class="phone-col">
+    <div class="phone-frame">
+      <div class="phone-frame-inner">
+        <div class="phone-status"><span>9:41</span><span>▲◼▮▮</span></div>
+        <div class="wa-hdr">
+          <div class="wa-hdr-avatar">N</div>
+          <div class="wa-hdr-info"><h3>Noname</h3><p>online</p></div>
+          <div class="wa-hdr-actions">⋮</div>
+        </div>
+        <div class="chat-area" id="ca2">
+          <span class="wa-datechip">Tomorrow</span>
+
+          <div class="wa-msg wa-msg-bot first" id="m2_1">
+            <div class="msg-img"><div class="img-bottle"><div class="bottle"><div class="bottle-label">HYDRA<br>GLOW</div></div><div class="bottle-glow"></div></div></div>
+            <div class="msg-body">Tomorrow is the day. ⏰<br><br><strong>Alex</strong>, you're on our early access list — here's what's waiting for you:<br><br>🎁 Early Bird: HK$300 (Regular HK$500)<br>🚚 Free shipping — today only<br>⚡ Limited stock<br><br>We drop at 10AM tomorrow.</div>
+            <div class="wa-msg-btns">
+              <div class="wa-btn type-reply">Set a Reminder</div>
+              <div class="wa-btn type-url">Preview the Product</div>
+            </div>
+            <div class="msg-meta"><span class="msg-time">21:00</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <span class="wa-datechip" id="m2_dc2" style="display:none;align-self:center;">Launch Day</span>
+
+          <div class="wa-msg wa-msg-bot first" id="m2_2">
+            <div class="msg-body">It's here. Our biggest launch of the year. 🚀</div>
+            <div class="msg-meta"><span class="msg-time">10:00</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <!-- Carousel as its own element -->
+          <div class="wa-carousel-wrap" id="m2_car">
+            <div class="wa-carousel-scroll">
+              <div class="carousel-card">
+                <div class="carousel-card-img"><div class="img-c1"><div class="img-c1-text">HYDRA · GLOW · SERUM</div></div></div>
+                <div class="carousel-card-body">
+                  <div class="carousel-card-title">NEW Hydra-Glow Serum</div>
+                  <div class="carousel-card-sub">Skin barrier repair + 72hr moisture lock</div>
+                  <div class="carousel-card-price"><s>HK$399</s>HK$299</div>
+                </div>
+                <div class="carousel-card-cta">↗ Shop Now</div>
+              </div>
+              <div class="carousel-card">
+                <div class="carousel-card-img"><div class="img-c2">
+                  <div class="ing-line"><div class="ing-dot" style="background:#5a9a5a;"></div>Centella Asiatica</div>
+                  <div class="ing-line"><div class="ing-dot" style="background:#4a7cb4;"></div>Hyaluronic Acid</div>
+                  <div class="ing-line"><div class="ing-dot" style="background:#b4884a;"></div>Niacinamide</div>
+                </div></div>
+                <div class="carousel-card-body">
+                  <div class="carousel-card-title">What's inside?</div>
+                  <div class="carousel-card-sub">Fragrance-free · Dermatologist tested</div>
+                </div>
+                <div class="carousel-card-cta">↗ Full Ingredients</div>
+              </div>
+              <div class="carousel-card">
+                <div class="carousel-card-img"><div class="img-c3"><div class="c3-pct">94%</div><div class="c3-sub">saw results in 14 days</div><div class="c3-stars">⭐⭐⭐⭐⭐</div></div></div>
+                <div class="carousel-card-body">
+                  <div class="carousel-card-title">Real results in 14 days</div>
+                  <div class="carousel-card-sub">"My skin looks glassy"</div>
+                </div>
+                <div class="carousel-card-cta">↗ Read Reviews</div>
+              </div>
+            </div>
+            <div class="carousel-meta"><span class="carousel-meta-time">10:00 &nbsp;</span><span class="carousel-meta-ticks">✓✓</span></div>
+          </div>
+
+          <div class="wa-typing" id="ty2"><div class="wa-dot"></div><div class="wa-dot"></div><div class="wa-dot"></div></div>
+        </div>
+        <div class="wa-input-bar"><div class="wa-input-field">Message</div><div class="wa-send-btn">➤</div></div>
+      </div>
+    </div>
+    <div class="replay-wrap"><button class="replay-btn" onclick="playChat('c2')">▶ Replay</button></div>
+  </div>
+  <div>
+    <div class="uc-name">D-1 Countdown &amp; D-Day Product Carousel</div>
+    <div class="uc-meta-row"><span class="journey-tag">Marketing Journey</span><span class="ch-pill ch-wa">WhatsApp</span></div>
+    <div class="uc-desc">Personalised D-1 reminder for opt-in users with exclusive pricing. D-Day fires a <strong>3-card carousel</strong> — hero product, ingredients card, social proof. Journey waits for <code>purchase_completed</code>. Match → Order sub-journey. No match → D+2 re-engagement.</div>
+    <div class="h-flow">
+      <div class="h-flow-header"><div class="h-flow-dot"></div><div class="h-flow-title">Launch Journey</div><span class="flow-badge">MAIN</span></div>
+      <div class="h-flow-steps">
+        <div class="h-step"><div class="h-bubble done">✓</div><div class="h-step-label">D-7 Teaser</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble active">D-1</div><div class="h-step-label">Countdown</div><div class="h-step-sub">Early bird</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble active">D-Day</div><div class="h-step-label">Launch</div><div class="h-step-sub">Carousel</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble pending">D+2</div><div class="h-step-label">No Purchase</div></div>
+      </div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-block"><div class="kpi-val">31%</div><div class="kpi-lbl">D-Day click-to-purchase (early access)</div></div>
+      <div class="kpi-block"><div class="kpi-val">2.1×</div><div class="kpi-lbl">Carousel engagement vs. single image</div></div>
+    </div>
+    <div class="caps-row"><span class="cap">Personalisation</span><span class="cap">Product Carousel</span><span class="cap">Wait for Event</span><span class="cap">Journey Branching</span></div>
+    <a class="portal-link" href="https://portal.infobip.com/journeys/200000037739888" target="_blank">portal.infobip.com/journeys/200000037739888</a>
+  </div>
+</div>
+
+<!-- D+2 No Purchase -->
+<div class="mockup-row" data-chat="cd2">
+  <div class="phone-col">
+    <div class="phone-frame">
+      <div class="phone-frame-inner">
+        <div class="phone-status"><span>9:41</span><span>▲◼▮▮</span></div>
+        <div class="wa-hdr">
+          <div class="wa-hdr-avatar">N</div>
+          <div class="wa-hdr-info"><h3>Noname</h3><p>online</p></div>
+          <div class="wa-hdr-actions">⋮</div>
+        </div>
+        <div class="chat-area" id="cad2">
+          <span class="wa-datechip">2 days after launch</span>
+
+          <div class="wa-msg wa-msg-bot first" id="md2_1">
+            <div class="msg-img">
+              <div style="width:100%;height:120px;background:linear-gradient(135deg,#1a1a1a 0%,#2a2a2a 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+                <div style="position:absolute;width:48px;height:88px;background:linear-gradient(180deg,#c9b99a 0%,#8a7255 100%);border-radius:7px 7px 11px 11px;box-shadow:3px 3px 12px rgba(0,0,0,.4);left:50%;transform:translateX(-50%);">
+                  <div style="position:absolute;top:22px;left:50%;transform:translateX(-50%);font-size:5px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,.85);text-transform:uppercase;white-space:nowrap;text-align:center;line-height:1.6;">HYDRA<br>GLOW</div>
+                </div>
+                <div style="position:absolute;bottom:12px;right:16px;font-size:9px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:2px;text-transform:uppercase;">LAST UNITS</div>
+              </div>
+            </div>
+            <div class="msg-body"><strong>Alex</strong>, still thinking about it? 🤔<br><br>Just so you know — our Hydra-Glow Serum is selling fast.<br><br>Stock is running low and early bird pricing ends in 48 hours.<br><br>Don't miss your chance.</div>
+            <div class="wa-msg-btns">
+              <div class="wa-btn type-url">Buy Now</div>
+              <div class="wa-btn type-reply" data-reply-id="md2_u1" data-reply-text="↩ Have Questions?">Have Questions?</div>
+            </div>
+            <div class="msg-meta"><span class="msg-time">10:00</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <div class="wa-msg wa-msg-user first" id="md2_u1" data-btn-for="md2_1" data-btn-text="Have Questions?">
+            <div class="msg-body">
+              <div class="msg-quoted"><div class="msg-quoted-sender">Noname</div><div class="msg-quoted-text">Alex, still thinking about it? 🤔 Stock is running low and early bird pricing ends in 48 hours.</div></div>
+              Have Questions?
+            </div>
+            <div class="msg-meta"><span class="msg-time">10:04</span><span class="msg-ticks grey">✓✓</span></div>
+          </div>
+
+          <div class="wa-msg wa-msg-bot first" id="md2_2">
+            <div class="msg-body">Of course! Let me connect you with our product bot. 🤖<br>It'll answer all your questions right here.</div>
+            <div class="msg-meta"><span class="msg-time">10:04</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <div class="wa-typing" id="tyd2"><div class="wa-dot"></div><div class="wa-dot"></div><div class="wa-dot"></div></div>
+        </div>
+        <div class="wa-input-bar"><div class="wa-input-field">Message</div><div class="wa-send-btn">➤</div></div>
+      </div>
+    </div>
+    <div class="replay-wrap"><button class="replay-btn" onclick="playChat('cd2')">▶ Replay</button></div>
+  </div>
+  <div>
+    <div class="uc-name">D+2 · No Purchase Re-engagement</div>
+    <div class="uc-meta-row"><span class="journey-tag">Marketing Journey</span><span class="ch-pill ch-wa">WhatsApp</span></div>
+    <div class="uc-desc">Sent 2 days after launch to customers who saw the D-Day message but did <strong>not</strong> complete a purchase (<code>purchase_completed</code> not fired). Stock urgency + pricing deadline re-engage. <strong>Have Questions?</strong> triggers <strong>Transfer to Chatbot</strong>. No response in 3 days → journey exits.</div>
+    <div class="h-flow">
+      <div class="h-flow-header"><div class="h-flow-dot"></div><div class="h-flow-title">Launch Journey</div><span class="flow-badge">MAIN</span></div>
+      <div class="h-flow-steps">
+        <div class="h-step"><div class="h-bubble done">✓</div><div class="h-step-label">D-7 Teaser</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble done">✓</div><div class="h-step-label">D-Day Launch</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble active">D+2</div><div class="h-step-label">No Purchase</div><div class="h-step-sub">Buy Now / Questions</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble pending">🤖</div><div class="h-step-label">Chatbot</div><div class="h-step-sub">If questions</div></div>
+      </div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-block"><div class="kpi-val">22%</div><div class="kpi-lbl">D+2 conversion rate (re-engaged)</div></div>
+      <div class="kpi-block"><div class="kpi-val">38%</div><div class="kpi-lbl">"Have Questions?" → purchase via chatbot</div></div>
+    </div>
+    <div class="caps-row"><span class="cap">No-Purchase Filter</span><span class="cap">Urgency Messaging</span><span class="cap">Transfer to Chatbot</span><span class="cap">3-day Exit</span></div>
+    <a class="portal-link" href="https://portal.infobip.com/journeys/200000037739888" target="_blank">portal.infobip.com/journeys/200000037739888</a>
+  </div>
+</div>
+
+<!-- ══════════════ SECTION 2 ══════════════ -->
+<div class="section-label">
+  <div class="section-num">2</div>
+  <div class="section-name">Order + Review Sub-Journey</div>
+  <span class="section-tag">Transactional · Retention</span>
+</div>
+
+<!-- Order messages -->
+<div class="mockup-row" data-chat="c3">
+  <div class="phone-col">
+    <div class="phone-frame">
+      <div class="phone-frame-inner">
+        <div class="phone-status"><span>9:41</span><span>▲◼▮▮</span></div>
+        <div class="wa-hdr">
+          <div class="wa-hdr-avatar">N</div>
+          <div class="wa-hdr-info"><h3>Noname</h3><p>online</p></div>
+          <div class="wa-hdr-actions">⋮</div>
+        </div>
+        <div class="chat-area" id="ca3">
+          <span class="wa-datechip">Order day</span>
+
+          <div class="wa-msg wa-msg-bot first" id="m3_1">
+            <div class="msg-img"><div class="img-order"><span>🎉</span></div></div>
+            <div class="msg-body">Thank you for your order, <strong>Alex</strong>! 🎉<br><br>Your Hydra-Glow Serum is on its way.<br><br>📦 Order #<strong>NN-20847</strong><br>🚚 Est. delivery: <strong>28 May</strong><br><br>We'll notify you once it ships.</div>
+            <div class="wa-msg-btns">
+              <div class="wa-btn type-url">Track My Order</div>
+              <div class="wa-btn type-reply">Contact Us</div>
+            </div>
+            <div class="msg-meta"><span class="msg-time">14:22</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <span class="wa-datechip" id="m3_dc2" style="display:none;align-self:center;">2 days later</span>
+
+          <div class="wa-msg wa-msg-bot first" id="m3_2">
+            <div class="msg-img"><div class="img-shipped"><span>🚚</span></div></div>
+            <div class="msg-body">Great news, <strong>Alex</strong>! 📦<br><br>Your order is on its way.<br>🚚 Tracking: <strong>NN-TRK-48201</strong><br>📅 Arrival: <strong>28 May</strong><br><br>While you wait:<br>✓ Apply on clean, damp skin<br>✓ Use AM + PM for best results<br>✓ Follow with SPF in the morning</div>
+            <div class="wa-msg-btns">
+              <div class="wa-btn type-url">View Routine Guide</div>
+              <div class="wa-btn type-url">Track My Order</div>
+            </div>
+            <div class="msg-meta"><span class="msg-time">09:15</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <span class="wa-datechip" id="m3_dc3" style="display:none;align-self:center;">Delivery day</span>
+
+          <div class="wa-msg wa-msg-bot first" id="m3_3">
+            <div class="msg-body"><strong>Alex</strong>, did your order arrive? 😊<br><br>We hope you're loving your Hydra-Glow Serum so far!<br><br>Any issues? We'll sort it out right away.</div>
+            <div class="wa-msg-btns">
+              <div class="wa-btn type-reply" data-chat="c3" data-reply-id="m3_u1" data-reply-text="↩ Yes, I got it!">Yes, I got it!</div>
+              <div class="wa-btn type-reply" data-reply-id="" data-reply-text="">I have an issue</div>
+            </div>
+            <div class="msg-meta"><span class="msg-time">11:00</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <div class="wa-msg wa-msg-user first" id="m3_u1" data-btn-for="m3_3" data-btn-text="Yes, I got it!">
+            <div class="msg-body">
+              <div class="msg-quoted"><div class="msg-quoted-sender">Noname</div><div class="msg-quoted-text">Alex, did your order arrive? 😊 Any issues? We'll sort it out right away.</div></div>
+              Yes, I got it!
+            </div>
+            <div class="msg-meta"><span class="msg-time">11:03</span><span class="msg-ticks grey">✓✓</span></div>
+          </div>
+
+          <div class="wa-typing" id="ty3"><div class="wa-dot"></div><div class="wa-dot"></div><div class="wa-dot"></div></div>
+        </div>
+        <div class="wa-input-bar"><div class="wa-input-field">Message</div><div class="wa-send-btn">➤</div></div>
+      </div>
+    </div>
+    <div class="replay-wrap"><button class="replay-btn" onclick="playChat('c3')">▶ Replay</button></div>
+  </div>
+  <div>
+    <div class="uc-name">Purchase Confirmation → Shipping → Delivery Check-in</div>
+    <div class="uc-meta-row"><span class="journey-tag">Transactional</span><span class="ch-pill ch-wa">WhatsApp</span><span class="ch-pill ch-sms">SMS Failover</span></div>
+    <div class="uc-desc">Sub-journey triggered on <code>purchase_completed</code>. Sends order confirmation → shipping notification with usage tips → delivery check-in. <strong>I have an issue</strong> → chatbot handles CS. <strong>Yes, I got it!</strong> → waits 3 days → Review flow.</div>
+    <div class="h-flow">
+      <div class="h-flow-header"><div class="h-flow-dot"></div><div class="h-flow-title">Order + Review</div><span class="flow-badge">SUB-JOURNEY</span></div>
+      <div class="h-flow-steps">
+        <div class="h-step"><div class="h-bubble active">1</div><div class="h-step-label">Confirmed</div><div class="h-step-sub">Order details</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble active">2</div><div class="h-step-label">Shipped</div><div class="h-step-sub">Tracking + tips</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble active">3</div><div class="h-step-label">Delivery</div><div class="h-step-sub">Got it / Issue</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble pending">4</div><div class="h-step-label">Review</div><div class="h-step-sub">+3 days</div></div>
+      </div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-block"><div class="kpi-val">78%</div><div class="kpi-lbl">Delivery confirmation response rate</div></div>
+      <div class="kpi-block"><div class="kpi-val">−40%</div><div class="kpi-lbl">CS ticket volume</div></div>
+    </div>
+    <div class="caps-row"><span class="cap">Event Trigger</span><span class="cap">Wait for Event</span><span class="cap">Failover SMS</span><span class="cap">Transfer to Chatbot</span></div>
+    <a class="portal-link" href="https://portal.infobip.com/journeys/200000037739958" target="_blank">portal.infobip.com/journeys/200000037739958</a>
+  </div>
+</div>
+
+<!-- Review -->
+<div class="mockup-row" data-chat="c4">
+  <div class="phone-col">
+    <div class="phone-frame">
+      <div class="phone-frame-inner">
+        <div class="phone-status"><span>9:41</span><span>▲◼▮▮</span></div>
+        <div class="wa-hdr">
+          <div class="wa-hdr-avatar">N</div>
+          <div class="wa-hdr-info"><h3>Noname</h3><p>online</p></div>
+          <div class="wa-hdr-actions">⋮</div>
+        </div>
+        <div class="chat-area" id="ca4">
+          <span class="wa-datechip">7 days after delivery</span>
+
+          <div class="wa-msg wa-msg-bot first" id="m4_1">
+            <div class="msg-img"><div class="img-ba"><div class="ba-l"><span class="ba-lbl">Before</span></div><div class="ba-sep"></div><div class="ba-r"><span class="ba-lbl">After</span></div></div></div>
+            <div class="msg-body"><strong>Alex</strong>, you've had your serum for a week! ✨<br><br>We'd love to hear your first impressions. Takes less than 1 minute. 🙏</div>
+            <div class="wa-msg-btns">
+              <div class="wa-btn type-url">Leave a Review</div>
+              <div class="wa-btn type-reply" data-chat="c4" data-reply-id="m4_u1" data-reply-text="↩ Not Yet">Not Yet</div>
+            </div>
+            <div class="msg-meta"><span class="msg-time">10:00</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <div class="wa-msg wa-msg-user first" id="m4_u1" data-btn-for="m4_1" data-btn-text="Not Yet">
+            <div class="msg-body">
+              <div class="msg-quoted"><div class="msg-quoted-sender">Noname</div><div class="msg-quoted-text">Alex, you've had your serum for a week! ✨ Takes less than 1 minute. 🙏</div></div>
+              Not Yet
+            </div>
+            <div class="msg-meta"><span class="msg-time">10:04</span><span class="msg-ticks grey">✓✓</span></div>
+          </div>
+
+          <span class="wa-datechip" id="m4_dc2" style="display:none;align-self:center;">14 days after delivery</span>
+
+          <div class="wa-msg wa-msg-bot first" id="m4_2">
+            <div class="msg-img"><div class="img-weeks"><div class="wk-big">2 weeks</div><div class="wk-sub">Most customers see results around now</div></div></div>
+            <div class="msg-body">2 weeks in — how's your skin looking? ☀️<br><br>Share your experience and get <strong>HK$30 store credit</strong> as a thank you. 🎁</div>
+            <div class="wa-msg-btns">
+              <div class="wa-btn type-url" data-reply-id="m4_u2" data-reply-text="↗ Share My Results">Share My Results</div>
+              <div class="wa-btn type-reply">Remind Me Later</div>
+            </div>
+            <div class="msg-meta"><span class="msg-time">10:00</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <!-- Share My Results: no bubble, just the "Review submitted ✓" chip -->
+          <span class="wa-datechip" id="m4_u2" style="display:none;align-self:center;" data-btn-for="m4_2" data-btn-text="Share My Results">Review submitted ✓</span>
+
+          <!-- Thank you + credit message -->
+          <div class="wa-msg wa-msg-bot first" id="m4_3">
+            <div class="msg-body">
+              <strong>Alex</strong>, thank you so much! 🙏💚<br><br>
+              Your review means the world to us — and to the next customer trying to decide.<br><br>
+              As promised, here's your reward:<br><br>
+              🎁 <strong>HK$30 store credit</strong><br>
+              💳 Code: <strong>REVIEW30</strong><br>
+              ⏳ Valid for <strong>2 weeks</strong> only
+            </div>
+            <div class="msg-meta"><span class="msg-time">10:06</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <!-- Follow-up upsell card -->
+          <div class="wa-msg wa-msg-bot first" id="m4_4">
+            <div class="msg-img">
+              <div style="width:100%;height:100px;background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);display:flex;align-items:center;justify-content:center;gap:14px;position:relative;overflow:hidden;">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+                  <div style="font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.4);text-transform:uppercase;font-family:'Inter',sans-serif;">Pairs well with</div>
+                  <div style="font-size:15px;font-weight:700;color:#e4c97a;font-family:'Inter',sans-serif;">Hydra-Glow Set</div>
+                  <div style="font-size:9px;color:rgba(255,255,255,0.55);font-family:'Roboto',sans-serif;">Serum + Moisturiser + SPF</div>
+                </div>
+                <div style="position:absolute;right:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:4px;">
+                  <div style="width:8px;height:38px;background:linear-gradient(180deg,#c9b99a,#8a7255);border-radius:3px;"></div>
+                  <div style="width:8px;height:28px;background:linear-gradient(180deg,#d4c8b8,#b0a090);border-radius:3px;"></div>
+                  <div style="width:8px;height:22px;background:linear-gradient(180deg,#e0d8cc,#c8bfb0);border-radius:3px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="msg-body">
+              While you're here — customers who love the serum often complete their routine with our <strong>Hydra-Glow Set</strong>. 🧴<br><br>
+              ✨ Serum + Moisturiser + SPF<br>
+              💰 Bundle price: <strong>HK$680</strong> <span style="color:#8696A0;font-size:11px;text-decoration:line-through;">HK$850</span><br><br>
+              Use <strong>REVIEW30</strong> at checkout — your HK$30 credit applies automatically. 🛒
+            </div>
+            <div class="wa-msg-btns">
+              <div class="wa-btn type-url">Shop the Bundle</div>
+              <div class="wa-btn type-url">See Full Range</div>
+            </div>
+            <div class="msg-meta"><span class="msg-time">10:06</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <div class="wa-typing" id="ty4"><div class="wa-dot"></div><div class="wa-dot"></div><div class="wa-dot"></div></div>
+        </div>
+        <div class="wa-input-bar"><div class="wa-input-field">Message</div><div class="wa-send-btn">➤</div></div>
+      </div>
+    </div>
+    <div class="replay-wrap"><button class="replay-btn" onclick="playChat('c4')">▶ Replay</button></div>
+  </div>
+  <div>
+    <div class="uc-name">Review Flow — First Impression, 2-Week Follow-up &amp; Upsell</div>
+    <div class="uc-meta-row"><span class="journey-tag">Retention + UGC + Upsell</span><span class="ch-pill ch-wa">WhatsApp</span><span class="ch-pill ch-sms">SMS Failover</span></div>
+    <div class="uc-desc">D+7 First Impression review request. "Not Yet" → waits for <code>ReviewProduct</code> event. None after 7 days → D+14 message with HK$30 credit offer. Once review is submitted (<code>ReviewProduct</code> event fired) → thank-you message with credit code <strong>REVIEW30</strong> (2-week expiry) → immediate upsell: Hydra-Glow Bundle at HK$680 with credit auto-applied. "Remind Me Later" → 3-day SMS failover.</div>
+    <div class="h-flow">
+      <div class="h-flow-header"><div class="h-flow-dot"></div><div class="h-flow-title">Review Sub-Journey</div><span class="flow-badge">SUB-JOURNEY</span></div>
+      <div class="h-flow-steps">
+        <div class="h-step"><div class="h-bubble done">✓</div><div class="h-step-label">Delivery OK</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble active">D+7</div><div class="h-step-label">First Impression</div><div class="h-step-sub">Review / Not Yet</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble active">D+14</div><div class="h-step-label">2-Week Follow-up</div><div class="h-step-sub">HK$30 offer</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble active">✓</div><div class="h-step-label">Thank You + Credit</div><div class="h-step-sub">REVIEW30 code</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble active">🛒</div><div class="h-step-label">Bundle Upsell</div><div class="h-step-sub">HK$680 set</div></div>
+      </div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-block"><div class="kpi-val">34%</div><div class="kpi-lbl">Review submission rate (incentive group)</div></div>
+      <div class="kpi-block"><div class="kpi-val">4.7★</div><div class="kpi-lbl">Avg. review rating (WA cohort)</div></div>
+    </div>
+    <div class="caps-row"><span class="cap">Wait for Event</span><span class="cap">Incentive Message</span><span class="cap">Failover SMS</span><span class="cap">Return to Parent</span></div>
+    <a class="portal-link" href="https://portal.infobip.com/journeys/200000037739958" target="_blank">portal.infobip.com/journeys/200000037739958</a>
+  </div>
+</div>
+
+<!-- ══════════════ SECTION 3 ══════════════ -->
+<div class="section-label">
+  <div class="section-num">3</div>
+  <div class="section-name">Customer Support Chatbot</div>
+  <span class="section-tag">WhatsApp Chatbot</span>
+</div>
+
+<!-- Product FAQ -->
+<div class="mockup-row" data-chat="c5">
+  <div class="phone-col">
+    <div class="phone-frame">
+      <div class="phone-frame-inner">
+        <div class="phone-status"><span>9:41</span><span>▲◼▮▮</span></div>
+        <div class="wa-hdr">
+          <div class="wa-hdr-avatar">N</div>
+          <div class="wa-hdr-info"><h3>Noname</h3><p>online</p></div>
+          <div class="wa-hdr-actions">⋮</div>
+        </div>
+        <div class="chat-area" id="ca5">
+          <span class="wa-datechip">Today</span>
+
+          <!-- user sends "Have Questions?" from D+2 message -->
+          <div class="wa-msg wa-msg-user first" style="display:block;opacity:1;">
+            <div class="msg-body">↩ Have Questions?</div>
+            <div class="msg-meta"><span class="msg-time">11:03</span><span class="msg-ticks grey">✓✓</span></div>
+          </div>
+
+          <span class="wa-bot-chip" id="m5_chip" style="display:none;">🤖 Chatbot session started</span>
+
+          <div class="wa-msg wa-msg-bot first" id="m5_1">
+            <div class="msg-body">Hi <strong>Alex</strong>! 👋<br>What would you like to know about the Hydra-Glow Serum?</div>
+            <div class="wa-msg-btns">
+              <div class="wa-btn type-reply" data-reply-id="m5_u1" data-reply-text="↩ What's in it?">What's in it?</div>
+              <div class="wa-btn type-reply">How do I use it?</div>
+              <div class="wa-btn type-reply">Something else</div>
+            </div>
+            <div class="msg-meta"><span class="msg-time">11:03</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <div class="wa-msg wa-msg-user first" id="m5_u1" data-btn-for="m5_1" data-btn-text="What's in it?">
+            <div class="msg-body">
+              <div class="msg-quoted"><div class="msg-quoted-sender">Noname</div><div class="msg-quoted-text">Hi Alex! 👋 What would you like to know about the Hydra-Glow Serum?</div></div>
+              What's in it?
+            </div>
+            <div class="msg-meta"><span class="msg-time">11:03</span><span class="msg-ticks grey">✓✓</span></div>
+          </div>
+
+          <div class="wa-msg wa-msg-bot first" id="m5_2">
+            <div class="msg-body">Hydra-Glow Serum key ingredients:<br><br>🌿 Centella Asiatica — calms &amp; repairs<br>💧 Hyaluronic Acid — 72hr hydration<br>✨ Niacinamide — brightens &amp; tightens<br><br>Fragrance-free. Dermatologist tested. Suitable for sensitive skin.</div>
+            <div class="wa-msg-btns">
+              <div class="wa-btn type-url">Buy Now</div>
+              <div class="wa-btn type-reply">Ask Another Question</div>
+            </div>
+            <div class="msg-meta"><span class="msg-time">11:04</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <div class="wa-typing" id="ty5"><div class="wa-dot"></div><div class="wa-dot"></div><div class="wa-dot"></div></div>
+        </div>
+        <div class="wa-input-bar"><div class="wa-input-field">Message</div><div class="wa-send-btn">➤</div></div>
+      </div>
+    </div>
+    <div class="replay-wrap"><button class="replay-btn" onclick="playChat('c5')">▶ Replay</button></div>
+  </div>
+  <div>
+    <div class="uc-name">Chatbot — Default Dialog &amp; Product FAQ</div>
+    <div class="uc-meta-row"><span class="journey-tag">Customer Support</span><span class="ch-pill ch-wa">WhatsApp Chatbot</span></div>
+    <div class="uc-desc">Chatbot triggered via <strong>Transfer to Chatbot</strong> from D+2 re-engagement and Delivery Check-in. Default dialog routes to <strong>Product FAQ</strong> or <strong>Order Issue CS</strong>. Free-text falls through to AI bot (DetectIntent + Agent Connector).</div>
+    <div class="h-flow">
+      <div class="h-flow-header"><div class="h-flow-dot"></div><div class="h-flow-title">Chatbot Dialog Map</div><span class="flow-badge">CHATBOT</span></div>
+      <div class="h-flow-steps">
+        <div class="h-step"><div class="h-bubble active">1</div><div class="h-step-label">Default</div><div class="h-step-sub">Route intent</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble active">FAQ</div><div class="h-step-label">Product FAQ</div><div class="h-step-sub">Ingredients, Usage</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble pending">CS</div><div class="h-step-label">Order Issue CS</div><div class="h-step-sub">Wrong / Return</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble pending">AI</div><div class="h-step-label">AI Bot / Agent</div><div class="h-step-sub">Escalate</div></div>
+      </div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-block"><div class="kpi-val">82%</div><div class="kpi-lbl">Issues resolved without human agent</div></div>
+      <div class="kpi-block"><div class="kpi-val">&lt;3 min</div><div class="kpi-lbl">Avg. agent wait time (escalated)</div></div>
+    </div>
+    <div class="caps-row"><span class="cap">Reply Buttons</span><span class="cap">Multi-Dialog</span><span class="cap">AI Bot</span><span class="cap">Human Escalation</span></div>
+    <a class="portal-link" href="https://portal.infobip.com/chatbots/587765/dialogs" target="_blank">portal.infobip.com/chatbots/587765/dialogs</a>
+  </div>
+</div>
+
+<!-- Order Issue CS -->
+<div class="mockup-row" data-chat="c6">
+  <div class="phone-col">
+    <div class="phone-frame">
+      <div class="phone-frame-inner">
+        <div class="phone-status"><span>9:41</span><span>▲◼▮▮</span></div>
+        <div class="wa-hdr">
+          <div class="wa-hdr-avatar">N</div>
+          <div class="wa-hdr-info"><h3>Noname</h3><p>online</p></div>
+          <div class="wa-hdr-actions">⋮</div>
+        </div>
+        <div class="chat-area" id="ca6">
+          <span class="wa-datechip">Today</span>
+          <span class="wa-bot-chip">🤖 Chatbot session started</span>
+
+          <div class="wa-msg wa-msg-user first" style="display:block;opacity:1;">
+            <div class="msg-body">↩ I have an issue</div>
+            <div class="msg-meta"><span class="msg-time">10:31</span><span class="msg-ticks grey">✓✓</span></div>
+          </div>
+
+          <div class="wa-msg wa-msg-bot first" id="m6_1">
+            <div class="msg-body">Oh no, I'm sorry to hear that! 😟<br>Let's get this sorted right away.<br><br>What's the issue?</div>
+            <div class="wa-msg-btns">
+              <div class="wa-btn type-reply" data-reply-id="m6_u1" data-reply-text="↩ Wrong / damaged item">Wrong / damaged item</div>
+              <div class="wa-btn type-reply">Return or exchange</div>
+              <div class="wa-btn type-reply">Other</div>
+            </div>
+            <div class="msg-meta"><span class="msg-time">10:31</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <div class="wa-msg wa-msg-user first" id="m6_u1" data-btn-for="m6_1" data-btn-text="Wrong / damaged item">
+            <div class="msg-body">
+              <div class="msg-quoted"><div class="msg-quoted-sender">Noname</div><div class="msg-quoted-text">Oh no, I'm sorry to hear that! 😟 What's the issue?</div></div>
+              Wrong / damaged item
+            </div>
+            <div class="msg-meta"><span class="msg-time">10:32</span><span class="msg-ticks grey">✓✓</span></div>
+          </div>
+
+          <div class="wa-msg wa-msg-bot first" id="m6_2">
+            <div class="msg-body">I'm so sorry about that. 😔<br><br>To process this quickly, please send us:<br>📸 A photo of the item received<br><br>Once we receive it, we'll arrange a replacement or full refund within 1 business day.</div>
+            <div class="wa-msg-btns">
+              <div class="wa-btn type-url">Upload Photo</div>
+            </div>
+            <div class="msg-meta"><span class="msg-time">10:32</span><span class="msg-ticks">✓✓</span></div>
+          </div>
+
+          <div class="wa-typing" id="ty6"><div class="wa-dot"></div><div class="wa-dot"></div><div class="wa-dot"></div></div>
+        </div>
+        <div class="wa-input-bar"><div class="wa-input-field">Message</div><div class="wa-send-btn">➤</div></div>
+      </div>
+    </div>
+    <div class="replay-wrap"><button class="replay-btn" onclick="playChat('c6')">▶ Replay</button></div>
+  </div>
+  <div>
+    <div class="uc-name">Chatbot — Order Issue CS &amp; Agent Handoff</div>
+    <div class="uc-meta-row"><span class="journey-tag">Customer Support</span><span class="ch-pill ch-wa">WhatsApp Chatbot</span></div>
+    <div class="uc-desc">Order Issue CS handles three paths: <em>Wrong/damaged</em> → photo upload → replacement or refund within 1 business day. <em>Return/exchange</em> → return policy → Start Return URL. <em>Other</em> → AI bot; if <code>detectedIntent = human_agent</code>, transfers to live agent with wait-time info.</div>
+    <div class="h-flow">
+      <div class="h-flow-header"><div class="h-flow-dot"></div><div class="h-flow-title">Order Issue CS</div><span class="flow-badge">CHATBOT</span></div>
+      <div class="h-flow-steps">
+        <div class="h-step"><div class="h-bubble done">↩</div><div class="h-step-label">Issue Reported</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble active">CS</div><div class="h-step-label">Issue Type</div><div class="h-step-sub">Wrong/Return/Other</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble active">🔧</div><div class="h-step-label">Resolution</div><div class="h-step-sub">Photo / Return / AI</div></div>
+        <div class="h-arrow">›</div>
+        <div class="h-step"><div class="h-bubble pending">👤</div><div class="h-step-label">Human Agent</div><div class="h-step-sub">if needed</div></div>
+      </div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-block"><div class="kpi-val">91%</div><div class="kpi-lbl">CSAT for chatbot-resolved issues</div></div>
+      <div class="kpi-block"><div class="kpi-val">1 day</div><div class="kpi-lbl">Replacement / refund SLA</div></div>
+    </div>
+    <div class="caps-row"><span class="cap">Order Issue Dialog</span><span class="cap">URL Button</span><span class="cap">AI Bot Fallback</span><span class="cap">Intent Detection</span><span class="cap">Human Transfer</span></div>
+    <a class="portal-link" href="https://portal.infobip.com/chatbots/587765/dialogs" target="_blank">portal.infobip.com/chatbots/587765/dialogs</a>
+  </div>
+</div>
+
+<script>
+/* ─────────────────────────────────────────
+   Chat definitions
+   Each step: id, bot (true=bot msg, false=user), delay ms
+   Extra chips (date dividers) shown separately
+───────────────────────────────────────── */
+const chats = {
+  c1:{
+    area:'ca1', typing:'ty1',
+    steps:[
+      {id:'m1_1', bot:true,  delay:0},
+      {id:'m1_u1',bot:false, delay:2000},
+      {id:'m1_2', bot:true,  delay:3000},
+    ]
+  },
+  c2:{
+    area:'ca2', typing:'ty2',
+    steps:[
+      {id:'m2_1',   bot:true,  delay:0},
+      {id:'m2_dc2', chip:true, delay:2200},
+      {id:'m2_2',   bot:true,  delay:2200},
+      {id:'m2_car', car:true,  delay:3200},
+    ]
+  },
+  c3:{
+    area:'ca3', typing:'ty3',
+    steps:[
+      {id:'m3_1',   bot:true,  delay:0},
+      {id:'m3_dc2', chip:true, delay:2000},
+      {id:'m3_2',   bot:true,  delay:2000},
+      {id:'m3_dc3', chip:true, delay:4000},
+      {id:'m3_3',   bot:true,  delay:4000},
+      {id:'m3_u1',  bot:false, delay:5500},
+    ]
+  },
+  c4:{
+    area:'ca4', typing:'ty4',
+    steps:[
+      {id:'m4_1',   bot:true,  delay:0},
+      {id:'m4_u1',  bot:false, delay:2200},
+      {id:'m4_dc2', chip:true, delay:3400},
+      {id:'m4_2',   bot:true,  delay:3400},
+      {id:'m4_u2',  chip:true, delay:5200},
+      {id:'m4_3',   bot:true,  delay:6400},
+      {id:'m4_4',   bot:true,  delay:8000},
+    ]
+  },
+  cd2:{
+    area:'cad2', typing:'tyd2',
+    steps:[
+      {id:'md2_1', bot:true,  delay:0},
+      {id:'md2_u1',bot:false, delay:2200},
+      {id:'md2_2', bot:true,  delay:3200},
+    ]
+  },
+  c5:{
+    area:'ca5', typing:'ty5',
+    steps:[
+      {id:'m5_chip',chip:true, delay:0},
+      {id:'m5_1',   bot:true,  delay:0},
+      {id:'m5_u1',  bot:false, delay:2000},
+      {id:'m5_2',   bot:true,  delay:3000},
+    ]
+  },
+  c6:{
+    area:'ca6', typing:'ty6',
+    steps:[
+      {id:'m6_1',  bot:true,  delay:0},
+      {id:'m6_u1', bot:false, delay:2000},
+      {id:'m6_2',  bot:true,  delay:3000},
+    ]
+  },
+};
+
+function resetChat(key){
+  const def = chats[key];
+  const area = document.getElementById(def.area);
+  const ty   = document.getElementById(def.typing);
+
+  def.steps.forEach(s=>{
+    const el = document.getElementById(s.id);
+    if(!el) return;
+    if(s.chip){
+      el.style.display = 'none';
+    } else if(s.car){
+      el.classList.remove('show');
+      el.style.display = 'none';
+    } else {
+      el.classList.remove('show');
+      el.style.display = 'none';
+    }
+  });
+  if(ty) ty.classList.remove('show');
+
+  // reset button states
+  area.querySelectorAll('.wa-btn').forEach(b=>{
+    b.classList.remove('tapped','chosen','unchosen','dimmed');
+    b.style.opacity='';
+  });
+}
+
+/* Apply chosen/unchosen to the button group that triggered this user bubble */
+function applyBtnChoice(el){
+  const btnForId  = el.dataset.btnFor;
+  const btnText   = el.dataset.btnText;
+  if(!btnForId) return;
+  const parentMsg = document.getElementById(btnForId);
+  if(!parentMsg) return;
+  const allBtns = parentMsg.querySelectorAll('.wa-btn');
+  allBtns.forEach(b=>{
+    const label = b.textContent.trim();
+    if(label === btnText) b.classList.add('chosen');
+    else                  b.classList.add('unchosen');
+  });
+}
+
+function showEl(el, isBot, ty, area){
+  if(!el) return;
+  if(isBot && ty){
+    ty.classList.add('show');
+    area.scrollTop = area.scrollHeight;
+    setTimeout(()=>{
+      ty.classList.remove('show');
+      el.style.display = 'block';
+      requestAnimationFrame(()=>{
+        el.classList.add('show');
+        area.scrollTop = area.scrollHeight;
+      });
+    }, 600);
+  } else {
+    /* For user bubbles: apply button colour 250ms before bubble appears */
+    applyBtnChoice(el);
+    setTimeout(()=>{
+      el.style.display = 'block';
+      requestAnimationFrame(()=>{
+        el.classList.add('show');
+        area.scrollTop = area.scrollHeight;
+      });
+    }, 250);
+  }
+}
+
+function playChat(key){
+  resetChat(key);
+  const def  = chats[key];
+  const area = document.getElementById(def.area);
+  const ty   = document.getElementById(def.typing);
+
+  def.steps.forEach(s=>{
+    const el = document.getElementById(s.id);
+    if(!el) return;
+
+    if(s.chip){
+      setTimeout(()=>{
+        /* if this chip also acts as a button-trigger, apply colour first */
+        if(el.dataset.btnFor) applyBtnChoice(el);
+        el.style.display = 'block';
+        area.scrollTop = area.scrollHeight;
+      }, s.delay);
+    } else if(s.car){
+      setTimeout(()=>{
+        el.style.display='flex';
+        requestAnimationFrame(()=>{
+          el.classList.add('show');
+          area.scrollTop = area.scrollHeight;
+        });
+      }, s.delay);
+    } else {
+      setTimeout(()=> showEl(el, s.bot, ty, area), s.delay);
+    }
+  });
+}
+
+/* ── IntersectionObserver: play once at 70% ── */
+const played = {};
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const key = entry.target.dataset.chatKey;
+      if(key && !played[key]){
+        played[key] = true;
+        setTimeout(()=> playChat(key), 200);
+      }
+    }
+  });
+}, {threshold: 0.70});
+
+Object.keys(chats).forEach(key=>{
+  const el = document.getElementById(chats[key].area);
+  if(el){
+    el.dataset.chatKey = key;
+    observer.observe(el);
+  }
+});
+
+/* ── Button tap interaction ──
+   Reply: instant teal flash → after 180ms lock as chosen/unchosen → show user bubble
+   URL:   teal flash → remove after 300ms (no bubble)
+── */
+document.addEventListener('click', e=>{
+  const btn = e.target.closest('.wa-btn');
+  if(!btn) return;
+
+  // prevent double-tap
+  if(btn.classList.contains('chosen') || btn.classList.contains('unchosen')) return;
+
+  const isUrl  = btn.classList.contains('type-url');
+  const allBtns = btn.closest('.wa-msg-btns').querySelectorAll('.wa-btn');
+
+  // immediate visual tapped state
+  btn.classList.add('tapped');
+
+  if(isUrl){
+    // URL buttons with a data-reply-id show a chip or bubble (e.g. Share My Results → chip)
+    const urlReplyId = btn.dataset.replyId;
+    if(urlReplyId){
+      setTimeout(()=>{
+        allBtns.forEach(b=>{
+          if(b === btn) b.classList.add('chosen');
+          else          b.classList.add('unchosen');
+        });
+        btn.classList.remove('tapped');
+      }, 180);
+      const replyEl = document.getElementById(urlReplyId);
+      if(replyEl){
+        setTimeout(()=>{
+          replyEl.style.display = 'block';
+          const area = replyEl.closest('.chat-area');
+          if(area) area.scrollTop = area.scrollHeight;
+        }, 400);
+      }
+    } else {
+      setTimeout(()=> btn.classList.remove('tapped'), 300);
+    }
+    return;
+  }
+
+  // after short delay: lock chosen/unchosen state (stays permanently)
+  setTimeout(()=>{
+    btn.classList.remove('tapped');
+    allBtns.forEach(b=>{
+      if(b === btn) b.classList.add('chosen');
+      else          b.classList.add('unchosen');
+    });
+  }, 180);
+
+  // show user reply bubble with quoted context
+  const replyId = btn.dataset.replyId;
+  if(replyId){
+    const replyEl = document.getElementById(replyId);
+    if(replyEl){
+      setTimeout(()=>{
+        replyEl.style.display = 'block';
+        requestAnimationFrame(()=>{
+          replyEl.classList.add('show');
+          const area = replyEl.closest('.chat-area');
+          if(area) area.scrollTop = area.scrollHeight;
+        });
+      }, 400);
+    }
+  }
+});
+</script>
+</body>
+</html>

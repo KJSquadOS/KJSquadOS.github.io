@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>글로벌 WhatsApp 마케팅 Use Case Book — Infobip</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --wa:#25D366;--wa-dark:#128C7E;--wa-light:#DCF8C6;--wa-bg:#ECE5DD;
+  --ib:#FF5900;--text:#1a1a2e;--sub:#64748b;--dim:#94a3b8;
+  --border:#e2e8f0;--bg:#f8fafc;--card:#ffffff;
+}
+body{font-family:-apple-system,'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+.layout{display:flex;min-height:100vh}
+
+/* Sidebar */
+.sidebar{width:268px;flex-shrink:0;background:#0f172a;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
+.sb-logo{padding:18px 16px 12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-logo-name{color:#FF5900;font-size:17px;font-weight:900}
+.sb-logo-sub{color:rgba(255,255,255,.35);font-size:9.5px;margin-top:2px}
+.sb-sec{padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.sb-sec-title{padding:8px 16px 4px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,255,255,.28)}
+.sb-link{display:flex;align-items:center;gap:7px;padding:6px 16px;font-size:12px;color:rgba(255,255,255,.6);text-decoration:none;border-left:2px solid transparent;transition:all .15s}
+.sb-link:hover{background:rgba(255,255,255,.05);color:#fff;border-left-color:var(--wa)}
+.sb-num{font-size:9.5px;font-weight:700;min-width:18px;text-align:right;color:rgba(255,255,255,.22)}
+.sb-new{background:var(--ib);color:#fff;font-size:8px;font-weight:800;padding:1px 5px;border-radius:4px;margin-left:2px}
+
+/* Main */
+.main{flex:1;padding:44px 52px;max-width:1080px}
+
+/* Cover */
+.cover{background:linear-gradient(135deg,#0d3d2a 0%,var(--wa-dark) 40%,var(--wa) 100%);border-radius:16px;padding:48px 52px;margin-bottom:32px;color:#fff;position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;top:-100px;right:-100px;width:450px;height:450px;background:radial-gradient(circle,rgba(255,255,255,.07) 0%,transparent 65%);border-radius:50%}
+.cover-badge{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.4px;margin-bottom:18px}
+.cover h1{font-size:38px;font-weight:900;line-height:1.15;margin-bottom:12px}
+.cover-sub{font-size:14px;color:rgba(255,255,255,.75);margin-bottom:28px;line-height:1.6}
+.cover-stats{display:flex;gap:36px}
+.cs-n{font-size:30px;font-weight:900}
+.cs-l{font-size:10.5px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* Global banner */
+.global-banner{background:linear-gradient(135deg,#FF5900,#ff7a3a);border-radius:12px;padding:14px 18px;margin-bottom:28px;display:flex;align-items:flex-start;gap:12px}
+.gb-icon{font-size:22px;flex-shrink:0;margin-top:2px}
+.gb-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:3px}
+.gb-desc{font-size:12px;color:rgba(255,255,255,.88);line-height:1.6}
+
+/* TOC */
+.toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:40px}
+.toc-box{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.toc-box.g-box{border-color:rgba(255,89,0,.4)}
+.toc-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.toc-badge{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:900;color:#fff}
+.toc-hdr-title{font-size:12.5px;font-weight:800}
+.toc-item{font-size:11px;color:var(--sub);padding:2.5px 0;border-bottom:1px solid var(--border);display:flex;gap:5px}
+.toc-item:last-child{border-bottom:none}
+.toc-uc{font-size:9.5px;font-weight:700;color:var(--dim);min-width:28px}
+
+/* Section blocks */
+.sec-block{margin-bottom:52px}
+.sec-hdr{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:14px;border-bottom:2px solid var(--border)}
+.sec-hdr.g-hdr{border-bottom-color:var(--ib)}
+.sec-badge{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#fff;flex-shrink:0}
+.sec-title{font-size:22px;font-weight:800}
+.sec-desc{font-size:12.5px;color:var(--sub);margin-top:2px}
+
+/* Intro cards */
+.intro-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px 26px;margin-bottom:14px}
+.intro-h2{font-size:16px;font-weight:800;color:var(--wa-dark);margin-bottom:9px}
+.intro-text{font-size:13px;color:#374151;line-height:1.75}
+.hl{background:#f0fdf4;border-left:4px solid var(--wa);padding:12px 15px;border-radius:0 8px 8px 0;font-size:12.5px;line-height:1.7;margin:10px 0}
+.hl.ora{background:#fff7ed;border-left-color:var(--ib)}
+table.cmp{width:100%;border-collapse:collapse;font-size:12px;margin:14px 0}
+table.cmp th{background:var(--wa-dark);color:#fff;padding:9px 13px;text-align:left;font-weight:700}
+table.cmp td{padding:8px 13px;border-bottom:1px solid var(--border)}
+table.cmp tr:nth-child(even) td{background:#f8fafc}
+
+/* UC Cards */
+.uc-card{background:#fff;border:1px solid var(--border);border-radius:13px;overflow:hidden;margin-bottom:24px}
+.uc-hdr{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:14px}
+.uc-num{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;color:#fff;flex-shrink:0}
+.uc-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--sub);margin-bottom:3px}
+.uc-title{font-size:20px;font-weight:800;color:var(--text);line-height:1.2}
+.uc-body{display:grid;grid-template-columns:1fr 1fr}
+.uc-l{padding:22px 22px 22px 24px;border-right:1px solid var(--border)}
+.uc-r{padding:22px 24px 22px 22px}
+
+/* Description */
+.uc-desc{background:#f0fdf4;border-left:4px solid var(--wa);padding:12px 14px;border-radius:0 8px 8px 0;font-size:12.5px;color:#1a1a1a;line-height:1.7;margin-bottom:16px}
+.uc-desc.g{background:#fff7ed;border-left-color:var(--ib)}
+
+/* Flow steps */
+.flow-lbl{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--wa-dark);margin-bottom:11px}
+.flow-lbl.g{color:var(--ib)}
+.fsteps{display:flex;flex-direction:column}
+.fstep{display:flex;gap:10px}
+.fsl{display:flex;flex-direction:column;align-items:center;width:22px;flex-shrink:0}
+.fsc{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0;z-index:1}
+.fsl-line{width:2px;flex:1;min-height:10px;margin:2px 0;background:var(--border)}
+.fstep:last-child .fsl-line{display:none}
+.fsb{flex:1;padding-bottom:12px}
+.fst{font-size:12px;font-weight:700;color:var(--text);margin-bottom:1px}
+.fsd{font-size:11px;color:var(--sub);line-height:1.4}
+.ftag{display:inline-flex;align-items:center;background:#e8f5e9;color:#2e7d32;font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:4px;margin-top:3px}
+.ftag.blue{background:#e3f2fd;color:#1565c0}
+.ftag.orange{background:#fff3e0;color:#e65100}
+
+/* Chat */
+.chat-lbl{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--wa-dark);margin-bottom:9px}
+.chat-win{background:var(--wa-bg);border-radius:11px;overflow:hidden;margin-bottom:12px}
+.chat-bar{background:var(--wa-dark);padding:8px 12px;display:flex;align-items:center;gap:8px}
+.chat-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.chat-nm{font-size:12px;font-weight:700;color:#fff}
+.chat-st{font-size:9.5px;color:rgba(255,255,255,.55)}
+.chat-msgs{padding:9px 10px;display:flex;flex-direction:column;gap:3px}
+.bub{max-width:90%;padding:7px 10px;border-radius:9px;font-size:11px;line-height:1.5;margin-bottom:1px}
+.bub.in{background:#fff;border-radius:0 9px 9px 9px;align-self:flex-start;color:#1a1a1a;box-shadow:0 1px 2px rgba(0,0,0,.07)}
+.bub.out{background:var(--wa-light);border-radius:9px 0 9px 9px;align-self:flex-end;color:#1a1a1a}
+.bt{font-size:9px;color:var(--dim);text-align:right;margin-top:1px}
+.opts{display:flex;flex-direction:column;gap:2px;margin-top:5px}
+.opt{background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.25);border-radius:6px;padding:5px 9px;font-size:10.5px;font-weight:600;color:var(--wa-dark)}
+
+/* Marketing Template */
+.mkt{background:#0f172a;border-radius:10px;overflow:hidden;margin-top:12px}
+.mkt-hdr{background:linear-gradient(90deg,#FF5900,#ff7a3a);padding:8px 12px;display:flex;align-items:center;gap:7px}
+.mkt-hdr-icon{font-size:13px}
+.mkt-hdr-title{font-size:11.5px;font-weight:800;color:#fff}
+.mkt-badge{margin-left:auto;background:rgba(255,255,255,.2);color:#fff;font-size:8.5px;font-weight:700;padding:2px 7px;border-radius:8px;text-transform:uppercase;letter-spacing:.3px}
+.mkt-body{padding:11px 13px}
+.mkt-lbl{font-size:9px;font-weight:700;color:#FF5900;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.mkt-box{background:#1e293b;border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:9px 11px;font-size:10.5px;color:rgba(255,255,255,.85);line-height:1.6;margin-bottom:7px}
+.mkt-tip{font-size:10px;color:rgba(255,255,255,.4);line-height:1.5}
+
+/* Business Value */
+.bv{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.bv-chip{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:6px 11px;text-align:center}
+.bv-chip.g{background:#fff7ed;border-color:#fed7aa}
+.bv-n{font-size:16px;font-weight:900;color:var(--wa-dark)}
+.bv-n.g{color:var(--ib)}
+.bv-l{font-size:9px;color:var(--sub);margin-top:1px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-name">infobip</div>
+    <div class="sb-logo-sub">WhatsApp Marketing Use Case Book · Global</div>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-sec-title">기초 이해</div>
+    <a href="#intro" class="sb-link">🏠 WhatsApp 기초 &amp; 글로벌 전략</a>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-sec-title">A · 오프라인 유입</div>
+    <a href="#uc01" class="sb-link"><span class="sb-num">01</span>팝업/오프라인 스토어 QR</a>
+    <a href="#uc02" class="sb-link"><span class="sb-num">02</span>제품 패키징 QR 코드</a>
+    <a href="#uc03" class="sb-link"><span class="sb-num">03</span>오프라인 이벤트/엑스포</a>
+    <a href="#uc04" class="sb-link"><span class="sb-num">04</span>영수증/쇼핑백 QR</a>
+    <a href="#uc05" class="sb-link"><span class="sb-num">05</span>옥외 광고</a>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-sec-title">B · 온라인 유입</div>
+    <a href="#uc06" class="sb-link"><span class="sb-num">06</span>CTWA 광고</a>
+    <a href="#uc07" class="sb-link"><span class="sb-num">07</span>웹사이트 채팅 위젯</a>
+    <a href="#uc08" class="sb-link"><span class="sb-num">08</span>소셜 미디어 프로필</a>
+    <a href="#uc09" class="sb-link"><span class="sb-num">09</span>인플루언서 협업</a>
+    <a href="#uc10" class="sb-link"><span class="sb-num">10</span>이메일 뉴스레터 CTA</a>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-sec-title">C · 유틸리티 메시지</div>
+    <a href="#uc11" class="sb-link"><span class="sb-num">11</span>주문 확인 → 크로스셀</a>
+    <a href="#uc12" class="sb-link"><span class="sb-num">12</span>배송 알림 → 추천</a>
+    <a href="#uc13" class="sb-link"><span class="sb-num">13</span>배송 완료 → 리뷰</a>
+    <a href="#uc14" class="sb-link"><span class="sb-num">14</span>구독 갱신/리필 알림</a>
+    <a href="#uc15" class="sb-link"><span class="sb-num">15</span>재입고 알림</a>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-sec-title">D · 대화형 커머스</div>
+    <a href="#uc16" class="sb-link"><span class="sb-num">16</span>AI 퍼스널 쇼핑 어시스턴트</a>
+    <a href="#uc17" class="sb-link"><span class="sb-num">17</span>스타일 퀴즈 / 제품 매칭</a>
+    <a href="#uc18" class="sb-link"><span class="sb-num">18</span>한정판/드롭 사전 등록</a>
+    <a href="#uc19" class="sb-link"><span class="sb-num">19</span>로열티/VIP 프로그램</a>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-sec-title">E · 서비스→재구매</div>
+    <a href="#uc20" class="sb-link"><span class="sb-num">20</span>반품/교환 → 대체 상품</a>
+    <a href="#uc21" class="sb-link"><span class="sb-num">21</span>FAQ → 구매 전환</a>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-sec-title">F · 창의적 캠페인</div>
+    <a href="#uc22" class="sb-link"><span class="sb-num">22</span>WA 전용 시크릿 세일</a>
+    <a href="#uc23" class="sb-link"><span class="sb-num">23</span>제품 챌린지 / UGC</a>
+    <a href="#uc24" class="sb-link"><span class="sb-num">24</span>레퍼럴 프로그램</a>
+    <a href="#uc25" class="sb-link"><span class="sb-num">25</span>가격 흥정 / 게임화</a>
+    <a href="#uc26" class="sb-link"><span class="sb-num">26</span>프리오더 컨시어지</a>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-sec-title">G · 프로액티브 마케팅 🌍</div>
+    <a href="#uc27" class="sb-link" style="color:rgba(255,140,80,.9)"><span class="sb-num">27</span>장바구니 이탈 리마인더<span class="sb-new">NEW</span></a>
+    <a href="#uc28" class="sb-link" style="color:rgba(255,140,80,.9)"><span class="sb-num">28</span>플래시 세일 브로드캐스트<span class="sb-new">NEW</span></a>
+    <a href="#uc29" class="sb-link" style="color:rgba(255,140,80,.9)"><span class="sb-num">29</span>구매 후 크로스셀 자동화<span class="sb-new">NEW</span></a>
+    <a href="#uc30" class="sb-link" style="color:rgba(255,140,80,.9)"><span class="sb-num">30</span>휴면 고객 Win-back<span class="sb-new">NEW</span></a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-badge">INFOBIP AGENTOS × WHATSAPP · 글로벌 버전 2026</div>
+  <h1>글로벌 D2C 브랜드를 위한<br>WhatsApp 마케팅 Use Case Book</h1>
+  <div class="cover-sub">마케팅 템플릿 포함 — 고객에게 먼저 다가가고, 고객이 먼저 말 걸게 만드는 <strong>30가지 글로벌 매출 전략</strong></div>
+  <div class="cover-stats">
+    <div><div class="cs-n">30</div><div class="cs-l">Use Cases</div></div>
+    <div><div class="cs-n">7</div><div class="cs-l">Categories</div></div>
+    <div><div class="cs-n">20억+</div><div class="cs-l">WA 사용자</div></div>
+    <div><div class="cs-n">180+</div><div class="cs-l">지원 국가</div></div>
+  </div>
+</div>
+
+<!-- GLOBAL BANNER -->
+<div class="global-banner">
+  <div class="gb-icon">🌍</div>
+  <div>
+    <div class="gb-title">글로벌 버전: 마케팅 템플릿 발신 가능 (미국 제외 전 세계)</div>
+    <div class="gb-desc">미국 외 전 세계에서 WhatsApp 마케팅 템플릿으로 <strong>기업이 먼저 발신</strong>할 수 있습니다. 옵트인(수신 동의) 고객에게 세일 공지·장바구니 이탈·Win-back 등을 직접 발송하세요. 이 북은 <strong>인바운드(CTWA) + 아웃바운드(마케팅 템플릿)</strong>를 모두 포함합니다.</div>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc-grid">
+  <div class="toc-box"><div class="toc-hdr"><div class="toc-badge" style="background:#64748b">i</div><div class="toc-hdr-title">WhatsApp 기초 이해</div></div><div class="toc-item"><span class="toc-uc">—</span>WhatsApp이란? &amp; 글로벌 현황</div><div class="toc-item"><span class="toc-uc">—</span>마케팅 템플릿 vs CTWA 전략</div><div class="toc-item"><span class="toc-uc">—</span>Infobip AgentOS란?</div></div>
+  <div class="toc-box"><div class="toc-hdr"><div class="toc-badge" style="background:#f97316">A</div><div class="toc-hdr-title">오프라인 → WhatsApp 유입 (O2O)</div></div><div class="toc-item"><span class="toc-uc">UC01</span>팝업/오프라인 스토어 QR 코드</div><div class="toc-item"><span class="toc-uc">UC02</span>제품 패키징 QR 코드</div><div class="toc-item"><span class="toc-uc">UC03</span>오프라인 이벤트/엑스포 부스</div><div class="toc-item"><span class="toc-uc">UC04</span>영수증/쇼핑백 QR 코드</div><div class="toc-item"><span class="toc-uc">UC05</span>옥외 광고 (지하철/택시/빌보드)</div></div>
+  <div class="toc-box"><div class="toc-hdr"><div class="toc-badge" style="background:#3b82f6">B</div><div class="toc-hdr-title">온라인 → WhatsApp 유입</div></div><div class="toc-item"><span class="toc-uc">UC06</span>Click-to-WhatsApp 광고 (CTWA)</div><div class="toc-item"><span class="toc-uc">UC07</span>웹사이트 채팅 위젯</div><div class="toc-item"><span class="toc-uc">UC08</span>소셜 미디어 프로필 링크</div><div class="toc-item"><span class="toc-uc">UC09</span>인플루언서/크리에이터 협업</div><div class="toc-item"><span class="toc-uc">UC10</span>이메일 뉴스레터 CTA</div></div>
+  <div class="toc-box"><div class="toc-hdr"><div class="toc-badge" style="background:#10b981">C</div><div class="toc-hdr-title">유틸리티 메시지 활용</div></div><div class="toc-item"><span class="toc-uc">UC11</span>주문 확인 → 크로스셀</div><div class="toc-item"><span class="toc-uc">UC12</span>배송 알림 → 개인화 추천</div><div class="toc-item"><span class="toc-uc">UC13</span>배송 완료 → 리뷰 + 재구매</div><div class="toc-item"><span class="toc-uc">UC14</span>구독 갱신/리필 알림</div><div class="toc-item"><span class="toc-uc">UC15</span>재입고 알림</div></div>
+  <div class="toc-box"><div class="toc-hdr"><div class="toc-badge" style="background:#8b5cf6">D</div><div class="toc-hdr-title">대화형 커머스</div></div><div class="toc-item"><span class="toc-uc">UC16</span>AI 퍼스널 쇼핑 어시스턴트</div><div class="toc-item"><span class="toc-uc">UC17</span>스타일 퀴즈 / 제품 매칭</div><div class="toc-item"><span class="toc-uc">UC18</span>한정판/드롭 사전 등록</div><div class="toc-item"><span class="toc-uc">UC19</span>로열티/VIP 프로그램</div></div>
+  <div class="toc-box"><div class="toc-hdr"><div class="toc-badge" style="background:#ec4899">E</div><div class="toc-hdr-title">서비스 → 재구매 전환</div></div><div class="toc-item"><span class="toc-uc">UC20</span>반품/교환 → 대체 상품 추천</div><div class="toc-item"><span class="toc-uc">UC21</span>FAQ/제품 문의 → 구매 전환</div></div>
+  <div class="toc-box"><div class="toc-hdr"><div class="toc-badge" style="background:#0f172a">F</div><div class="toc-hdr-title">창의적 캠페인</div></div><div class="toc-item"><span class="toc-uc">UC22</span>WhatsApp 전용 "시크릿 세일"</div><div class="toc-item"><span class="toc-uc">UC23</span>제품 챌린지 / UGC 캠페인</div><div class="toc-item"><span class="toc-uc">UC24</span>레퍼럴(추천인) 프로그램</div><div class="toc-item"><span class="toc-uc">UC25</span>가격 흥정 / 게임화</div><div class="toc-item"><span class="toc-uc">UC26</span>프리오더(사전주문) 컨시어지</div></div>
+  <div class="toc-box g-box"><div class="toc-hdr"><div class="toc-badge" style="background:linear-gradient(135deg,#FF5900,#ff7a3a)">G</div><div class="toc-hdr-title">프로액티브 마케팅 <span style="background:#FF5900;color:#fff;font-size:8.5px;font-weight:800;padding:1px 6px;border-radius:4px">글로벌 전용</span></div></div><div class="toc-item"><span class="toc-uc">UC27</span>장바구니 이탈 → WA 리마인더</div><div class="toc-item"><span class="toc-uc">UC28</span>플래시 세일 브로드캐스트</div><div class="toc-item"><span class="toc-uc">UC29</span>구매 후 크로스셀 자동화</div><div class="toc-item"><span class="toc-uc">UC30</span>휴면 고객 Win-back 캠페인</div></div>
+</div>
+
+<!-- SECTION i -->
+<div class="sec-block" id="intro">
+  <div class="sec-hdr"><div class="sec-badge" style="background:#64748b">i</div><div><div class="sec-title">WhatsApp 기초 이해</div><div class="sec-desc">글로벌 WhatsApp 비즈니스 핵심 개념과 마케팅 전략</div></div></div>
+  <div class="intro-card">
+    <div class="intro-h2">WhatsApp이란?</div>
+    <div class="intro-text">WhatsApp은 전 세계 <strong>20억 명 이상</strong>이 사용하는 메신저입니다. 한국의 카카오톡과 비슷한 역할이지만, 유럽·남미·동남아·중동·아프리카 등 <strong>180개국 이상</strong>에서 1위 메신저입니다.</div>
+    <div class="hl"><strong>핵심:</strong> WhatsApp = 글로벌 카카오톡. 특히 <strong>유럽·중동·남미·동남아·인도</strong>에서 SMS보다 훨씬 높은 도달률(98% 열람)을 자랑합니다.</div>
+    <table class="cmp">
+      <tr><th>항목</th><th>카카오톡 (한국)</th><th>WhatsApp (글로벌)</th></tr>
+      <tr><td>시장 점유율</td><td>한국 내 93%</td><td>180+ 국가 1위</td></tr>
+      <tr><td>비즈니스 계정</td><td>카카오 채널</td><td>WhatsApp Business API</td></tr>
+      <tr><td>메시지 열람률</td><td>높음</td><td>매우 높음 (98%)</td></tr>
+      <tr><td>마케팅 발신</td><td>가능</td><td>가능 (글로벌 · 미국 제외)</td></tr>
+      <tr><td>인터랙티브 버튼</td><td>지원</td><td>지원</td></tr>
+    </table>
+  </div>
+  <div class="intro-card">
+    <div class="intro-h2">글로벌 전략: 마케팅 템플릿 vs CTWA</div>
+    <table class="cmp">
+      <tr><th>구분</th><th>마케팅 템플릿 (아웃바운드)</th><th>CTWA (인바운드)</th></tr>
+      <tr><td>발신 주체</td><td>기업이 먼저 발신</td><td>고객이 먼저 클릭</td></tr>
+      <tr><td>조건</td><td>옵트인(수신 동의) 필수</td><td>제한 없음</td></tr>
+      <tr><td>사용 국가</td><td>미국 제외 전 세계</td><td>전 세계 (미국 포함)</td></tr>
+      <tr><td>템플릿 승인</td><td>Meta 사전 승인 필요</td><td>불필요</td></tr>
+      <tr><td>주요 활용</td><td>세일 공지, 장바구니 이탈, Win-back</td><td>상품 문의, 구매 상담</td></tr>
+    </table>
+    <div class="hl ora"><strong>글로벌 최적 전략:</strong> CTWA로 대화를 시작해 24시간 창구 확보 → 마케팅 템플릿으로 재활성화 → 유틸리티 메시지로 신뢰 구축. 이 세 축이 가장 강력합니다.</div>
+  </div>
+  <div class="intro-card">
+    <div class="intro-h2">Infobip AgentOS란?</div>
+    <div class="intro-text">Infobip AgentOS는 WhatsApp 마케팅·CS를 통합 관리하는 올인원 플랫폼입니다. <strong>Journeys</strong>(여정 자동화) + <strong>Answers</strong>(AI 챗봇) + <strong>People</strong>(CDP) + <strong>Conversations</strong>(상담원 연결) + <strong>마케팅 템플릿 발신</strong>을 하나의 플랫폼에서 실행합니다.</div>
+  </div>
+</div>
+<!-- SECTION A -->
+<div class="sec-block" id="section-a">
+  <div class="sec-hdr"><div class="sec-badge" style="background:#f97316">A</div><div><div class="sec-title">오프라인 → WhatsApp 유입 (O2O)</div><div class="sec-desc">오프라인 접점에서 QR·wa.me 링크로 고객을 WhatsApp으로 직접 연결합니다</div></div></div>
+
+  <!-- UC01 -->
+  <div class="uc-card" id="uc01">
+    <div class="uc-hdr"><div class="uc-num" style="background:#f97316">01</div><div><div class="uc-lbl">SECTION A · 오프라인 유입</div><div class="uc-title">팝업/오프라인 스토어 QR 코드</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">팝업스토어·오프라인 매장 내 제품 디스플레이·계산대·입구에 WhatsApp QR 코드를 배치합니다. 고객이 스캔하면 즉시 WA 채팅이 열리고 AI가 제품 안내·비교·구매 링크를 제공합니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f97316">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">오프라인 매장 방문</div><div class="fsd">팝업스토어·플래그십·편집숍 등</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">QR 코드 스캔</div><div class="fsd">제품별 전용 QR → 맞춤 안내 자동 연결<div class="ftag">CTWA — 마케팅 제한 없음</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#25D366">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">AI 챗봇 제품 안내</div><div class="fsd">스펙 설명·경쟁 비교·프로모션 쿠폰</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">구매 or 상담 연결</div><div class="fsd">결제 링크 또는 직원 연결<div class="ftag">옵트인 획득 → 이후 마케팅 템플릿 발송 가능</div></div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#25D366">🛍️</div><div><div class="chat-nm">Brand Official</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>안녕하세요! 👋 매장에 방문해 주셔서 감사합니다!</strong><br>스캔하신 제품에 대해 더 알고 싶으신가요?<div class="opts"><div class="opt">📋 스펙 상세 보기</div><div class="opt">💰 가격·할인 확인</div><div class="opt">🛒 지금 구매하기</div></div><div class="bt">10:32</div></div>
+            <div class="bub out">스펙 상세 보기<div class="bt">10:33</div></div>
+            <div class="bub in">해당 제품의 주요 특징입니다 ✨<br>• 소재: 프리미엄 이탈리안 가죽<br>• 용량: 15인치 노트북 수납<br>• 색상: 4가지<br><br>지금 매장에서 바로 구매하시면 <strong>10% 즉시 할인</strong> 적용됩니다! 🎁<div class="bt">10:33</div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">15~20%</div><div class="bv-l">QR 스캔 → WA 전환율</div></div><div class="bv-chip"><div class="bv-n">8~12%</div><div class="bv-l">WA → 구매 전환율</div></div><div class="bv-chip"><div class="bv-n">3x</div><div class="bv-l">일반 방문 대비 재방문율</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC02 -->
+  <div class="uc-card" id="uc02">
+    <div class="uc-hdr"><div class="uc-num" style="background:#f97316">02</div><div><div class="uc-lbl">SECTION A · 오프라인 유입</div><div class="uc-title">제품 패키징 QR 코드</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">제품 박스·태그·인서트 카드에 QR 코드를 인쇄합니다. 구매 후 언박싱 시점에 WA로 연결해 사용 가이드·리뷰 요청·추가 구매를 유도합니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f97316">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">제품 구매 및 수령</div><div class="fsd">온·오프라인 어디서나 구매 후</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">패키징 QR 스캔</div><div class="fsd">박스 개봉 시 눈에 띄는 위치에 QR 배치<div class="ftag">CTWA 시작 → WA 채널 구독 획득</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#25D366">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">셋업 가이드 + 리뷰 요청</div><div class="fsd">제품 사용법 자동 안내 + 리뷰 작성 유도</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">추가 액세서리/보완 상품 추천</div><div class="fsd">AI가 구매 이력 기반 맞춤 추천<div class="ftag orange">옵트인 → 이후 마케팅 발신 가능</div></div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#25D366">📦</div><div><div class="chat-nm">Brand Support</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>구매해 주셔서 감사해요! 🎉</strong><br>제품을 최대한 활용할 수 있도록 도와드릴게요.<div class="opts"><div class="opt">📖 사용 가이드 받기</div><div class="opt">⭐ 리뷰 작성하기</div><div class="opt">🛍️ 액세서리 보기</div></div><div class="bt">2일 후</div></div>
+            <div class="bub out">사용 가이드 받기<div class="bt">2일 후</div></div>
+            <div class="bub in">완벽한 선택이에요! 📘<br>단계별 가이드를 보내드릴게요.<br><br>1️⃣ 처음 사용 시 완전 충전<br>2️⃣ 앱 연동 방법<br>3️⃣ 주요 기능 설정<br><br>궁금한 점 있으면 언제든 물어보세요 😊<div class="bt">2일 후</div></div>
+          </div>
+        </div>
+        <div class="mkt">
+          <div class="mkt-hdr"><div class="mkt-hdr-icon">📣</div><div class="mkt-hdr-title">마케팅 템플릿 — 재구매 유도</div><div class="mkt-badge">글로벌 전용</div></div>
+          <div class="mkt-body">
+            <div class="mkt-lbl">구매 14일 후 자동 발송</div>
+            <div class="mkt-box">안녕하세요 {{1}}님 👋 {{2}} 구매하신 지 2주가 됐네요! 잘 사용하고 계신가요? 함께 사용하면 더 좋은 {{3}}을 특별 할인으로 추천드려요. 지금 확인하기 👉 {{4}}</div>
+            <div class="mkt-tip">✅ 구매 이력 기반 자동 세그멘팅 | Journeys로 14일 트리거 설정</div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">23%</div><div class="bv-l">리뷰 수집율</div></div><div class="bv-chip"><div class="bv-n">18%</div><div class="bv-l">재구매 전환율</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC03 -->
+  <div class="uc-card" id="uc03">
+    <div class="uc-hdr"><div class="uc-num" style="background:#f97316">03</div><div><div class="uc-lbl">SECTION A · 오프라인 유입</div><div class="uc-title">오프라인 이벤트/엑스포 부스</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">전시회·박람회·팝업 이벤트 부스에서 명함·롤업배너·태블릿에 QR 배치. 방문자가 WA로 연결하면 카탈로그를 즉시 전송하고, 이후 팔로업 연락이 가능해집니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f97316">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">이벤트 부스 방문</div><div class="fsd">전시회·박람회·팝업 이벤트</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#25D366">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">QR 스캔 → WA 연결</div><div class="fsd">명함 QR 또는 배너 QR<div class="ftag">디지털 명함 대체 → WA로 리드 수집</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">카탈로그 자동 전송</div><div class="fsd">PDF·이미지 카탈로그 + 주요 제품 링크</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">이벤트 후 팔로업</div><div class="fsd">담당 영업 담당자 연결 또는 미팅 예약<div class="ftag orange">마케팅 템플릿으로 후속 연락</div></div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#f97316">🎪</div><div><div class="chat-nm">Brand Business</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>부스 방문 감사합니다! 🙏</strong><br>저희 제품 카탈로그를 바로 보내드릴게요.<div class="opts"><div class="opt">📂 전체 카탈로그 받기</div><div class="opt">📅 미팅 예약하기</div><div class="opt">💬 담당자와 대화</div></div><div class="bt">14:20</div></div>
+            <div class="bub out">전체 카탈로그 받기<div class="bt">14:20</div></div>
+            <div class="bub in">감사합니다! 카탈로그를 전송해드렸습니다 📂<br><br>특별히 관심 있는 제품 라인이 있으신가요? 담당 매니저가 맞춤 데모를 진행해드릴 수 있습니다 🤝<div class="bt">14:21</div></div>
+          </div>
+        </div>
+        <div class="mkt">
+          <div class="mkt-hdr"><div class="mkt-hdr-icon">📣</div><div class="mkt-hdr-title">마케팅 템플릿 — 이벤트 후 팔로업</div><div class="mkt-badge">글로벌 전용</div></div>
+          <div class="mkt-body">
+            <div class="mkt-lbl">이벤트 3일 후 자동 발송</div>
+            <div class="mkt-box">안녕하세요 {{1}}님! {{2}} 행사에서 만나 반가웠습니다 😊 관심 보여주신 {{3}} 관련해서 추가 자료와 특별 견적을 준비했습니다. 확인하시겠어요? 👉 {{4}}</div>
+            <div class="mkt-tip">✅ 이벤트명·관심 제품 변수 자동 삽입 | B2B 리드 너처링에 최적</div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">35%</div><div class="bv-l">리드 수집율</div></div><div class="bv-chip"><div class="bv-n">12%</div><div class="bv-l">미팅 전환율</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC04 -->
+  <div class="uc-card" id="uc04">
+    <div class="uc-hdr"><div class="uc-num" style="background:#f97316">04</div><div><div class="uc-lbl">SECTION A · 오프라인 유입</div><div class="uc-title">영수증/쇼핑백 QR 코드</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">구매 영수증이나 쇼핑백에 QR 코드를 인쇄합니다. 구매 직후 감사 메시지와 함께 멤버십 가입을 유도하고, 재방문 쿠폰을 제공합니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f97316">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">오프라인 구매 완료</div><div class="fsd">매장 계산 시 영수증 수령</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#25D366">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">영수증/쇼핑백 QR 스캔</div><div class="fsd">귀가 후 또는 즉시 스캔<div class="ftag">고객 정보 획득 + 멤버십 가입</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">구매 감사 + 멤버십 안내</div><div class="fsd">적립 포인트·등급 혜택 설명</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">재방문 쿠폰 발급</div><div class="fsd">WA에서 디지털 쿠폰 즉시 발급<div class="ftag orange">이후 프로모션 마케팅 발송 가능</div></div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#25D366">🛍️</div><div><div class="chat-nm">Brand Store</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>구매해 주셔서 감사합니다! 🛍️</strong><br>오늘 쇼핑 어떠셨나요?<br><br>지금 멤버십에 가입하시면 <strong>500 포인트</strong>를 즉시 적립해드려요!<div class="opts"><div class="opt">✨ 멤버십 가입하기</div><div class="opt">🎁 재방문 쿠폰 받기</div></div><div class="bt">16:45</div></div>
+            <div class="bub out">재방문 쿠폰 받기<div class="bt">16:46</div></div>
+            <div class="bub in">여기 있어요! 🎁<br><br>쿠폰번호: <strong>WELCOME15</strong><br>혜택: 다음 구매 15% 할인<br>유효기간: 30일<br><br>다음에 또 방문해 주세요 😊<div class="bt">16:46</div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">12%</div><div class="bv-l">QR 스캔율</div></div><div class="bv-chip"><div class="bv-n">8%</div><div class="bv-l">멤버십 전환율</div></div><div class="bv-chip"><div class="bv-n">2.3x</div><div class="bv-l">재방문 증가</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC05 -->
+  <div class="uc-card" id="uc05">
+    <div class="uc-hdr"><div class="uc-num" style="background:#f97316">05</div><div><div class="uc-lbl">SECTION A · 오프라인 유입</div><div class="uc-title">옥외 광고 (지하철/택시/빌보드)</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">지하철역·버스 정류장·택시·빌보드 광고판에 wa.me 링크나 QR 코드를 노출합니다. 이동 중 광고를 본 소비자를 즉시 WhatsApp으로 유입시켜 제품 정보를 제공합니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f97316">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">옥외 광고 노출</div><div class="fsd">지하철 스크린도어·택시 광고·빌보드</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#25D366">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">QR 스캔 or wa.me 링크 접속</div><div class="fsd">스마트폰 카메라로 즉시 스캔<div class="ftag">대기 시간 활용 → 높은 스캔율</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">WA 자동 연결</div><div class="fsd">광고 캠페인별 맞춤 랜딩 메시지</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">제품 정보 + 구매 유도</div><div class="fsd">AI 챗봇이 즉시 제품 안내 및 구매 링크 제공</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#25D366">🏙️</div><div><div class="chat-nm">Brand Official</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>광고를 보고 연락해 주셨군요! 😊</strong><br>어떤 제품이 가장 관심 있으셨나요?<div class="opts"><div class="opt">🆕 신제품 컬렉션</div><div class="opt">💰 현재 세일 중인 제품</div><div class="opt">🎁 이벤트/기획전</div></div><div class="bt">09:15</div></div>
+            <div class="bub out">신제품 컬렉션<div class="bt">09:15</div></div>
+            <div class="bub in">좋은 선택이에요! ✨<br>이번 시즌 신제품을 소개해 드릴게요.<br><br>지금 WA 전용 특가로 <strong>첫 구매 20% 할인</strong> 혜택도 드려요! 👇<div class="bt">09:16</div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">3~5%</div><div class="bv-l">QR 스캔율</div></div><div class="bv-chip"><div class="bv-n">45%</div><div class="bv-l">스캔→대화 전환</div></div><div class="bv-chip"><div class="bv-n">5x</div><div class="bv-l">기존 옥외 광고 대비 효율</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION B -->
+<div class="sec-block" id="section-b">
+  <div class="sec-hdr"><div class="sec-badge" style="background:#3b82f6">B</div><div><div class="sec-title">온라인 → WhatsApp 유입</div><div class="sec-desc">디지털 광고·웹사이트·SNS에서 고객을 WhatsApp으로 직접 연결합니다</div></div></div>
+
+  <!-- UC06 -->
+  <div class="uc-card" id="uc06">
+    <div class="uc-hdr"><div class="uc-num" style="background:#3b82f6">06</div><div><div class="uc-lbl">SECTION B · 온라인 유입</div><div class="uc-title">Click-to-WhatsApp 광고 (CTWA)</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">Meta 광고(Instagram/Facebook)의 CTA 버튼을 "WhatsApp으로 대화하기"로 설정합니다. 광고 클릭 즉시 WA 채팅이 열리며 <strong>가장 강력한 온라인 유입 채널</strong>입니다. 고객이 먼저 시작하므로 마케팅 제한이 없습니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#1877f2">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">Instagram/Facebook 광고 노출</div><div class="fsd">타겟팅 광고 또는 리타겟팅</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#25D366">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">"WhatsApp으로 대화하기" 클릭</div><div class="fsd">일반 랜딩페이지 대신 대화형 CTA<div class="ftag">고객 시작 → 24시간 창구 + 마케팅 제한 없음</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">광고 캠페인별 맞춤 인사</div><div class="fsd">어떤 광고에서 왔는지 자동 감지 → 맞춤 메시지</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">AI 상담 → 구매 전환</div><div class="fsd">제품 추천·결제 링크·매장 예약<div class="ftag orange">24h 이후 마케팅 템플릿으로 재활성화</div></div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#25D366">💙</div><div><div class="chat-nm">Brand Official</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>Instagram 광고를 보고 오셨군요! 👋</strong><br>관심 가져주셔서 감사해요 😊<br>어떤 점이 가장 궁금하세요?<div class="opts"><div class="opt">🛍️ 제품 더 알아보기</div><div class="opt">💰 가격·할인 정보</div><div class="opt">🚀 지금 바로 구매</div></div><div class="bt">15:02</div></div>
+            <div class="bub out">가격·할인 정보<div class="bt">15:03</div></div>
+            <div class="bub in">현재 진행 중인 혜택이에요! 🎁<br><br>• 첫 구매: 15% 할인<br>• 2개 이상: 추가 5% 할인<br>• 무료 배송 (€50 이상)<br><br>지금 주문하시겠어요? 👇<div class="bt">15:03</div></div>
+          </div>
+        </div>
+        <div class="mkt">
+          <div class="mkt-hdr"><div class="mkt-hdr-icon">📣</div><div class="mkt-hdr-title">마케팅 템플릿 — 대화 재활성화</div><div class="mkt-badge">글로벌 전용</div></div>
+          <div class="mkt-body">
+            <div class="mkt-lbl">대화 후 24시간 미구매 시</div>
+            <div class="mkt-box">{{1}}님, 아직 결정 중이신가요? 😊 {{2}} 관심 보여주신 {{3}}이 오늘까지 특가예요! 재고가 얼마 남지 않았어요. 지금 확인하기 👉 {{4}}</div>
+            <div class="mkt-tip">✅ CTWA 후 미구매 고객 자동 타겟팅 | Journeys 24h 대기 후 트리거</div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">4~8%</div><div class="bv-l">광고 CTR</div></div><div class="bv-chip"><div class="bv-n">15~22%</div><div class="bv-l">대화→구매 전환</div></div><div class="bv-chip"><div class="bv-n">40%</div><div class="bv-l">일반 광고 대비 CPA 절감</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC07 -->
+  <div class="uc-card" id="uc07">
+    <div class="uc-hdr"><div class="uc-num" style="background:#3b82f6">07</div><div><div class="uc-lbl">SECTION B · 온라인 유입</div><div class="uc-title">웹사이트 채팅 위젯</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">웹사이트 하단 우측에 WhatsApp 채팅 버튼을 배치합니다. 방문자가 클릭하면 WA 앱/웹으로 연결되며, 현재 보고 있는 페이지 정보를 자동으로 전달해 맞춤 응대를 제공합니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">웹사이트 방문·탐색</div><div class="fsd">제품 페이지·장바구니·체크아웃 등</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#25D366">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">WA 채팅 버튼 클릭</div><div class="fsd">페이지 이탈 전 고민 해결<div class="ftag">이탈 방어 — 구매 직전 도움 제공</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">현재 페이지 맞춤 인사</div><div class="fsd">어떤 페이지에서 왔는지 자동 인식</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">AI 즉시 답변 → 구매 완결</div><div class="fsd">FAQ·비교·결제 도움 자동화</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#3b82f6">🌐</div><div><div class="chat-nm">Brand Support</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>안녕하세요! 웹사이트에서 연결됐네요 👋</strong><br>Premium Collection 페이지를 보고 계시는 것 같은데, 도움이 필요하신가요?<div class="opts"><div class="opt">🔍 제품 상세 문의</div><div class="opt">📦 배송·반품 정책</div><div class="opt">💳 결제 방법</div></div><div class="bt">11:44</div></div>
+            <div class="bub out">배송·반품 정책이요<div class="bt">11:44</div></div>
+            <div class="bub in">물론이죠! 📦<br><br>🚚 <strong>무료 배송</strong>: €50 이상 주문<br>⏱️ 배송 기간: 2~3 영업일<br>🔄 <strong>30일 무료 반품</strong>: 미사용 제품<br><br>추가 문의 있으시면 바로 알려주세요! 😊<div class="bt">11:45</div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">3~6%</div><div class="bv-l">위젯 클릭율</div></div><div class="bv-chip"><div class="bv-n">12%</div><div class="bv-l">이탈 방어 성공율</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC08 -->
+  <div class="uc-card" id="uc08">
+    <div class="uc-hdr"><div class="uc-num" style="background:#3b82f6">08</div><div><div class="uc-lbl">SECTION B · 온라인 유입</div><div class="uc-title">소셜 미디어 프로필 링크</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">Instagram·Facebook·TikTok·LinkedIn 프로필 바이오 링크에 wa.me 링크를 추가합니다. 팔로워를 직접 WA로 연결하여 1:1 커뮤니케이션 채널을 확보합니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#e1306c">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">SNS 프로필 방문</div><div class="fsd">Instagram·TikTok·Facebook 등</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#25D366">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">바이오 링크 클릭</div><div class="fsd">"WhatsApp으로 채팅하기" 링크<div class="ftag">SNS 팔로워 → WA 구독자 전환</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">팔로워 환영 메시지</div><div class="fsd">WA 채널 전용 혜택 안내</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">신제품·이벤트 우선 알림</div><div class="fsd">SNS보다 빠른 WA 독점 공개</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#e1306c">📸</div><div><div class="chat-nm">Brand Official</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>Instagram에서 연결하셨군요! 💕</strong><br>저희 WA 채널에 오신 걸 환영해요!<br><br>여기서만 받을 수 있는 혜택이에요:<br>• 🔔 신제품 최우선 공개<br>• 🎁 WA 전용 특가<br>• 💬 1:1 스타일 상담<div class="opts"><div class="opt">🛍️ 신제품 보기</div><div class="opt">💰 WA 전용 혜택</div></div><div class="bt">20:11</div></div>
+          </div>
+        </div>
+        <div class="mkt">
+          <div class="mkt-hdr"><div class="mkt-hdr-icon">📣</div><div class="mkt-hdr-title">마케팅 템플릿 — 신제품 출시 알림</div><div class="mkt-badge">글로벌 전용</div></div>
+          <div class="mkt-body">
+            <div class="mkt-lbl">신제품 출시 당일 발송</div>
+            <div class="mkt-box">{{1}}님, 드디어 공개됩니다! 🎉 {{2}} 컬렉션이 오늘 출시됐어요. WA 팔로워 분들께 24시간 독점 얼리버드 할인을 드립니다. 지금 보기 👉 {{3}}</div>
+            <div class="mkt-tip">✅ SNS 대비 5x 높은 열람율 | WA 구독자 전용 독점 혜택으로 채널 가치 강화</div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">8%</div><div class="bv-l">팔로워→WA 전환율</div></div><div class="bv-chip"><div class="bv-n">35%</div><div class="bv-l">WA 알림 구매 전환</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC09 -->
+  <div class="uc-card" id="uc09">
+    <div class="uc-hdr"><div class="uc-num" style="background:#3b82f6">09</div><div><div class="uc-lbl">SECTION B · 온라인 유입</div><div class="uc-title">인플루언서/크리에이터 협업</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">인플루언서 영상·게시물·스토리에 WA 링크를 삽입합니다. "내 링크로 접속하면 독점 특가" 방식으로 팔로워를 WA로 유입시키고, 인플루언서별 전환 성과를 추적합니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#ff0050">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">인플루언서 콘텐츠 노출</div><div class="fsd">YouTube·Instagram·TikTok 리뷰/협찬</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#25D366">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">WA 링크 클릭</div><div class="fsd">인플루언서별 전용 링크로 추적 가능<div class="ftag">인플루언서 코드 자동 적용</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">인플루언서 특가 자동 적용</div><div class="fsd">어떤 인플루언서 링크인지 자동 인식 → 맞춤 혜택</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">구매 전환 + 팔로업</div><div class="fsd">AI 상담 → 구매 완결 → 재구매 유도</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#ff0050">🌟</div><div><div class="chat-nm">Brand Official</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>안녕하세요! 😊</strong><br>@StyleByMia 채널에서 오셨군요!<br><br>Mia의 팔로워분들께 드리는 특별 혜택 🎁<br>쿠폰코드 <strong>MIA20</strong>으로 20% 할인!<div class="opts"><div class="opt">🛍️ 할인 적용하고 구매</div><div class="opt">🔍 제품 더 알아보기</div></div><div class="bt">19:30</div></div>
+          </div>
+        </div>
+        <div class="mkt">
+          <div class="mkt-hdr"><div class="mkt-hdr-icon">📣</div><div class="mkt-hdr-title">마케팅 템플릿 — 팔로워 재타겟팅</div><div class="mkt-badge">글로벌 전용</div></div>
+          <div class="mkt-body">
+            <div class="mkt-lbl">첫 접속 후 48h 미구매 시</div>
+            <div class="mkt-box">{{1}}님, {{2}} 코드 아직 사용 안 하셨죠? 😊 쿠폰 만료까지 {{3}}일 남았어요! 지금 사용하기 👉 {{4}}</div>
+            <div class="mkt-tip">✅ 인플루언서별 별도 캠페인 생성 | 전환율 추적으로 ROI 최적화</div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">6~12%</div><div class="bv-l">인플루언서 링크 CTR</div></div><div class="bv-chip"><div class="bv-n">18%</div><div class="bv-l">구매 전환율</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC10 -->
+  <div class="uc-card" id="uc10">
+    <div class="uc-hdr"><div class="uc-num" style="background:#3b82f6">10</div><div><div class="uc-lbl">SECTION B · 온라인 유입</div><div class="uc-title">이메일 뉴스레터 CTA</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">이메일 뉴스레터에 "WhatsApp으로 더 빠른 서비스 받기" 버튼을 추가합니다. 이메일 구독자를 WA 채널로 이동시켜 더 높은 인게이지먼트를 확보합니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#ea4335">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">이메일 뉴스레터 수신</div><div class="fsd">기존 이메일 구독자 대상</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#25D366">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">"WA로 받기" CTA 클릭</div><div class="fsd">이메일 → WA 채널 전환 유도<div class="ftag">열람율 20% vs WA 98%</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">WA 채널 전용 혜택 제공</div><div class="fsd">이메일 이탈 방지 + WA 가치 강조</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">WA 채널 구독 완료</div><div class="fsd">이후 마케팅 템플릿 발신 가능</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#ea4335">📧</div><div><div class="chat-nm">Brand Newsletter</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>이메일에서 연결해 주셨군요! 📧→💬</strong><br>WA 채널로 이동하시면 더 빠르고 편리하게 소통할 수 있어요!<br><br>WA 전용 혜택:<br>• 이메일보다 빠른 신제품 공개<br>• WA 전용 쿠폰<br>• 1:1 스타일 상담<div class="opts"><div class="opt">✅ WA 채널 구독하기</div></div><div class="bt">10:00</div></div>
+            <div class="bub out">구독할게요!<div class="bt">10:01</div></div>
+            <div class="bub in">환영합니다! 🎉<br>첫 번째 WA 전용 혜택으로 <strong>10% 쿠폰</strong>을 드려요!<br>코드: WA10WELCOME<div class="bt">10:01</div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">4%</div><div class="bv-l">이메일→WA 전환율</div></div><div class="bv-chip"><div class="bv-n">22%</div><div class="bv-l">WA 구독자 구매 전환</div></div><div class="bv-chip"><div class="bv-n">5x</div><div class="bv-l">이메일 대비 인게이지먼트</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION C -->
+<div class="sec-block" id="section-c">
+  <div class="sec-hdr"><div class="sec-badge" style="background:#10b981">C</div><div><div class="sec-title">유틸리티 메시지 활용</div><div class="sec-desc">고신뢰 유틸리티 메시지에 마케팅을 자연스럽게 결합합니다 (전 세계 발송 가능)</div></div></div>
+
+  <!-- UC11 -->
+  <div class="uc-card" id="uc11">
+    <div class="uc-hdr"><div class="uc-num" style="background:#10b981">11</div><div><div class="uc-lbl">SECTION C · 유틸리티 메시지</div><div class="uc-title">주문 확인 → 크로스셀</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">주문 확인 메시지(유틸리티)에 연관 상품 추천을 자연스럽게 포함합니다. 열람율 98%의 유틸리티 메시지를 활용해 추가 구매를 유도하는 가장 효율적인 방법입니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">주문 완료</div><div class="fsd">온라인몰 결제 완료 시점</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">WA 주문 확인 발송</div><div class="fsd">주문번호·예상 배송일·내역 포함<div class="ftag blue">유틸리티 메시지 — 전 세계 발송 가능</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">AI 연관 상품 추천</div><div class="fsd">구매 제품과 함께 사용하면 좋은 상품 3개 추천</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">추가 구매 or 관심 저장</div><div class="fsd">즉시 구매 or 위시리스트 저장 → 이후 마케팅 발송</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#10b981">✅</div><div><div class="chat-nm">Brand Store</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in">✅ <strong>주문이 확인되었습니다!</strong><br><br>📦 주문번호: #ORD-2847<br>🕐 예상 배송: 2~3 영업일<br>📍 배송지: 홍길동 고객님<br><br>함께 사용하면 좋은 제품도 있어요 👇<div class="opts"><div class="opt">🛍️ 연관 상품 보기 (+15% 추가 할인)</div></div><div class="bt">주문 후 즉시</div></div>
+            <div class="bub out">연관 상품 볼게요<div class="bt"></div></div>
+            <div class="bub in">이런 제품들을 추천드려요! 🌟<br><br>1. 케어 키트 — ₩25,000 (15% 할인 적용)<br>2. 보관 파우치 — ₩18,000<br>3. 여행용 세트 — ₩35,000<div class="bt"></div></div>
+          </div>
+        </div>
+        <div class="mkt">
+          <div class="mkt-hdr"><div class="mkt-hdr-icon">📣</div><div class="mkt-hdr-title">마케팅 템플릿 — 3일 후 추가 추천</div><div class="mkt-badge">글로벌 전용</div></div>
+          <div class="mkt-body">
+            <div class="mkt-lbl">주문 3일 후 자동 발송</div>
+            <div class="mkt-box">{{1}}님, {{2}} 잘 받으셨나요? 😊 함께 사용하면 더욱 좋은 {{3}}을 오늘만 특가로 드려요! 확인하기 👉 {{4}}</div>
+            <div class="mkt-tip">✅ 구매 3일 후 Journeys 트리거 | 평균 주문가 +22% 상승 효과</div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">12~18%</div><div class="bv-l">크로스셀 전환율</div></div><div class="bv-chip"><div class="bv-n">+22%</div><div class="bv-l">평균 주문 금액 상승</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC12 -->
+  <div class="uc-card" id="uc12">
+    <div class="uc-hdr"><div class="uc-num" style="background:#10b981">12</div><div><div class="uc-lbl">SECTION C · 유틸리티 메시지</div><div class="uc-title">배송 알림 → 개인화 추천</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">배송 출발·도착 알림(유틸리티)에 고객 구매 이력 기반 맞춤 상품 추천을 포함합니다. 배송 대기 중인 설레는 시점을 추가 구매 기회로 활용합니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">상품 배송 출발</div><div class="fsd">물류 시스템 → Infobip 웹훅 연동</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">WA 배송 알림 자동 발송</div><div class="fsd">실시간 배송 현황 + 추적 링크<div class="ftag blue">유틸리티 — 높은 열람율 활용</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">AI 맞춤 상품 추천</div><div class="fsd">CDP 기반 — 이전 구매·관심 이력 분석</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">추가 구매 유도</div><div class="fsd">배송 대기 시간을 쇼핑 시간으로 전환</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#10b981">🚚</div><div><div class="chat-nm">Brand Delivery</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in">🚚 <strong>상품이 출발했어요!</strong><br><br>주문번호: #ORD-2847<br>예상 도착: 내일 오후 2~6시<br>실시간 추적 👉 [링크]<br><br>---<br>기다리시는 동안, 자주 함께 구매되는 상품이에요 ✨<div class="opts"><div class="opt">💝 함께 사면 좋은 상품 (10% 할인)</div></div><div class="bt">배송 출발 시</div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">15%</div><div class="bv-l">추천 클릭율</div></div><div class="bv-chip"><div class="bv-n">9%</div><div class="bv-l">배송 중 추가 구매</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC13 -->
+  <div class="uc-card" id="uc13">
+    <div class="uc-hdr"><div class="uc-num" style="background:#10b981">13</div><div><div class="uc-lbl">SECTION C · 유틸리티 메시지</div><div class="uc-title">배송 완료 → 리뷰 + 재구매</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">배송 완료 후 리뷰 요청과 함께 다음 구매 쿠폰을 제공합니다. 만족도 높은 구매 직후 시점을 재구매의 씨앗으로 활용합니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">배송 완료 감지</div><div class="fsd">택배사 API → 자동 트리거</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">WA 배송 완료 알림</div><div class="fsd">수령 확인 + 리뷰 요청<div class="ftag blue">유틸리티 메시지 — 리뷰 요청 포함 가능</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">리뷰 작성 → 쿠폰 발급</div><div class="fsd">리뷰 작성 시 즉시 쿠폰 자동 발급</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">쿠폰으로 재구매 유도</div><div class="fsd">쿠폰 유효기간 D-3 리마인더 자동 발송</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#10b981">📦</div><div><div class="chat-nm">Brand Store</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in">📦 <strong>배송이 완료됐어요!</strong><br><br>잘 받으셨나요? 😊 1분만 시간 내서 리뷰를 남겨주시면 <strong>₩3,000 쿠폰</strong>을 드릴게요!<div class="opts"><div class="opt">⭐ 리뷰 작성하기 (쿠폰 받기)</div><div class="opt">❓ 수령 문제가 있어요</div></div><div class="bt">배송 완료 후 2h</div></div>
+            <div class="bub out">리뷰 작성했어요!<div class="bt"></div></div>
+            <div class="bub in">감사합니다! 🎉<br>쿠폰코드: <strong>REVIEW3000</strong> (30일 유효)<br>다음 주문에서 사용해 보세요 🛍️<div class="bt"></div></div>
+          </div>
+        </div>
+        <div class="mkt">
+          <div class="mkt-hdr"><div class="mkt-hdr-icon">📣</div><div class="mkt-hdr-title">마케팅 템플릿 — 쿠폰 만료 리마인더</div><div class="mkt-badge">글로벌 전용</div></div>
+          <div class="mkt-body">
+            <div class="mkt-lbl">쿠폰 만료 D-3 자동 발송</div>
+            <div class="mkt-box">{{1}}님, 리뷰 쿠폰이 {{2}}일 후 만료돼요! 아직 {{3}} 쿠폰 사용 안 하셨죠? 지금 사용하기 👉 {{4}}</div>
+            <div class="mkt-tip">✅ 리뷰 완료 후 쿠폰 발급 → D-3 리마인더 자동화 | 재구매율 16% 달성</div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">28%</div><div class="bv-l">리뷰 수집율</div></div><div class="bv-chip"><div class="bv-n">16%</div><div class="bv-l">쿠폰 재구매 전환</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC14 -->
+  <div class="uc-card" id="uc14">
+    <div class="uc-hdr"><div class="uc-num" style="background:#10b981">14</div><div><div class="uc-lbl">SECTION C · 유틸리티 메시지</div><div class="uc-title">구독 갱신/리필 알림</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">소모품·구독 상품의 만료 시점에 맞춘 리필 알림을 자동으로 발송합니다. 고객이 "다 떨어지기 전에" 재주문하도록 유도해 이탈을 방지합니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">구매 후 사용 주기 계산</div><div class="fsd">제품별 평균 사용 기간 기반 예측</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">만료 D-7 리마인더 발송</div><div class="fsd">마케팅 템플릿으로 발신<div class="ftag orange">마케팅 템플릿 — 글로벌 발송 가능</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">AI 간편 재주문</div><div class="fsd">WA에서 원클릭 재주문 or 구독 업그레이드</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">구독 전환 유도</div><div class="fsd">정기구독 시 추가 할인 제안</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#10b981">🔄</div><div><div class="chat-nm">Brand Auto-Ship</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in">안녕하세요! ⏰<br>구매하신 영양제가 곧 떨어질 것 같아요.<br><br>지금 리필하시면 <strong>10% 할인 + 무료 배송</strong>이에요!<div class="opts"><div class="opt">🔄 지금 리필 주문</div><div class="opt">📅 정기구독으로 전환 (15% 할인)</div><div class="opt">⏸️ 아직 충분해요</div></div><div class="bt">D-7 자동 발송</div></div>
+            <div class="bub out">정기구독으로 전환할게요<div class="bt"></div></div>
+            <div class="bub in">훌륭한 선택이에요! 🎉<br>매월 자동 발송 + 15% 할인이 적용됩니다.<br>언제든 취소 가능해요 😊<div class="bt"></div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">38%</div><div class="bv-l">리필 전환율</div></div><div class="bv-chip"><div class="bv-n">15%</div><div class="bv-l">구독 전환율</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC15 -->
+  <div class="uc-card" id="uc15">
+    <div class="uc-hdr"><div class="uc-num" style="background:#10b981">15</div><div><div class="uc-lbl">SECTION C · 유틸리티 메시지</div><div class="uc-title">재입고 알림</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">품절 상품에 재입고 알림을 신청한 고객에게 재입고 즉시 WA 메시지를 발송합니다. 구매 의도가 가장 높은 고객을 정확히 타겟팅하는 방법입니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#ef4444">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">상품 품절 → 알림 신청</div><div class="fsd">WA 또는 웹사이트에서 알림 옵트인</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">재입고 감지 → 즉시 발송</div><div class="fsd">재고 시스템 웹훅 → Infobip 자동 트리거<div class="ftag">마케팅 템플릿 즉시 발송</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">한정 수량 강조 + 구매 링크</div><div class="fsd">재고 소진 전 즉시 구매 유도</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">즉시 구매 완결</div><div class="fsd">WA에서 결제 링크 직접 제공</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#10b981">🔔</div><div><div class="chat-nm">Brand Store</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in">🔔 <strong>기다리시던 상품이 재입고됐어요!</strong><br><br>한정 에디션 캔버스백 (블랙)<br>재입고 수량: <strong>단 50개</strong><br><br>⚡ 지금 바로 구매하지 않으면 품절될 수 있어요!<div class="opts"><div class="opt">🛒 지금 바로 구매하기</div><div class="opt">📦 배송 정보 확인</div></div><div class="bt">재입고 즉시</div></div>
+            <div class="bub out">지금 바로 구매할게요!<div class="bt"></div></div>
+            <div class="bub in">✅ 구매 링크를 보내드릴게요!<br>👉 [결제 링크]<br><br>10분 내 결제 시 무료 배송 + 에코백 증정 🎁<div class="bt"></div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">52%</div><div class="bv-l">알림 오픈율</div></div><div class="bv-chip"><div class="bv-n">34%</div><div class="bv-l">즉시 구매 전환율</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION D -->
+<div class="sec-block" id="section-d">
+  <div class="sec-hdr"><div class="sec-badge" style="background:#8b5cf6">D</div><div><div class="sec-title">대화형 커머스</div><div class="sec-desc">AI가 주도하는 1:1 쇼핑 경험으로 구매 전환율을 극대화합니다</div></div></div>
+
+  <!-- UC16 -->
+  <div class="uc-card" id="uc16">
+    <div class="uc-hdr"><div class="uc-num" style="background:#8b5cf6">16</div><div><div class="uc-lbl">SECTION D · 대화형 커머스</div><div class="uc-title">AI 퍼스널 쇼핑 어시스턴트</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">고객이 WA에서 취향·예산·용도를 입력하면 AI가 최적의 상품 3개를 추천합니다. 쇼핑몰 검색 대신 대화로 찾아주는 개인화 쇼핑 경험입니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#8b5cf6">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">WA 쇼핑 시작</div><div class="fsd">CTWA·QR·링크 등 어떤 진입경로에서도 가능</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">AI 취향 파악 (3~5 질문)</div><div class="fsd">용도·예산·스타일·선물 여부 등</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">개인화 상품 추천</div><div class="fsd">AI가 카탈로그에서 최적 3개 선별</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">상세 확인 → 구매</div><div class="fsd">WA에서 상세 보기·비교·결제 완결</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#8b5cf6">🤖</div><div><div class="chat-nm">AI Shopping</div><div class="chat-st">✓ AI 퍼스널 어시스턴트</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>안녕하세요! 쇼핑 도와드릴게요 😊</strong><br>어떤 제품을 찾고 계세요?<div class="opts"><div class="opt">👔 의류·패션</div><div class="opt">🎁 선물 고르기</div><div class="opt">🏠 홈·라이프스타일</div></div><div class="bt">즉시</div></div>
+            <div class="bub out">선물 고르기<div class="bt"></div></div>
+            <div class="bub in">누구를 위한 선물인가요? 🎁<div class="opts"><div class="opt">👩 여자친구/아내</div><div class="opt">👨 남자친구/남편</div><div class="opt">👨‍👩‍👧 부모님</div></div><div class="bt"></div></div>
+            <div class="bub out">여자친구요<div class="bt"></div></div>
+            <div class="bub in">예산은 어떻게 되세요? 💰<div class="opts"><div class="opt">₩50,000 이하</div><div class="opt">₩50,000~150,000</div><div class="opt">₩150,000 이상</div></div><div class="bt"></div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">28%</div><div class="bv-l">상담→구매 전환율</div></div><div class="bv-chip"><div class="bv-n">67%</div><div class="bv-l">추천 클릭율</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC17 -->
+  <div class="uc-card" id="uc17">
+    <div class="uc-hdr"><div class="uc-num" style="background:#8b5cf6">17</div><div><div class="uc-lbl">SECTION D · 대화형 커머스</div><div class="uc-title">스타일 퀴즈 / 제품 매칭</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">패션·뷰티·라이프스타일 브랜드에 최적화된 WA 스타일 퀴즈입니다. 5~7개 질문으로 고객 페르소나를 분석하고 맞춤 상품을 추천합니다. 퀴즈 자체가 바이럴 요소로 작동합니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#8b5cf6">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">퀴즈 시작 (CTWA 또는 링크)</div><div class="fsd">"나의 스타일 찾기" 캠페인으로 유입</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">5문항 스타일 질문</div><div class="fsd">색상·패턴·상황·가격대·라이프스타일</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">AI 페르소나 분석 + 추천</div><div class="fsd">"Classic Minimalist" 등 페르소나 이름 + 맞춤 컬렉션</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">구매 + 결과 공유 유도</div><div class="fsd">SNS 공유 → 바이럴 확산</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#8b5cf6">✨</div><div><div class="chat-nm">Style Quiz</div><div class="chat-st">AI 스타일 매칭</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>나만의 스타일을 찾아보세요! ✨</strong><br>5가지 질문으로 완성되는 개인 맞춤 추천!<br>Q1. 평소 선호하는 색상은?<div class="opts"><div class="opt">⚫ 블랙·그레이 계열</div><div class="opt">🌸 파스텔·뉴트럴</div><div class="opt">🌈 비비드·컬러풀</div></div><div class="bt">즉시</div></div>
+            <div class="bub out">블랙·그레이 계열<div class="bt"></div></div>
+            <div class="bub in">분석 결과 🎯<br><br>당신의 스타일: <strong>"Urban Minimalist"</strong><br>깔끔하고 세련된 미니멀리스트!<br><br>맞춤 추천 컬렉션 👇<div class="bt"></div></div>
+          </div>
+        </div>
+        <div class="mkt">
+          <div class="mkt-hdr"><div class="mkt-hdr-icon">📣</div><div class="mkt-hdr-title">마케팅 템플릿 — 퀴즈 결과 기반 재타겟팅</div><div class="mkt-badge">글로벌 전용</div></div>
+          <div class="mkt-body">
+            <div class="mkt-lbl">퀴즈 완료 7일 후</div>
+            <div class="mkt-box">{{1}}님, {{2}} 스타일에 딱 맞는 신상이 입고됐어요! {{3}} 컬렉션 신상품을 먼저 보실래요? 👉 {{4}}</div>
+            <div class="mkt-tip">✅ 퀴즈 결과 페르소나별 세그먼트 자동 생성 | 전환율 2.4x 향상</div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">72%</div><div class="bv-l">퀴즈 완료율</div></div><div class="bv-chip"><div class="bv-n">24%</div><div class="bv-l">추천 구매 전환</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC18 -->
+  <div class="uc-card" id="uc18">
+    <div class="uc-hdr"><div class="uc-num" style="background:#8b5cf6">18</div><div><div class="uc-lbl">SECTION D · 대화형 커머스</div><div class="uc-title">한정판/드롭 사전 등록</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">한정판 출시 전 WA로 사전 등록을 받고 출시 당일 즉시 알림을 발송합니다. 출시 전 기대감을 극대화하고 초기 판매 속도를 높입니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#8b5cf6">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">출시 D-14: 티저 공개</div><div class="fsd">SNS·광고에서 "WA 사전 등록" CTA</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">사전 등록 → WA 옵트인</div><div class="fsd">등록 즉시 환영 메시지 + 스펙 힌트<div class="ftag orange">마케팅 템플릿 발송 동의 획득</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">D-1·D-day 카운트다운 알림</div><div class="fsd">마케팅 템플릿으로 기대감 고조</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">출시 즉시 구매 링크 발송</div><div class="fsd">사전 등록자 우선 구매 혜택</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#8b5cf6">🚀</div><div><div class="chat-nm">Brand Drop</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in">🚀 <strong>D-day 알림!</strong><br>드디어 오늘 오전 10시, Limited Edition이 공개됩니다!<br><br>사전 등록자 혜택:<br>• ⚡ 일반 오픈 30분 전 구매 가능<br>• 🎁 사전 등록 기념 굿즈 증정<br>• 무료 배송<div class="opts"><div class="opt">🛒 오전 9:30 알림 받기</div></div><div class="bt">출시 전날</div></div>
+          </div>
+        </div>
+        <div class="mkt">
+          <div class="mkt-hdr"><div class="mkt-hdr-icon">📣</div><div class="mkt-hdr-title">마케팅 템플릿 시리즈</div><div class="mkt-badge">글로벌 전용</div></div>
+          <div class="mkt-body">
+            <div class="mkt-lbl">D-7 · D-1 · D-day 알림</div>
+            <div class="mkt-box">[D-7] {{1}}님, {{2}} Limited Edition 출시까지 7일! 아직 사전 등록 안 하셨다면 지금이 마지막 기회예요 👉 {{3}}<br><br>[D-day] 🚀 지금 오픈됐어요! 사전 등록자 전용 링크 👉 {{3}}</div>
+            <div class="mkt-tip">✅ 출시 당일 전환율 55% | 사전 등록자 구매 완료율 일반 고객의 3배</div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">41%</div><div class="bv-l">사전 등록 CTR</div></div><div class="bv-chip"><div class="bv-n">55%</div><div class="bv-l">출시 당일 전환율</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC19 -->
+  <div class="uc-card" id="uc19">
+    <div class="uc-hdr"><div class="uc-num" style="background:#8b5cf6">19</div><div><div class="uc-lbl">SECTION D · 대화형 커머스</div><div class="uc-title">로열티/VIP 프로그램</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">포인트 적립·등급 변화·VIP 혜택을 WA로 실시간 알림합니다. 고객이 자신의 등급과 혜택을 WA에서 즉시 확인할 수 있어 프로그램 참여율이 높아집니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#8b5cf6">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">구매 완료 → WA 포인트 적립 알림</div><div class="fsd">유틸리티 메시지로 즉시 적립 확인</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">등급 업그레이드 알림</div><div class="fsd">Gold→Platinum 등 등급 변화 시 마케팅 템플릿<div class="ftag orange">축하 + 신규 혜택 안내</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">VIP 전용 혜택 제공</div><div class="fsd">VIP 전용 세일·얼리 액세스·무료 배송</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">포인트 만료 전 리마인더</div><div class="fsd">만료 D-7, D-1 자동 발송</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#f59e0b">⭐</div><div><div class="chat-nm">Brand Loyalty</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in">🎉 <strong>VIP 등급 달성!</strong><br>축하합니다, 김민지님!<br>Gold → <strong>Platinum</strong> 등급이 됐어요!<br><br>Platinum 전용 혜택:<br>• 🎁 매월 무료 상품<br>• 🚚 무제한 무료 배송<br>• 🔔 신제품 48시간 얼리 액세스<div class="opts"><div class="opt">🌟 VIP 혜택 모두 보기</div></div><div class="bt">등급 업 즉시</div></div>
+          </div>
+        </div>
+        <div class="mkt">
+          <div class="mkt-hdr"><div class="mkt-hdr-icon">📣</div><div class="mkt-hdr-title">마케팅 템플릿 — 생일·포인트 만료</div><div class="mkt-badge">글로벌 전용</div></div>
+          <div class="mkt-body">
+            <div class="mkt-lbl">생일 D-day / 포인트 만료 D-7</div>
+            <div class="mkt-box">[생일] 🎂 {{1}}님, 생일 축하해요! 오늘 하루만 {{2}} 포인트 2배 적립 + 생일 쿠폰을 드려요! 👉 {{3}}<br><br>[만료] ⏰ {{1}}님, {{2}} 포인트가 {{3}}일 후 만료돼요!</div>
+            <div class="mkt-tip">✅ 생일 캠페인 CTR 45% | 포인트 만료 리마인더 재구매율 23% 향상</div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">18%</div><div class="bv-l">VIP 전환율</div></div><div class="bv-chip"><div class="bv-n">45%</div><div class="bv-l">생일 캠페인 CTR</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION E -->
+<div class="sec-block" id="section-e">
+  <div class="sec-hdr"><div class="sec-badge" style="background:#ec4899">E</div><div><div class="sec-title">서비스 → 재구매 전환</div><div class="sec-desc">반품·교환·FAQ를 재구매 기회로 전환합니다</div></div></div>
+
+  <!-- UC20 -->
+  <div class="uc-card" id="uc20">
+    <div class="uc-hdr"><div class="uc-num" style="background:#ec4899">20</div><div><div class="uc-lbl">SECTION E · 서비스→재구매</div><div class="uc-title">반품/교환 → 대체 상품 추천</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">반품·교환 요청 처리 중에 더 적합한 대체 상품을 AI가 추천합니다. 반품 처리와 재구매 유도를 동시에 해결하는 고효율 유즈케이스입니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#ec4899">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">WA로 반품/교환 요청</div><div class="fsd">채팅 버튼 or 마케팅 채널에서 유입</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">AI 반품 이유 파악</div><div class="fsd">사이즈·색상·품질·마음 변화 등 분류</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">맞춤 대체 상품 제안</div><div class="fsd">반품 이유 기반 더 적합한 상품 3개 추천</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">교환 전환 or 환불</div><div class="fsd">교환 선택 시 즉시 처리 + 재구매 유도</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#ec4899">🔄</div><div><div class="chat-nm">Brand Support</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in">불편을 드려서 죄송해요 😔<br>반품 도와드릴게요. 반품하시는 이유를 알 수 있을까요?<div class="opts"><div class="opt">📏 사이즈가 맞지 않아요</div><div class="opt">🎨 색상이 달라요</div><div class="opt">💔 마음이 바뀌었어요</div></div><div class="bt">즉시</div></div>
+            <div class="bub out">사이즈가 맞지 않아요<div class="bt"></div></div>
+            <div class="bub in">그렇군요! 교환으로 해드릴까요? 😊<br><br>현재 재고:<br>• M 사이즈: 재고 있음 ✅<br>• L 사이즈: 재고 있음 ✅<br><br>교환하시면 무료로 처리해드려요!<div class="bt"></div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">22%</div><div class="bv-l">반품→교환 전환율</div></div><div class="bv-chip"><div class="bv-n">15%</div><div class="bv-l">재구매 유도율</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC21 -->
+  <div class="uc-card" id="uc21">
+    <div class="uc-hdr"><div class="uc-num" style="background:#ec4899">21</div><div><div class="uc-lbl">SECTION E · 서비스→재구매</div><div class="uc-title">FAQ/제품 문의 → 구매 전환</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">제품 사용 질문이나 궁금증을 AI가 즉시 해결하고 자연스럽게 관련 상품 구매로 연결합니다. 서비스 응대가 영업 채널로 전환됩니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#ec4899">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">FAQ/제품 질문</div><div class="fsd">사용법·호환성·AS·기능 문의 등</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">AI 즉시 정확한 답변</div><div class="fsd">지식베이스 기반 24/7 자동 응대</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">연관 상품/업그레이드 추천</div><div class="fsd">질문 맥락을 분석해 니즈 파악 후 추천</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">구매 전환</div><div class="fsd">문의 해결 + 구매 링크 자연스럽게 제공</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#ec4899">💬</div><div><div class="chat-nm">Brand FAQ Bot</div><div class="chat-st">✓ AI 고객 지원</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub out">이 블렌더 소음이 얼마나 큰가요?<div class="bt">14:22</div></div>
+            <div class="bub in">좋은 질문이에요! 🔊<br>Pro-X 블렌더의 소음은 약 65dB로, 일반 대화 수준이에요. 새벽·심야 사용도 걱정 없어요!<br><br>혹시 조용한 사용이 중요하시다면 저희 <strong>Whisper Series</strong>가 55dB로 더 조용해요. 관심 있으세요? 😊<div class="bt">14:22</div></div>
+            <div class="bub out">Whisper Series는 얼마예요?<div class="bt">14:23</div></div>
+            <div class="bub in">Whisper Pro는 ₩189,000이에요!<br>지금 구매하시면 <strong>무료 레시피북</strong>도 드려요 🎁<br>👉 [구매 링크]<div class="bt">14:23</div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">87%</div><div class="bv-l">FAQ 자동 해결율</div></div><div class="bv-chip"><div class="bv-n">11%</div><div class="bv-l">문의→구매 전환율</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION F -->
+<div class="sec-block" id="section-f">
+  <div class="sec-hdr"><div class="sec-badge" style="background:#0f172a">F</div><div><div class="sec-title">창의적 캠페인</div><div class="sec-desc">고객이 직접 참여하고 싶은 WA 캠페인으로 브랜드 팬을 만듭니다</div></div></div>
+
+  <!-- UC22 -->
+  <div class="uc-card" id="uc22">
+    <div class="uc-hdr"><div class="uc-num" style="background:#0f172a">22</div><div><div class="uc-lbl">SECTION F · 창의적 캠페인</div><div class="uc-title">WhatsApp 전용 "시크릿 세일"</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">WA 구독자에게만 공개하는 비밀 특가 세일을 운영합니다. "WA 구독자 전용"이라는 독점감이 신규 구독을 유도하고, 기존 구독자의 충성도를 높입니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#0f172a">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">WA 구독 증가 캠페인</div><div class="fsd">"WA 구독하면 시크릿 세일 초대" SNS 홍보</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">세일 당일 마케팅 템플릿 발송</div><div class="fsd">시크릿 링크·타임 한정·독점 가격<div class="ftag orange">마케팅 템플릿 — 글로벌 발송</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#ef4444">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">타임 세일 카운트다운</div><div class="fsd">2시간 한정·재고 수량 실시간 표시</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">즉시 구매 완결</div><div class="fsd">WA에서 결제 링크 직접 제공</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#0f172a">🤫</div><div><div class="chat-nm">Brand Secret</div><div class="chat-st">✓ WA 전용 채널</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in">🤫 <strong>WA 구독자 전용 시크릿 세일!</strong><br><br>오늘 오후 2시~4시, 딱 2시간만!<br>최대 <strong>50% 할인 + 무료 배송</strong><br><br>이 메시지는 WA 구독자에게만 발송됩니다.<br>링크 공유 금지 🔒<div class="opts"><div class="opt">🛍️ 시크릿 세일 입장하기</div></div><div class="bt">오전 10:00 발송</div></div>
+          </div>
+        </div>
+        <div class="mkt">
+          <div class="mkt-hdr"><div class="mkt-hdr-icon">📣</div><div class="mkt-hdr-title">마케팅 템플릿 — 세일 시작·마감 알림</div><div class="mkt-badge">글로벌 전용</div></div>
+          <div class="mkt-body">
+            <div class="mkt-lbl">세일 시작 4h 전 / 마감 30분 전</div>
+            <div class="mkt-box">[시작 전] {{1}}님, 오늘 {{2}}시부터 WA 구독자 전용 시크릿 세일이 시작돼요! 준비됐나요? 👉 {{3}}<br><br>[마감 전] ⏰ 30분 후 시크릿 세일 종료! 놓치기 전에 확인하세요 👉 {{3}}</div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">78%</div><div class="bv-l">메시지 오픈율</div></div><div class="bv-chip"><div class="bv-n">32%</div><div class="bv-l">구매 전환율</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC23 -->
+  <div class="uc-card" id="uc23">
+    <div class="uc-hdr"><div class="uc-num" style="background:#0f172a">23</div><div><div class="uc-lbl">SECTION F · 창의적 캠페인</div><div class="uc-title">제품 챌린지 / UGC 캠페인</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">고객이 제품 사용 사진·영상을 WA로 제출하는 참여형 챌린지를 운영합니다. UGC(사용자 생성 콘텐츠)를 수집하면서 자연스러운 바이럴이 발생합니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#0f172a">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">챌린지 공지 (마케팅 템플릿)</div><div class="fsd">WA 구독자 전체 발송</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">WA로 참여 (사진/영상 전송)</div><div class="fsd">WA에서 미디어 파일 직접 제출</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">AI 자동 수집·분류</div><div class="fsd">제출 완료 → 참여 확인 + 감사 메시지</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">당첨자 선정 + 바이럴 확산</div><div class="fsd">우수 UGC SNS 게시 + 상품 증정</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#ff0050">🎬</div><div><div class="chat-nm">Brand Challenge</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in">📸 <strong>#MyBrandStyle 챌린지 참여하세요!</strong><br><br>방법: 저희 제품으로 코디한 사진을 바로 여기 WA로 보내주세요!<br>🏆 매주 우수 참여자 선정 → ₩100,000 쿠폰 증정<div class="opts"><div class="opt">📸 지금 사진 보내기</div><div class="opt">❓ 참여 방법 더 알기</div></div><div class="bt">챌린지 시작</div></div>
+            <div class="bub out">[사진 첨부됨]<div class="bt"></div></div>
+            <div class="bub in">와! 정말 예쁘게 스타일링하셨어요 😍<br>참여 완료! 🎉<br>이번 주 우수 참여자 발표는 금요일이에요.<br>SNS에서도 팔로우해 주세요! 📱<div class="bt"></div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">15%</div><div class="bv-l">챌린지 참여율</div></div><div class="bv-chip"><div class="bv-n">5x</div><div class="bv-l">브랜드 노출 증가</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC24 -->
+  <div class="uc-card" id="uc24">
+    <div class="uc-hdr"><div class="uc-num" style="background:#0f172a">24</div><div><div class="uc-lbl">SECTION F · 창의적 캠페인</div><div class="uc-title">레퍼럴(추천인) 프로그램</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">기존 고객이 친구를 WA 링크로 추천하면 양쪽 모두에게 혜택을 제공합니다. WA 친구 공유의 자연스러움을 활용해 바이럴 성장을 만듭니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#0f172a">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">레퍼럴 링크 생성 요청</div><div class="fsd">WA에서 "친구 추천 링크" 요청</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#25D366">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">개인 추천 링크 발급</div><div class="fsd">WA 메시지로 링크 즉시 전달<div class="ftag">WA로 공유 → 친구도 WA 채널 유입</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">친구 첫 구매 완료</div><div class="fsd">친구 전용 웰컴 할인 자동 적용</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">양쪽 혜택 자동 지급</div><div class="fsd">추천인·친구 모두 WA로 쿠폰 즉시 발송</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#25D366">🤝</div><div><div class="chat-nm">Brand Referral</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in">친구 추천 링크가 생성됐어요! 🎁<br><br>링크: [개인 추천 링크]<br><br>친구가 이 링크로 처음 구매하면:<br>• 친구: 첫 구매 20% 할인<br>• 나: ₩10,000 적립금<br><br>WA로 바로 공유해 보세요! 📲<div class="bt">즉시</div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">22%</div><div class="bv-l">레퍼럴 전환율</div></div><div class="bv-chip"><div class="bv-n">-45%</div><div class="bv-l">CAC 절감</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC25 -->
+  <div class="uc-card" id="uc25">
+    <div class="uc-hdr"><div class="uc-num" style="background:#0f172a">25</div><div><div class="uc-lbl">SECTION F · 창의적 캠페인</div><div class="uc-title">가격 흥정 / 게임화</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">WA에서 AI와 직접 가격 협상하는 게임 경험을 제공합니다. 참여율과 구매율을 동시에 높이며, 고객이 스스로 할인을 "쟁취"하는 성취감을 제공합니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#0f172a">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">"흥정하기" 버튼 클릭</div><div class="fsd">제품 페이지 또는 WA 메시지에서 시작</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#ef4444">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">AI 흥정 게임 시작</div><div class="fsd">AI가 판매자 역할, 고객이 흥정<div class="ftag">게임화 — 참여율 42%</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">최대 할인 도달 + 타임아웃</div><div class="fsd">최대 15% 할인까지 협상 가능 (10분 제한)</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">협상 완료 → 즉시 구매</div><div class="fsd">성취감 + 즉시 결제 링크 제공</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#ef4444">🤺</div><div><div class="chat-nm">AI Negotiator</div><div class="chat-st">흥정 게임 중...</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>흥정 게임을 시작해볼까요? 🤺</strong><br>이 제품 정가는 ₩150,000입니다.<br>얼마에 사고 싶으세요? 😏<div class="bt"></div></div>
+            <div class="bub out">₩100,000에 살게요!<div class="bt"></div></div>
+            <div class="bub in">하하, 너무하시네요! 😅<br>최대 ₩135,000까지는 가능해요!<div class="bt"></div></div>
+            <div class="bub out">₩120,000은요?<div class="bt"></div></div>
+            <div class="bub in">흠... 특별히 ₩127,500 어때요? 🤝<br>이것이 최선이에요! (10% 할인)<div class="bt"></div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">42%</div><div class="bv-l">참여율</div></div><div class="bv-chip"><div class="bv-n">35%</div><div class="bv-l">구매 전환율</div></div><div class="bv-chip"><div class="bv-n">9%</div><div class="bv-l">평균 최종 할인율</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC26 -->
+  <div class="uc-card" id="uc26">
+    <div class="uc-hdr"><div class="uc-num" style="background:#0f172a">26</div><div><div class="uc-lbl">SECTION F · 창의적 캠페인</div><div class="uc-title">프리오더(사전주문) 컨시어지</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">신제품 출시 전 WA에서 컨시어지 서비스로 사전주문을 완결합니다. 고객이 1:1 VIP 서비스를 받는 느낌을 받으며 사전주문 전환율이 높아집니다.</div>
+        <div class="flow-lbl">📍 고객 여정 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#0f172a">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">신제품 티저 + WA 사전주문 CTA</div><div class="fsd">SNS·광고·이메일에서 WA 연결</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">AI 컨시어지 사전주문 안내</div><div class="fsd">옵션 선택·혜택 안내·결제 정보</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">사전주문 완료 + 확인 발송</div><div class="fsd">WA로 사전주문 확인증 즉시 발송</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">출시 당일 발송 알림</div><div class="fsd">출시 D-day WA 마케팅 템플릿 발송</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#0f172a">🎩</div><div><div class="chat-nm">Brand Concierge</div><div class="chat-st">VIP 컨시어지 서비스</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>VIP 컨시어지 서비스에 오신 걸 환영합니다! 🎩</strong><br>신제품 사전주문을 도와드릴게요.<br><br>어떤 옵션을 원하시나요?<div class="opts"><div class="opt">⚫ 블랙 에디션 (₩289,000)</div><div class="opt">⚪ 화이트 에디션 (₩289,000)</div><div class="opt">🌟 리미티드 골드 (₩349,000)</div></div><div class="bt">즉시</div></div>
+            <div class="bub out">리미티드 골드로 할게요<div class="bt"></div></div>
+            <div class="bub in">훌륭한 선택이에요! ✨<br>리미티드 골드 사전주문 혜택:<br>• 출시 3일 전 수령<br>• 전용 케이스 증정<br>• 무료 각인 서비스<br><br>결제를 진행할까요?<div class="bt"></div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip"><div class="bv-n">27%</div><div class="bv-l">사전주문 전환율</div></div><div class="bv-chip"><div class="bv-n">40%</div><div class="bv-l">첫날 판매 중 사전주문 비율</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION G: 프로액티브 마케팅 (글로벌 전용) -->
+<div class="sec-block section-g" id="section-g">
+  <div class="sec-hdr g-hdr"><div class="sec-badge" style="background:linear-gradient(135deg,#FF5900,#ff7a3a)">G</div><div><div class="sec-title">프로액티브 마케팅 캠페인 <span style="background:#FF5900;color:#fff;font-size:11px;font-weight:800;padding:2px 10px;border-radius:12px;vertical-align:middle;margin-left:8px">🌍 글로벌 전용</span></div><div class="sec-desc">마케팅 템플릿으로 기업이 먼저 고객에게 다가가는 전략 — 미국을 제외한 전 세계에서 실행 가능</div></div></div>
+
+  <!-- UC27 -->
+  <div class="uc-card" id="uc27">
+    <div class="uc-hdr"><div class="uc-num" style="background:linear-gradient(135deg,#FF5900,#ff7a3a)">27</div><div><div class="uc-lbl">SECTION G · 프로액티브 마케팅 · 글로벌 전용</div><div class="uc-title">장바구니 이탈 → WhatsApp 리마인더</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">장바구니에 상품을 담고 구매하지 않은 고객에게 <strong>마케팅 템플릿으로 직접 WA 발신</strong>합니다. 이탈 감지 후 1시간·24시간·72시간 자동화 시리즈로 최대 28%의 이탈 고객을 회수합니다.</div>
+        <div class="flow-lbl g">📍 자동화 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#FF5900">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">장바구니 이탈 감지</div><div class="fsd">웹사이트 이탈·30분 비활동 → 이탈로 판정</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">1시간 후 WA 마케팅 템플릿 발송</div><div class="fsd">장바구니 상품 이미지·가격·재고 수량 포함<div class="ftag orange">마케팅 템플릿 — 글로벌 전용</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">24h 미구매 → 이유 파악 + 혜택</div><div class="fsd">망설임 이유 질문 + 추가 할인 제시</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">72h → 마지막 제안</div><div class="fsd">재고 소진 경고 + 최대 할인 + 구매 링크</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#FF5900">🛒</div><div><div class="chat-nm">Brand Store</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in"><strong>안녕하세요! 🛒</strong><br>장바구니에 상품이 기다리고 있어요!<br><br>📦 [상품명] x1<br>💰 ₩89,000<br>⚠️ 재고: 5개 남음<div class="opts"><div class="opt">🛒 지금 바로 구매하기</div><div class="opt">💬 고민 중이에요</div></div><div class="bt">이탈 후 1시간</div></div>
+            <div class="bub out">고민 중이에요<div class="bt"></div></div>
+            <div class="bub in">무엇이 고민이세요? 😊<div class="opts"><div class="opt">💰 가격이 부담돼요</div><div class="opt">🤔 다른 옵션 비교 중</div><div class="opt">📦 배송이 걱정돼요</div></div><div class="bt"></div></div>
+            <div class="bub out">가격이 부담돼요<div class="bt"></div></div>
+            <div class="bub in">특별히 <strong>10% 추가 할인</strong> 쿠폰을 드릴게요! 🎁<br>코드: BACK10 (24시간 유효)<br>👉 [결제 링크]<div class="bt"></div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip g"><div class="bv-n g">18~28%</div><div class="bv-l">이탈 회수율</div></div><div class="bv-chip g"><div class="bv-n g">4~8x</div><div class="bv-l">ROI</div></div><div class="bv-chip g"><div class="bv-n g">-60%</div><div class="bv-l">이메일 대비 이탈 감소</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC28 -->
+  <div class="uc-card" id="uc28">
+    <div class="uc-hdr"><div class="uc-num" style="background:linear-gradient(135deg,#FF5900,#ff7a3a)">28</div><div><div class="uc-lbl">SECTION G · 프로액티브 마케팅 · 글로벌 전용</div><div class="uc-title">플래시/시즌 세일 브로드캐스트</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">전체 옵트인 고객 또는 세그먼트별로 세일 시작을 WA 마케팅 템플릿으로 브로드캐스트합니다. 이메일 20% vs WA 98% 열람율의 차이를 최대한 활용합니다.</div>
+        <div class="flow-lbl g">📍 자동화 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#FF5900">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">세일 기획 + 고객 세그먼팅</div><div class="fsd">구매 이력·관심사·등급별 세그먼트 분류</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">세일 시작 WA 브로드캐스트</div><div class="fsd">세그먼트별 개인화 상품 포함<div class="ftag orange">마케팅 템플릿 브로드캐스트</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">AI 구매 상담</div><div class="fsd">세일 상품 문의 → AI 즉시 응대 → 구매 전환</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">마감 2시간 전 재알림</div><div class="fsd">미구매 고객 대상 마감 카운트다운 발송</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#FF5900">🔥</div><div><div class="chat-nm">Brand Sale</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in">🔥 <strong>블랙프라이데이 세일 시작!</strong><br><br>지금부터 48시간만!<br>전 품목 최대 60% 할인<br><br>회원님 취향 맞춤 추천:<br>• 이전에 보셨던 [상품A] — 40% 할인 ✅<br>• 자주 구매하시는 [상품B] — 35% 할인 ✅<div class="opts"><div class="opt">🛍️ 내 맞춤 할인 상품 보기</div><div class="opt">🔍 전체 세일 보기</div></div><div class="bt">세일 시작 즉시</div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip g"><div class="bv-n g">85%</div><div class="bv-l">메시지 오픈율</div></div><div class="bv-chip g"><div class="bv-n g">12x</div><div class="bv-l">이메일 대비 ROAS</div></div><div class="bv-chip g"><div class="bv-n g">35%</div><div class="bv-l">세일 매출 기여도</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC29 -->
+  <div class="uc-card" id="uc29">
+    <div class="uc-hdr"><div class="uc-num" style="background:linear-gradient(135deg,#FF5900,#ff7a3a)">29</div><div><div class="uc-lbl">SECTION G · 프로액티브 마케팅 · 글로벌 전용</div><div class="uc-title">구매 후 크로스셀 자동화</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">구매 완료 후 3일·7일·30일 시점에 최적화된 연관 상품 마케팅 템플릿을 자동 발송합니다. 고객 생애 가치(LTV)를 높이는 가장 효율적인 방법입니다.</div>
+        <div class="flow-lbl g">📍 자동화 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#FF5900">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">구매 완료 → CDP 데이터 업데이트</div><div class="fsd">Infobip People CDP에 구매 이력 자동 저장</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">D+3: 사용 후기 + 첫 크로스셀</div><div class="fsd">사용 경험 확인 + 연관 상품 추천<div class="ftag orange">마케팅 템플릿 D+3 자동화</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">D+7: 번들 할인 제안</div><div class="fsd">구매 제품과 세트로 사면 더 좋은 상품 번들</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">D+30: 업셀 + 재구매 유도</div><div class="fsd">프리미엄 업그레이드 또는 리필 상품 추천</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시 (D+3)</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#FF5900">💝</div><div><div class="chat-nm">Brand Store</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in">안녕하세요! 😊<br>[상품명] 구매하신 지 3일이 됐네요.<br>잘 사용하고 계신가요?<br><br>함께 사용하면 더욱 좋은 제품을 추천드려요! ✨<div class="opts"><div class="opt">💝 함께 사면 좋은 상품 보기</div><div class="opt">📱 사용 팁 받기</div></div><div class="bt">구매 3일 후</div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip g"><div class="bv-n g">14%</div><div class="bv-l">크로스셀 전환율</div></div><div class="bv-chip g"><div class="bv-n g">+32%</div><div class="bv-l">고객 생애가치(LTV)</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UC30 -->
+  <div class="uc-card" id="uc30">
+    <div class="uc-hdr"><div class="uc-num" style="background:linear-gradient(135deg,#FF5900,#ff7a3a)">30</div><div><div class="uc-lbl">SECTION G · 프로액티브 마케팅 · 글로벌 전용</div><div class="uc-title">휴면 고객 Win-back 캠페인</div></div></div>
+    <div class="uc-body">
+      <div class="uc-l">
+        <div class="uc-desc">90일 이상 미구매 고객에게 개인화된 Win-back 마케팅 템플릿을 발송합니다. 신규 고객 확보 비용의 20% 수준으로 이탈 고객을 재활성화할 수 있습니다.</div>
+        <div class="flow-lbl g">📍 자동화 플로우</div>
+        <div class="fsteps">
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#FF5900">1</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">휴면 고객 자동 감지</div><div class="fsd">Infobip People CDP: 90일 비구매 세그먼트</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#f59e0b">2</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">개인화 Win-back 발송</div><div class="fsd">마지막 구매 상품·관심 카테고리 기반 맞춤 메시지<div class="ftag orange">마케팅 템플릿 — 고도 개인화</div></div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#3b82f6">3</div><div class="fsl-line"></div></div><div class="fsb"><div class="fst">D+7: 더 강한 인센티브</div><div class="fsd">첫 응답 없을 시 더 큰 할인 쿠폰 발송</div></div></div>
+          <div class="fstep"><div class="fsl"><div class="fsc" style="background:#10b981">4</div></div><div class="fsb"><div class="fst">재활성화 or 채널 정리</div><div class="fsd">재구매 완료 → 정상 여정 복귀 / 미반응 → 옵트아웃</div></div></div>
+        </div>
+      </div>
+      <div class="uc-r">
+        <div class="chat-lbl">💬 대화 예시</div>
+        <div class="chat-win">
+          <div class="chat-bar"><div class="chat-av" style="background:#FF5900">💌</div><div><div class="chat-nm">Brand</div><div class="chat-st">✓ 공식 비즈니스 계정</div></div></div>
+          <div class="chat-msgs">
+            <div class="bub in">오래간만이에요 😊<br>그동안 어떻게 지내셨어요?<br><br>많이 보고 싶었답니다 💌<br>돌아오시면 <strong>특별 환영 쿠폰 20%</strong>를 드릴게요!<br><br>지난번에 관심 보이셨던 [상품명]도 새 버전이 나왔어요 ✨<div class="opts"><div class="opt">🎁 환영 쿠폰 받기</div><div class="opt">🆕 신상품 보기</div></div><div class="bt">휴면 90일 후</div></div>
+            <div class="bub out">환영 쿠폰 받을게요!<div class="bt"></div></div>
+            <div class="bub in">환영합니다! 🎉<br>코드: WELCOME20 (₩150,000 이상 구매 시)<br>유효기간: 7일<br><br>다시 만나서 반가워요 😊<div class="bt"></div></div>
+          </div>
+        </div>
+        <div class="bv"><div class="bv-chip g"><div class="bv-n g">9~15%</div><div class="bv-l">Win-back 전환율</div></div><div class="bv-chip g"><div class="bv-n g">-80%</div><div class="bv-l">신규 대비 재활성화 CAC</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CLOSING BANNER -->
+<div style="background:linear-gradient(135deg,#0d3d2a,#25D366);border-radius:16px;padding:44px 52px;margin-top:32px;text-align:center;color:#fff">
+  <div style="font-size:13px;font-weight:700;letter-spacing:.5px;opacity:.7;margin-bottom:12px">INFOBIP AGENTOS × WHATSAPP</div>
+  <div style="font-size:28px;font-weight:900;margin-bottom:10px">Ready to Start?</div>
+  <div style="font-size:14px;opacity:.8;margin-bottom:28px;line-height:1.7">마케팅 메시지 제한은 위기가 아닌 기회입니다.<br>CTWA로 고객이 먼저 말 걸게 만들고, 글로벌 마케팅 템플릿으로 먼저 다가가세요.</div>
+  <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap">
+    <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:14px 20px;min-width:140px"><div style="font-size:24px;font-weight:900">30+</div><div style="font-size:11px;opacity:.65;margin-top:2px">USE CASES</div></div>
+    <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:14px 20px;min-width:140px"><div style="font-size:24px;font-weight:900">180+</div><div style="font-size:11px;opacity:.65;margin-top:2px">지원 국가</div></div>
+    <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:14px 20px;min-width:140px"><div style="font-size:24px;font-weight:900">98%</div><div style="font-size:11px;opacity:.65;margin-top:2px">WA 열람율</div></div>
+    <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:14px 20px;min-width:140px"><div style="font-size:24px;font-weight:900">24/7</div><div style="font-size:11px;opacity:.65;margin-top:2px">AI 자동 운영</div></div>
+  </div>
+  <div style="margin-top:24px;font-size:12px;opacity:.5">WhatsApp Marketing Use Case Book · Global Edition · Powered by Infobip AgentOS</div>
+</div>
+</main>
+</div>
+<script>
+// Active sidebar link on scroll
+const links = document.querySelectorAll('.sb-link[href^="#"]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.sb-link[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, {threshold: 0.3, rootMargin: '-60px 0px -60% 0px'});
+document.querySelectorAll('[id]').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
