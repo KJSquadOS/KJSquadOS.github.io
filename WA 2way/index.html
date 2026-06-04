@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp × 방한 외국인 마케팅 전략 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0A0A0A;
+  --dark: #1A1A1A;
+  --orange: #FF5200;
+  --orange-light: #FF6B35;
+  --gray: #888;
+  --light-gray: #F5F5F5;
+  --mid-gray: #E8E8E8;
+  --white: #FFFFFF;
+  --green: #22C55E;
+  --blue: #3B82F6;
+  --wa-green: #25D366;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  background: #F0F0F0;
+  color: var(--dark);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.page {
+  width: 900px;
+  margin: 30px auto;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 40px rgba(0,0,0,.12);
+}
+
+/* ── COVER ── */
+.cover {
+  background: var(--black);
+  padding: 70px 60px;
+  position: relative;
+  overflow: hidden;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(255,82,0,.3) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.cover::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: 30%;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(37,211,102,.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.cover-top { position: relative; z-index: 2; }
+.cover-logos {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.logo-wa {
+  width: 44px; height: 44px;
+  background: var(--wa-green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+.cover-title {
+  color: white;
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  margin-bottom: 14px;
+}
+.cover-title span { color: var(--orange); }
+.cover-sub {
+  color: rgba(255,255,255,.55);
+  font-size: 15px;
+  font-weight: 400;
+  margin-bottom: 32px;
+  max-width: 550px;
+  line-height: 1.6;
+}
+.cover-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.cover-tag {
+  border: 1px solid rgba(255,255,255,.2);
+  color: rgba(255,255,255,.7);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+.cover-bottom {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding-top: 20px;
+  margin-top: 30px;
+}
+.cover-meta { color: rgba(255,255,255,.4); font-size: 11px; }
+.cover-meta strong { color: rgba(255,255,255,.7); display: block; }
+
+/* ── SECTIONS ── */
+.section { padding: 48px 60px; border-bottom: 1px solid var(--mid-gray); }
+.section:last-child { border-bottom: none; }
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.section-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--black);
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+.section-desc {
+  color: var(--gray);
+  font-size: 15px;
+  margin-bottom: 28px;
+  max-width: 560px;
+  line-height: 1.65;
+}
+
+/* ── STAT CARDS ── */
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+.stat-card {
+  background: var(--light-gray);
+  border-radius: 11px;
+  padding: 20px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card.accent { background: var(--black); color: white; }
+.stat-card.wa { background: var(--wa-green); color: white; }
+.stat-card.orange { background: var(--orange); color: white; }
+.stat-num { font-size: 26px; font-weight: 900; letter-spacing: -1px; line-height: 1; margin-bottom: 5px; }
+.stat-card.accent .stat-num, .stat-card.wa .stat-num, .stat-card.orange .stat-num { color: white; }
+.stat-label { font-size: 10px; color: var(--gray); font-weight: 500; line-height: 1.4; }
+.stat-card.accent .stat-label, .stat-card.wa .stat-label, .stat-card.orange .stat-label { color: rgba(255,255,255,.75); }
+.stat-badge { position: absolute; top: 10px; right: 10px; font-size: 9px; font-weight: 700; background: rgba(255,255,255,.2); padding: 2px 8px; border-radius: 10px; }
+
+/* ── FUNNEL ── */
+.funnel-wrap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid var(--mid-gray);
+}
+.funnel-col { padding: 24px 20px; position: relative; }
+.funnel-col:not(:last-child) { border-right: 2px solid var(--mid-gray); }
+.funnel-col.phase1 { background: #FFF8F5; }
+.funnel-col.phase2 { background: #F0FFF4; }
+.funnel-col.phase3 { background: #F0F8FF; }
+.funnel-phase { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+.phase1 .funnel-phase { color: var(--orange); }
+.phase2 .funnel-phase { color: var(--wa-green); }
+.phase3 .funnel-phase { color: var(--blue); }
+.funnel-heading { font-size: 15px; font-weight: 800; margin-bottom: 3px; color: var(--black); }
+.funnel-sub { font-size: 10px; color: var(--gray); margin-bottom: 16px; }
+.funnel-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 10px; font-size: 11px; line-height: 1.5; color: #333; }
+.funnel-dot { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 9px; margin-top: 1px; }
+.phase1 .funnel-dot { background: var(--orange); color: white; }
+.phase2 .funnel-dot { background: var(--wa-green); color: white; }
+.phase3 .funnel-dot { background: var(--blue); color: white; }
+
+/* ── AD FLOW ── */
+.ad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.ad-card { border: 1.5px solid var(--mid-gray); border-radius: 12px; padding: 20px; transition: border-color .2s; }
+.ad-card:hover { border-color: var(--orange); }
+.ad-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
+.ad-icon.fb { background: linear-gradient(135deg, #1877F2, #0A5CC7); }
+.ad-icon.ig { background: linear-gradient(135deg, #F58529, #DD2A7B, #8134AF); }
+.ad-icon.tt { background: #010101; }
+.ad-title { font-size: 13px; font-weight: 800; margin-bottom: 6px; }
+.ad-type { display: inline-block; background: var(--orange); color: white; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-bottom: 10px; }
+.ad-target { font-size: 11px; color: var(--gray); line-height: 1.6; }
+.ad-target strong { color: var(--dark); font-weight: 600; }
+.ad-cta { display: block; width: 100%; padding: 8px; border-radius: 6px; border: none; font-size: 11px; font-weight: 700; color: #fff; cursor: pointer; margin-top: 10px; }
+.ad-cta.fb { background: #0866FF; }
+.ad-cta.ig { background: linear-gradient(90deg,#F58529,#DD2A7B); }
+.ad-cta.tt { background: #010101; }
+
+/* ── USE CASE CARDS ── */
+.uc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.uc-card { border: 1.5px solid var(--mid-gray); border-radius: 12px; overflow: hidden; }
+.uc-card.span { grid-column: 1 / -1; }
+.uc-header { padding: 14px 18px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--mid-gray); }
+.uc-icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.uc-title { font-size: 14px; font-weight: 700; }
+.uc-subtitle { font-size: 10px; color: var(--gray); font-weight: 400; }
+.uc-body { padding: 12px 18px; font-size: 13px; color: #444; line-height: 1.65; }
+.uc-body ul { padding-left: 16px; margin: 6px 0; }
+.uc-body ul li { margin-bottom: 4px; }
+.uc-meta { padding: 8px 18px; border-top: 1px solid var(--mid-gray); display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+.uc-badge { background: #e8f5e9; color: #2e7d32; border-radius: 10px; padding: 3px 10px; font-size: 10px; font-weight: 700; }
+
+/* ── KPI ── */
+.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.kpi-card { border-radius: 12px; padding: 22px 18px; border: 1.5px solid var(--mid-gray); position: relative; overflow: hidden; }
+.kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.kpi-card.o::before { background: var(--orange); }
+.kpi-card.g::before { background: var(--wa-green); }
+.kpi-card.b::before { background: var(--blue); }
+.kpi-phase { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px; }
+.kpi-card.o .kpi-phase { color: var(--orange); }
+.kpi-card.g .kpi-phase { color: var(--wa-green); }
+.kpi-card.b .kpi-phase { color: var(--blue); }
+.kpi-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--mid-gray); font-size: 12px; }
+.kpi-item:last-child { border-bottom: none; }
+.kpi-metric { color: #444; }
+.kpi-val { font-weight: 800; color: var(--black); }
+
+/* ── DEMO PHONES ── */
+.demo-phones { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.phone-col { }
+.phone-label { font-size: 10px; font-weight: 700; text-align: center; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; }
+.phone-label.p1 { color: var(--orange); }
+.phone-label.p2 { color: var(--wa-green); }
+.phone-label.p3 { color: var(--blue); }
+.phone-frame { background: #1c1c1e; border-radius: 32px; padding: 9px; box-shadow: 0 12px 40px rgba(0,0,0,.3); position: relative; }
+.phone-screen { background: #ece5dd; border-radius: 22px; overflow: hidden; height: 400px; display: flex; flex-direction: column; }
+.phone-header { background: #075e54; padding: 24px 10px 8px; display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.wa-avatar { width: 26px; height: 26px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+.wa-name { font-size: 10px; font-weight: 700; color: #fff; }
+.chat-body { flex: 1; overflow-y: auto; padding: 6px 8px; display: flex; flex-direction: column; gap: 4px; }
+.chat-body::-webkit-scrollbar { width: 2px; }
+.date-chip { font-size: 8px; color: #555; background: rgba(255,255,255,.5); padding: 2px 7px; border-radius: 4px; align-self: center; margin: 2px 0; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.msg-bbl { max-width: 85%; padding: 6px 10px 4px; font-size: 11px; line-height: 1.5; flex-shrink: 0; animation: slideUp .25s ease both; }
+.msg-bbl.bot { background: #fff; border-radius: 2px 8px 8px 8px; align-self: flex-start; box-shadow: 0 1px 2px rgba(0,0,0,.08); color: #222; }
+.msg-bbl.usr { background: #dcf8c6; border-radius: 8px 2px 8px 8px; align-self: flex-end; color: #222; }
+.msg-ts { font-size: 7px; color: #bbb; text-align: right; margin-top: 2px; }
+.msg-bbl.usr .msg-ts { color: #6eb257; }
+.typing-ind { background: #fff; border-radius: 2px 8px 8px 8px; padding: 6px 10px; align-self: flex-start; display: flex; gap: 3px; align-items: center; }
+.dot { width: 5px; height: 5px; background: #ccc; border-radius: 50%; animation: bounce 1s infinite; }
+.dot:nth-child(2) { animation-delay: .17s; }
+.dot:nth-child(3) { animation-delay: .34s; }
+@keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-4px); } }
+.choices-wrap { align-self: flex-start; display: flex; flex-direction: column; gap: 2px; max-width: 85%; flex-shrink: 0; animation: slideUp .25s ease both; }
+.choice-btn { background: #fff; border: 1.5px solid #128C7E; color: #128C7E; border-radius: 12px; padding: 3px 8px; font-size: 8px; font-weight: 600; text-align: center; }
+.choice-btn.sel { background: #128C7E; color: #fff; }
+.coupon-card { background: linear-gradient(135deg, #FF5200, #FF7A45); border-radius: 6px; padding: 7px 8px; margin: 2px 0; color: #fff; }
+.coupon-hd { font-size: 6.5px; font-weight: 700; opacity: .8; letter-spacing: .6px; margin-bottom: 2px; }
+.coupon-row { display: flex; justify-content: space-between; align-items: center; }
+.coupon-code { font-size: 11px; font-weight: 900; letter-spacing: 1px; }
+.coupon-sub { font-size: 6.5px; opacity: .8; margin-top: 1px; }
+.coupon-pct { font-size: 18px; font-weight: 900; line-height: 1; text-align: right; }
+/* overlay */
+.phone-overlay { position: absolute; inset: 9px; border-radius: 22px; background: rgba(0,0,0,.5); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; z-index: 10; cursor: pointer; transition: opacity .35s; }
+.phone-overlay.off { opacity: 0; pointer-events: none; }
+.play-btn { width: 42px; height: 42px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff; box-shadow: 0 4px 18px rgba(37,211,102,.4); }
+.play-label { color: #fff; font-size: 10px; font-weight: 700; }
+.replay-btn { background: var(--light-gray); border: 1px solid var(--mid-gray); border-radius: 12px; padding: 6px 12px; font-size: 10px; color: var(--gray); cursor: pointer; display: none; margin-top: 6px; font-family: inherit; transition: all .2s; }
+.replay-btn:hover { background: var(--orange); color: #fff; border-color: var(--orange); }
+.replay-btn.show { display: inline-block; }
+.phone-desc { font-size: 12px; color: var(--gray); line-height: 1.6; margin-top: 10px; }
+.phone-desc strong { color: var(--dark); }
+
+/* ── CTA ── */
+.cta-banner { background: var(--black); border-radius: 14px; padding: 32px 36px; }
+.cta-left { color: #fff; flex: 1; }
+.cta-left h3 { font-size: 18px; font-weight: 800; letter-spacing: -.3px; margin-bottom: 6px; }
+.cta-left p { font-size: 12px; color: rgba(255,255,255,.55); line-height: 1.65; max-width: 400px; }
+.cta-left .chips { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+.cta-left .chip { font-size: 11px; color: rgba(255,255,255,.5); }
+.cta-left .chip span { color: var(--wa-green); font-weight: 700; margin-right: 3px; }
+.cta-right { text-align: center; flex-shrink: 0; }
+.cta-right .lbl { font-size: 12px; font-weight: 700; color: var(--wa-green); margin-bottom: 4px; }
+.cta-right .dm { font-size: 24px; font-weight: 900; color: #fff; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: 10px; padding: 8px 20px; display: inline-block; }
+
+/* ── DIVIDER ── */
+.sep { display: flex; align-items: center; gap: 12px; margin: 8px 0; }
+.sep-line { flex: 1; height: 1px; background: var(--mid-gray); }
+.sep-label { font-size: 10px; color: #bbb; letter-spacing: 1px; white-space: nowrap; }
+
+/* ── FOOTER ── */
+.footer { background: var(--black); padding: 24px 60px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-left { color: rgba(255,255,255,.4); font-size: 11px; }
+.footer-left strong { color: #fff; display: block; font-size: 12px; margin-bottom: 2px; }
+.footer-tag { border: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.4); padding: 3px 10px; border-radius: 10px; font-size: 10px; }
+
+@media print {
+  .page { margin: 0; box-shadow: none; border-radius: 0; }
+  body { background: white; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ COVER ═══ -->
+  <div class="cover">
+    <div class="cover-top">
+      <div class="cover-logos">
+        <div class="logo-wa">💬</div>
+        <span style="color:rgba(255,255,255,.3);font-size:12px;font-weight:600">WhatsApp Business API</span>
+      </div>
+      <div class="cover-title">
+        방한 외국인 <span>인바운드 마케팅</span>
+      </div>
+      <div class="cover-sub">
+        2,036만 방한 외국인 시대 — FB/Instagram/TikTok 광고에서 시작해<br>
+        WhatsApp 하나로 오프라인 매장 방문까지 연결하는 3단계 Full Funnel 전략
+      </div>
+      <div class="cover-tags">
+        <span class="cover-tag">K-Beauty</span>
+        <span class="cover-tag">K-Fashion</span>
+        <span class="cover-tag">E-commerce</span>
+        <span class="cover-tag">WhatsApp Business API</span>
+        <span class="cover-tag">Inbound Tourism 2026</span>
+      </div>
+    </div>
+    <div class="cover-bottom">
+      <div class="cover-meta">
+        <strong>Presented by Infobip Korea</strong>
+        APAC KJ Squad · 2026
+      </div>
+      <div class="cover-meta" style="text-align:right">
+        <strong>뷰티 · 패션 · 이커머스 업계 대상</strong>
+        방한 외국인 고객 유치 전략
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ WHY NOW ═══ -->
+  <div class="section">
+    <div class="section-label">Market Opportunity</div>
+    <div class="section-title">지금이 방한 외국인 마케팅의 타이밍인 이유</div>
+    <div class="section-desc">2026년 방한 외국인은 역대 최고치를 기록 중입니다. 이들은 이미 WhatsApp을 켜고 입국합니다.</div>
+
+    <div class="stat-grid">
+      <div class="stat-card orange">
+        <div class="stat-badge">2026 전망</div>
+        <div class="stat-num">2,036<span style="font-size:15px">만 명</span></div>
+        <div class="stat-label">방한 외국인 (역대 최고)</div>
+      </div>
+      <div class="stat-card accent">
+        <div class="stat-badge">Q1 2026</div>
+        <div class="stat-num">476<span style="font-size:15px">만 명</span></div>
+        <div class="stat-label">1분기 입국자 +23% YoY<br>분기 사상 최고</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--dark)">1.15<span style="font-size:15px">조 원</span></div>
+        <div class="stat-label" style="color:var(--gray)">4월 서울 외국인 카드 지출<br>전년 대비 +23%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--dark)">74<span style="font-size:15px">%</span></div>
+        <div class="stat-label" style="color:var(--gray)">방한 MZ 외국인 중<br>K-뷰티·패션 구매 의향</div>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card wa">
+        <div class="stat-num">98<span style="font-size:15px">%</span></div>
+        <div class="stat-label">WhatsApp 메시지 오픈율<br>(이메일 20% 대비)</div>
+      </div>
+      <div class="stat-card wa">
+        <div class="stat-num">45~60<span style="font-size:15px">%</span></div>
+        <div class="stat-label">WhatsApp 클릭률<br>(이메일 3% 대비 15배)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--dark)">70<span style="font-size:15px">%+</span></div>
+        <div class="stat-label" style="color:var(--gray)">동남아·중동·유럽 방문객<br>WhatsApp 사용률</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--dark)">30<span style="font-size:15px">억 명</span></div>
+        <div class="stat-label" style="color:var(--gray)">WhatsApp 전 세계<br>월간 활성 유저</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ STRATEGY OVERVIEW ═══ -->
+  <div class="section">
+    <div class="section-label">Strategy Framework</div>
+    <div class="section-title">3단계 WhatsApp Full Funnel</div>
+    <div class="section-desc">출발국 FB/IG/TikTok 광고부터 귀국 후 재방문 유도까지 — 전체 고객 여정을 WhatsApp 하나로 연결합니다.</div>
+
+    <div class="funnel-wrap">
+      <div class="funnel-col phase1">
+        <div class="funnel-phase">Phase 1</div>
+        <div class="funnel-heading">PRE-ARRIVAL</div>
+        <div class="funnel-sub">한국 오기 전 · 구독자 확보 + 쿠폰 선발급</div>
+        <div class="funnel-item"><div class="funnel-dot">1</div>FB/Instagram/TikTok 광고 → WhatsApp 연결</div>
+        <div class="funnel-item"><div class="funnel-dot">2</div>챗봇으로 방문일정·숙소·취향 수집</div>
+        <div class="funnel-item"><div class="funnel-dot">3</div>회원가입 유도</div>
+        <div class="funnel-item"><div class="funnel-dot">4</div>웰컴 쿠폰 즉시 발급 + D-3 리마인더</div>
+      </div>
+      <div class="funnel-col phase2">
+        <div class="funnel-phase">Phase 2</div>
+        <div class="funnel-heading">ON-GROUND</div>
+        <div class="funnel-sub">한국 체류 중 · 매장 방문 유도</div>
+        <div class="funnel-item"><div class="funnel-dot">1</div>방문일 기준 도착 트리거 자동 발송</div>
+        <div class="funnel-item"><div class="funnel-dot">2</div>핫 아이템 + 쿠폰 활성화 안내</div>
+        <div class="funnel-item"><div class="funnel-dot">3</div>체류 기간 일별 Flash Deal</div>
+        <div class="funnel-item"><div class="funnel-dot">4</div>현장 QR → 가입 + 당일 쿠폰</div>
+      </div>
+      <div class="funnel-col phase3">
+        <div class="funnel-phase">Phase 3</div>
+        <div class="funnel-heading">POST-VISIT</div>
+        <div class="funnel-sub">귀국 후 · 재구매 &amp; 재방문 유도</div>
+        <div class="funnel-item"><div class="funnel-dot">1</div>귀국 감지 → 자동 시퀀스 시작</div>
+        <div class="funnel-item"><div class="funnel-dot">2</div>온라인 배송 제안 + 쿠폰 만료 알림</div>
+        <div class="funnel-item"><div class="funnel-dot">3</div>재방한 서베이 (D+14)</div>
+        <div class="funnel-item"><div class="funnel-dot">4</div>VIP 쿠폰 + 지인 추천 바이럴</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ AD CREATIVES ═══ -->
+  <div class="section">
+    <div class="section-label">Ad → WhatsApp Flow</div>
+    <div class="section-title">광고 클릭 한 번으로 WhatsApp 자동 연결</div>
+    <div class="section-desc">FB/Instagram/TikTok 광고에서 "Send WhatsApp Message" 클릭 시 WhatsApp이 즉시 열리고 챗봇이 시작됩니다. 앱 설치 불필요.</div>
+
+    <div class="ad-grid">
+      <div class="ad-card">
+        <div class="ad-icon fb">📘</div>
+        <div class="ad-title">Facebook Feed</div>
+        <div class="ad-type">Click-to-WhatsApp</div>
+        <div class="ad-target">
+          <strong>타겟:</strong> 한국 여행·K-뷰티·K-패션 관심층<br><br>
+          <strong>소재:</strong> 브랜드 룩북 · 스킨케어 제품<br>
+          <strong>CTA:</strong> "Get your Seoul guide on WhatsApp"
+        </div>
+        <button class="ad-cta fb">💬 Send WhatsApp Message</button>
+      </div>
+      <div class="ad-card">
+        <div class="ad-icon ig">📷</div>
+        <div class="ad-title">Instagram Story</div>
+        <div class="ad-type">Click-to-WhatsApp</div>
+        <div class="ad-target">
+          <strong>타겟:</strong> #kbeauty #kfashion #seoul 고관여층<br><br>
+          <strong>소재:</strong> 스토리 하이라이트 · 스와이프 업<br>
+          <strong>CTA:</strong> "Shop Korea before you land"
+        </div>
+        <button class="ad-cta ig">💬 Message on WhatsApp</button>
+      </div>
+      <div class="ad-card">
+        <div class="ad-icon tt">🎵</div>
+        <div class="ad-title">TikTok</div>
+        <div class="ad-type">Lead Gen → WhatsApp</div>
+        <div class="ad-target">
+          <strong>포맷:</strong> In-Feed Video · Spark Ads<br><br>
+          <strong>소재:</strong> "서울 쇼핑 꿀팁" 스타일 콘텐츠<br>
+          <strong>CTA:</strong> "FREE Seoul guide on WhatsApp →"
+        </div>
+        <button class="ad-cta tt">♪ Chat on WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ USE CASES ═══ -->
+  <div class="section">
+    <div class="section-label">Use Cases</div>
+    <div class="section-title">업종별 WhatsApp 적용 사례</div>
+    <div class="section-desc">실제 고객 Pain Point에서 출발한 WhatsApp 마케팅 3가지</div>
+
+    <div class="uc-grid">
+      <div class="uc-card">
+        <div class="uc-header" style="border-left:4px solid #FF5200">
+          <div class="uc-icon" style="background:#fff0eb">💄</div>
+          <div><div class="uc-title">K-뷰티 · 화장품 브랜드</div><div class="uc-subtitle">AI 피부 진단 → 맞춤 추천 → 재구매</div></div>
+        </div>
+        <div class="uc-body">
+          <b>Pain Point:</b> 수백 개 K-뷰티 제품 중 내 피부에 맞는 걸 모름. 언어 장벽으로 매장 직원과 소통 불가.<br><br>
+          <b>WhatsApp Solution:</b>
+          <ul>
+            <li><b>5문항 피부 진단</b> 챗봇 (건성/지성/복합성/민감성) → 맞춤 제품 리스트 + 쿠폰</li>
+            <li>매장에서 제품 사진 찍어 보내면 AI가 성분·효능 <b>실시간 설명</b> (CICA, 나이아신, 레티놀 등)</li>
+            <li>귀국 후 "다 써갈 때" <b>리필 알림</b> + 전 세계 배송 연결 → 재구매율 15~25%</li>
+          </ul>
+        </div>
+        <div class="uc-meta"><span>챗봇 완료율 <b>65~80%</b> · 재구매율 <b>15~25%</b></span><span class="uc-badge">뷰티 · 화장품</span></div>
+      </div>
+      <div class="uc-card">
+        <div class="uc-header" style="border-left:4px solid #25D366">
+          <div class="uc-icon" style="background:#e8f5e9">👗</div>
+          <div><div class="uc-title">패션 · 이커머스 플랫폼</div><div class="uc-subtitle">출발 전 구독 → 오프라인 매장 방문 유도</div></div>
+        </div>
+        <div class="uc-body">
+          <b>Pain Point:</b> 브랜드·매장 정보 부족, 쇼핑 동선 계획 불가. 앱 설치 부담.<br><br>
+          <b>WhatsApp Solution:</b>
+          <ul>
+            <li>광고 클릭으로 <b>즉시 WhatsApp 연결</b> → 스타일 취향·숙소 지역 수집</li>
+            <li>도착 당일 <b>자동 트리거</b>: 핫 아이템 + 15% 쿠폰 활성화 + 매장 지도</li>
+            <li><b>WhatsApp Catalog</b>으로 채팅 안에서 상품 보기·장바구니·결제 링크</li>
+          </ul>
+        </div>
+        <div class="uc-meta"><span>매장 전환율 <b>25~40%</b> · 쿠폰 사용률 <b>40~60%</b></span><span class="uc-badge">패션 · 이커머스</span></div>
+      </div>
+      <div class="uc-card span">
+        <div class="uc-header" style="border-left:4px solid #3b82f6">
+          <div class="uc-icon" style="background:#e3f2fd">🏪</div>
+          <div><div class="uc-title">오프라인 리테일 · 드러그스토어</div><div class="uc-subtitle">매장 QR 하나로 신규 외국인 고객 즉시 유입</div></div>
+        </div>
+        <div class="uc-body">
+          <b>Pain Point:</b> 한 번 방문하고 연락 두절. 재방문·리뷰·재구매 유도 불가. 외국인 고객 DB 부재.<br><br>
+          <b>WhatsApp Solution:</b>
+          <ul>
+            <li>계산대 QR 스캔 → <b>1분 내 가입</b> (10~18%) + 당일 쿠폰 즉시 발급</li>
+            <li>가입 즉시 <b>TAX FREE 세금환급</b> 안내 자동 발송 (외국인 최대 관심사)</li>
+            <li>귀국 후 월 1회 <b>K-트렌드 뉴스레터</b> + VIP 재방문 쿠폰 → 재방문 30~40%</li>
+          </ul>
+        </div>
+        <div class="uc-meta"><span>현장 가입률 <b>10~18%</b> · 재방문 의향 <b>30~40%</b></span><span class="uc-badge">리테일 · 드러그스토어</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ EXPECTED RESULTS ═══ -->
+  <div class="section">
+    <div class="section-label">Expected Results</div>
+    <div class="section-title">단계별 예상 성과 지표</div>
+    <div class="section-desc">WhatsApp Business API 글로벌 뷰티 · 패션 · 리테일 캠페인 벤치마크 기준</div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card o"><div class="kpi-phase">Phase 1 · Pre-Arrival</div><div class="kpi-item"><span class="kpi-metric">WhatsApp 옵트인율</span><span class="kpi-val">15~25%</span></div><div class="kpi-item"><span class="kpi-metric">챗봇 완료율</span><span class="kpi-val">60~75%</span></div><div class="kpi-item"><span class="kpi-metric">회원가입 전환율</span><span class="kpi-val">35~50%</span></div><div class="kpi-item"><span class="kpi-metric">메시지 오픈율</span><span class="kpi-val">98%</span></div></div>
+      <div class="kpi-card g"><div class="kpi-phase">Phase 2 · On-Ground</div><div class="kpi-item"><span class="kpi-metric">도착 트리거 반응율</span><span class="kpi-val">55~70%</span></div><div class="kpi-item"><span class="kpi-metric">매장 방문 전환율</span><span class="kpi-val">25~40%</span></div><div class="kpi-item"><span class="kpi-metric">쿠폰 사용률</span><span class="kpi-val">40~60%</span></div><div class="kpi-item"><span class="kpi-metric">현장 QR 가입률</span><span class="kpi-val">8~15%</span></div></div>
+      <div class="kpi-card b"><div class="kpi-phase">Phase 3 · Post-Visit</div><div class="kpi-item"><span class="kpi-metric">귀국 후 응답률</span><span class="kpi-val">40~55%</span></div><div class="kpi-item"><span class="kpi-metric">온라인 재구매율</span><span class="kpi-val">15~25%</span></div><div class="kpi-item"><span class="kpi-metric">서베이 응답률</span><span class="kpi-val">30~45%</span></div><div class="kpi-item"><span class="kpi-metric">재방문 예약 의향</span><span class="kpi-val">25~35%</span></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ LIVE DEMO ═══ -->
+  <div class="section">
+    <div class="section-label">Live Demo</div>
+    <div class="section-title">3단계 WhatsApp 챗봇 데모</div>
+    <div class="section-desc">폰을 클릭하면 실제 WhatsApp 대화 흐름이 자동 재생됩니다.</div>
+
+    <div class="demo-phones">
+      <div class="phone-col">
+        <div class="phone-label p1">Phase 1 · 방문 전</div>
+        <div class="phone-frame">
+          <div class="phone-overlay" id="p1Ov" onclick="phStart('p1')"><div class="play-btn">▶</div><div class="play-label">클릭</div></div>
+          <div class="phone-screen">
+            <div class="phone-header"><div class="wa-avatar">🏪</div><div class="wa-name">Brand Official</div></div>
+            <div class="chat-body" id="p1Body"><div class="date-chip">Today</div></div>
+          </div>
+        </div>
+        <button class="replay-btn" id="p1Rp" onclick="phReplay('p1')">↺ 다시 보기</button>
+        <div class="phone-desc"><strong>방문 정보 수집 + 쿠폰 발급</strong><br>광고 → 일정·숙소·취향 → 가입 → 15% 쿠폰 발송</div>
+      </div>
+      <div class="phone-col">
+        <div class="phone-label p2">Phase 2 · 도착</div>
+        <div class="phone-frame">
+          <div class="phone-overlay" id="p2Ov" onclick="phStart('p2')"><div class="play-btn">▶</div><div class="play-label">클릭</div></div>
+          <div class="phone-screen">
+            <div class="phone-header"><div class="wa-avatar">🏪</div><div class="wa-name">Brand Official</div></div>
+            <div class="chat-body" id="p2Body"><div class="date-chip">Arrival Day</div></div>
+          </div>
+        </div>
+        <button class="replay-btn" id="p2Rp" onclick="phReplay('p2')">↺ 다시 보기</button>
+        <div class="phone-desc"><strong>도착 트리거 + 핫 아이템</strong><br>날짜 기준 자동 도착 확인 → 오늘의 상품 추천</div>
+      </div>
+      <div class="phone-col">
+        <div class="phone-label p3">Phase 3 · 귀국</div>
+        <div class="phone-frame">
+          <div class="phone-overlay" id="p3Ov" onclick="phStart('p3')"><div class="play-btn">▶</div><div class="play-label">클릭</div></div>
+          <div class="phone-screen">
+            <div class="phone-header"><div class="wa-avatar">🏪</div><div class="wa-name">Brand Official</div></div>
+            <div class="chat-body" id="p3Body"><div class="date-chip">After return</div></div>
+          </div>
+        </div>
+        <button class="replay-btn" id="p3Rp" onclick="phReplay('p3')">↺ 다시 보기</button>
+        <div class="phone-desc"><strong>재방문 유도</strong><br>서베이 → 세그먼트 → VIP 쿠폰 → 바이럴</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CTA ═══ -->
+  <div class="section">
+    <div class="cta-banner">
+      <div class="cta-left">
+        <h3>한국에 방문하는 외국인 고객을<br>WhatsApp 하나로 연결하세요</h3>
+        <p>FB/Instagram/TikTok 광고 → 챗봇 · 카탈로그 · 위치 공유 · 쿠폰 발급 · 귀국 후 자동 시퀀스까지. WhatsApp Business API만 있으면 지금 당장 시작 가능합니다.</p>
+        <div class="chips">
+          <span class="chip"><span>✓</span> 앱 개발 불필요</span>
+          <span class="chip"><span>✓</span> 제휴 계약 불필요</span>
+          <span class="chip"><span>✓</span> 내일 당장 시작 가능</span>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="footer">
+    <div class="footer-left">
+      <strong>Infobip Korea · APAC KJ Squad</strong>
+      WhatsApp Business API · Chatbot Automation · Campaign Management
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <span class="footer-tag">WhatsApp Business API</span>
+      <span class="footer-tag">K-Beauty</span>
+      <span class="footer-tag">Inbound 2026</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var _p={};
+function _t(){var d=new Date();return d.getHours()+':'+(d.getMinutes()<10?'0':'')+d.getMinutes();}
+function _b(id){return document.getElementById(id+'Body');}
+function _m(id,h,u){var b=_b(id),e=document.createElement('div');e.className='msg-bbl '+(u?'usr':'bot');e.innerHTML=h+'<div class="msg-ts">'+(u?'✓✓ ':'')+_t()+'</div>';b.appendChild(e);b.scrollTop=b.scrollHeight;}
+function _c(id,o,s){var b=_b(id),w=document.createElement('div');w.className='choices-wrap';o.forEach(function(x,i){var n=document.createElement('div');n.className='choice-btn'+(i===s?' sel':'');n.textContent=x;w.appendChild(n);});b.appendChild(w);b.scrollTop=b.scrollHeight;}
+function _k(id){var b=_b(id),t=document.createElement('div');t.className='typing-ind';t.innerHTML='<div class="dot"></div><div class="dot"></div><div class="dot"></div>';b.appendChild(t);b.scrollTop=b.scrollHeight;}
+function _x(id){var t=document.querySelector('#'+id+'Body .typing-ind');if(t)t.remove();}
+function _w(id,h){var b=_b(id),e=document.createElement('div');e.className='msg-bbl bot';e.innerHTML=h+'<div class="msg-ts">'+_t()+'</div>';b.appendChild(e);b.scrollTop=b.scrollHeight;}
+function _run(id,q,i){if(i>=q.length){_p[id].d=true;_p[id].r=false;document.getElementById(id+'Rp').classList.add('show');return;}var s=q[i],nx=function(){_run(id,q,i+1);};if(s[0]==='b'){_k(id);setTimeout(function(){_x(id);_m(id,s[1],false);setTimeout(nx,220);},s[2]||750);}else if(s[0]==='u'){setTimeout(function(){_m(id,s[1],true);setTimeout(nx,260);},350);}else if(s[0]==='c'){_c(id,s[1],s[2]);setTimeout(nx,s[3]||680);}else if(s[0]==='r'){setTimeout(function(){_w(id,s[1]);setTimeout(nx,220);},s[2]||500);}}
+var Q1=[
+['b','👋 Welcome! Your Seoul guide awaits!<br>Reply <b>YES</b> to start!',700],
+['u','YES! 🙌'],
+['b','📅 When are you arriving in Korea?<br><span style="color:#999;font-size:8px">e.g. July 10, 2026</span>',700],
+['u','July 10, 2026 ✈️'],
+['b','📍 Where are you staying in Seoul?',650],
+['c',['1. Myeongdong','2. Hongdae','3. Gangnam','4. Itaewon'],1,600],
+['u','2. Hongdae 🏠'],
+['b','🎉 We\'re just 3 min walk away!<br><br>Create your free account → get 15% OFF coupon!<br>👉 <span style="color:#128C7E">brand.com/join</span>',800],
+['u','✅ Done!'],
+['r','🎉 <b>Welcome to the club!</b><br><br><div class="coupon-card"><div class="coupon-hd">🏷️ WELCOME COUPON</div><div class="coupon-row"><div><div class="coupon-code">WA-2026</div><div class="coupon-sub">All stores · July 10~14</div></div><div class="coupon-pct">15%<br><span style="font-size:6px">OFF</span></div></div></div>',350]];
+var Q2=[
+['b','🇰🇷 <b>TODAY is the day!</b><br>Are you in Seoul yet?',650],
+['c',['1. Just arrived! 🙌','2. Arriving later','3. Changed plans'],0,600],
+['u','1. Just arrived! 🙌'],
+['b','🔥 <b>Today\'s hottest picks near Hongdae:</b><br>👕 Best-seller — Limited stock<br>🧥 New arrival — Staff pick ⭐',700],
+['b','<b>Your coupon is NOW ACTIVE:</b><br><br><div style="background:#e8f5e9;border-radius:5px;padding:7px;border-left:3px solid #25D366"><b style="font-size:9px;color:#1b5e20">WA-2026 · 15% OFF</b><br><span style="font-size:7px;color:#555">Show this chat at checkout</span></div><br>📍 Our store · 3 min walk · Open 11~9PM',800]];
+var Q3=[
+['b','✈️ <b>Hope Seoul was amazing!</b><br>Did you make it back safely?',650],
+['c',['1. Yes, back home! 🏠','2. Still in Korea 😄'],0,600],
+['u','1. Yes, back home! 🏠'],
+['b','🛍️ Didn\'t grab everything?<br>We ship worldwide 🌍<br><br>Your <b>WA-2026</b> coupon works online too!',750],
+['b','📊 <b>Quick survey:</b><br>Planning to visit Korea again?',650],
+['c',['1. Within 3 months 🔥','2. 6 months','3. 1 year','4. Not sure'],0,600],
+['u','1. Within 3 months 🔥'],
+['b','🎉 <b>VIP Return Member!</b> Here\'s your special coupon:',600],
+['r','<div class="coupon-card"><div class="coupon-hd">⭐ VIP RETURN COUPON</div><div class="coupon-row"><div><div class="coupon-code">VIP-2026</div><div class="coupon-sub">Next Korea visit · All stores</div></div><div class="coupon-pct">20%<br><span style="font-size:6px">OFF</span></div></div></div>',300],
+['b','👯 Know someone visiting Korea?<br><br>Share → They get 15% OFF<br>You get loyalty points 🎁',700]];
+var QS={p1:Q1,p2:Q2,p3:Q3};var DL={p1:'Today',p2:'Arrival Day',p3:'After return'};
+function phStart(id){if(!_p[id])_p[id]={r:false,d:false};if(_p[id].r||_p[id].d)return;_p[id].r=true;document.getElementById(id+'Ov').classList.add('off');_run(id,QS[id],0);}
+function phReplay(id){_p[id]={r:false,d:false};_b(id).innerHTML='<div class="date-chip">'+DL[id]+'</div>';document.getElementById(id+'Rp').classList.remove('show');document.getElementById(id+'Ov').classList.remove('off');setTimeout(function(){document.getElementById(id+'Ov').classList.add('off');_p[id].r=true;_run(id,QS[id],0);},300);}
+</script>
+</body>
+</html>
