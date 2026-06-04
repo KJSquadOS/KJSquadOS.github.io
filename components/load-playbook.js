@@ -17,8 +17,8 @@
       '  <div class="container">',
       '    <div class="section-head text-center">',
       '      <div class="section-label">Playbook Library</div>',
-      '      <h2 class="section-title">바로 실행하는 캠페인 플레이북</h2>',
-      '      <p class="section-sub">채널별·목적별로 큐레이션된 30개 플레이북. 폴더를 선택해 즉시 실행하세요.</p>',
+      '      <h2 class="section-title">바로 실행하는 인포빕 플레이북</h2>',
+      '      <p class="section-sub">190개국 N개 고객 N개 메세지로 만든 성공 공식.</br>Infobip 플레이북으로 이미 증명된 고객 경험을 실행하세요.</p>',
       '    </div>',
       '    <div class="pb-filter-row" id="pbFilters"></div>',
       '    <div class="pb-grid" id="pbGrid"></div>',
@@ -114,7 +114,7 @@
 /* ── Shared playbook initializer ── */
 function initPlaybook() {
   var PLAYBOOKS = [
-    { ch:"WhatsApp", cls:"ch-wa",   keyword:"Chatbot Promotion",  desc:"챗봇 솔루션을 활용한 마케팅 캠페인",       client:"Nissan KSA",   link:"https://kjsquados.github.io/whatsapp-chatbot-nissan/" },
+    { ch:"WhatsApp", cls:"ch-wa",   keyword:"Chatbot Promotion",  desc:"챗봇 솔루션을 활용한 마케팅 캠페인",       client:"Nissan Saudi Arabia",   link:"https://kjsquados.github.io/whatsapp-chatbot-nissan/" },
     { ch:"WhatsApp", cls:"ch-wa",   keyword:"CTWA",           desc:"Click-to-WhatsApp 광고 전환",   client:"Lotte ON"       },
     { ch:"WhatsApp", cls:"ch-wa",   keyword:"Re-engagement",  desc:"휴면 고객 재활성화 시퀀스",       client:"Hyundai Card"   },
     { ch:"WhatsApp", cls:"ch-wa",   keyword:"Cart Abandon",   desc:"장바구니 이탈 복구 플로우",       client:"Coupang"        },

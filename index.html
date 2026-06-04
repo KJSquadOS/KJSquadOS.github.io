@@ -45,11 +45,7 @@
       height: 64px; display: flex; align-items: center; justify-content: space-between;
     }
     .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
-    .logo-icon {
-      width: 32px; height: 32px; border-radius: 8px;
-      background: var(--accent); display: flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: 700; font-size: 14px; font-family: 'Syne', sans-serif;
-    }
+    .logo-icon { width: 32px; height: 32px; border-radius: 8px; object-fit: contain; display: block; }
     .logo-text { color: #fff; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
     .logo-text span { font-weight: 400; color: rgba(255,255,255,0.6); }
     .nav-links { display: flex; align-items: center; gap: 2rem; }
@@ -86,10 +82,10 @@
     }
     .hero-content {
       position: relative; z-index: 10;
-      max-width: 1280px; margin: 0 auto; padding: 6rem 1.5rem 4rem;
+      max-width: 1400px; margin: 0 auto; padding: 6rem 1.5rem 4rem;
       width: 100%;
     }
-    .hero-inner { max-width: 640px; }
+    .hero-inner { max-width: 800px; }
     .badge {
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.375rem 1rem; border-radius: 999px;
@@ -108,7 +104,7 @@
     .hero h1 .accent { color: var(--accent); }
     .hero p {
       font-size: clamp(1rem, 2vw, 1.2rem); color: rgba(255,255,255,0.65);
-      line-height: 1.7; margin-bottom: 2.5rem; max-width: 480px;
+      line-height: 1.7; margin-bottom: 2.5rem; max-width: 600px;
       animation: fadeUp 0.7s 0.2s ease both;
     }
     .hero-btns {
@@ -161,7 +157,7 @@
 
     /* ── SECTIONS ── */
     section { padding: 6rem 0; }
-    .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
     .section-label {
       font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.75rem;
       letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
@@ -171,7 +167,7 @@
       line-height: 1.15; letter-spacing: -0.02em; margin-top: 0.75rem; margin-bottom: 1rem;
     }
     .section-title .highlight { color: var(--primary); }
-    .section-sub { color: var(--muted); font-size: 1.1rem; max-width: 560px; line-height: 1.7; margin: 0 auto; }
+    .section-sub { color: var(--muted); font-size: 1.1rem; max-width: 700px; line-height: 1.7; margin: 0 auto; }
     .text-center { text-align: center; }
     .section-head { margin-bottom: 4rem; }
 
@@ -244,6 +240,29 @@
     .icon-violet  { background: #8b5cf6; }
     .icon-orange  { background: #f97316; }
 
+    /* ── PRICE CARDS ── */
+    .price-cards {
+      display: flex; gap: 1rem; justify-content: center; margin: 1.5rem auto 2.5rem;
+      max-width: 700px;
+    }
+    .price-card {
+      flex: 1; display: flex; align-items: center; gap: 1rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.25rem 1.5rem;
+      text-decoration: none; color: inherit;
+      transition: box-shadow 0.3s, border-color 0.3s, transform 0.2s;
+    }
+    .price-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); border-color: rgba(232,68,26,0.25); transform: translateY(-2px); }
+    .price-icon {
+      width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+      background: rgba(232,68,26,0.08); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .price-card-title { font-weight: 700; font-size: 0.9rem; color: var(--foreground); margin-bottom: 0.15rem; }
+    .price-card-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.4; }
+    .price-arrow { flex-shrink: 0; color: var(--muted); transition: transform 0.2s, color 0.2s; margin-left: auto; }
+    .price-card:hover .price-arrow { transform: translateX(3px); color: var(--accent); }
+
     /* ── FEATURES ── */
     #features { background: var(--background); }
     .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
@@ -260,7 +279,31 @@
     .feat-title { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem; }
     .feat-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.65; }
 
-    /* ── CTA ── */
+    /* ── PARTNERS ── */
+	    #partners { background: var(--f8f7f4); }
+	    .partners-grid {
+	      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+	    }
+	    .partner-card {
+	      background: var(--card); border-radius: 20px;
+	      border: 1px solid var(--border); padding: 2rem 1.5rem;
+	      text-align: center; cursor: pointer;
+	      transition: box-shadow 0.4s, border-color 0.4s, transform 0.2s;
+	      opacity: 0; animation: fadeUp 0.5s ease forwards;
+	    }
+	    .partner-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.1); border-color: rgba(232,68,26,0.25); transform: translateY(-3px); }
+	    .partner-logo {
+	      width: 80px; height: 80px; border-radius: 50%;
+	      display: flex; align-items: center; justify-content: center;
+	      margin: 0 auto 1rem; font-size: 2rem; font-weight: 700;
+	      font-family: 'Syne', sans-serif; color: #fff;
+	      transition: transform 0.3s;
+	    }
+	    .partner-card:hover .partner-logo { transform: scale(1.08); }
+	    .partner-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 0.25rem; }
+	    .partner-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+	    /* ── CTA ── */
     .cta-section {
       position: relative; padding: 6rem 0; overflow: hidden;
     }
@@ -269,20 +312,20 @@
     .cta-overlay { position: absolute; inset: 0; background: rgba(13,27,42,0.95); }
     .cta-content {
       position: relative; z-index: 10;
-      max-width: 800px; margin: 0 auto; padding: 0 1.5rem; text-align: center;
+      max-width: 1000px; margin: 0 auto; padding: 0 1.5rem; text-align: center;
     }
     .cta-content h2 {
       font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: #fff;
       line-height: 1.2; margin-bottom: 1.5rem; letter-spacing: -0.02em;
     }
-    .cta-content p { color: rgba(255,255,255,0.65); font-size: 1.1rem; margin-bottom: 2.5rem; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+    .cta-content p { color: rgba(255,255,255,0.65); font-size: 1.1rem; margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.7; }
 
     /* ── FOOTER ── */
     footer {
       background: var(--foreground); padding: 3rem 0;
     }
     .footer-inner {
-      max-width: 1280px; margin: 0 auto; padding: 0 1.5rem;
+      max-width: 1400px; margin: 0 auto; padding: 0 1.5rem;
       display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem;
     }
     .footer-links { display: flex; align-items: center; gap: 2rem; }
@@ -308,6 +351,8 @@
       .hamburger { display: block; }
       .channels-grid { grid-template-columns: repeat(2, 1fr); }
       .features-grid { grid-template-columns: 1fr; }
+      .partners-grid { grid-template-columns: 1fr; }
+      .price-cards { flex-direction: column; align-items: stretch; }
       .footer-inner { flex-direction: column; text-align: center; }
       .footer-links { flex-wrap: wrap; justify-content: center; }
     }
@@ -322,7 +367,7 @@
   <nav>
     <div class="nav-inner">
       <a href="/" class="logo">
-        <div class="logo-icon">i</div>
+        <img class="logo-icon" src="assets/infobip-logo.png" alt="Infobip" />
         <span class="logo-text">Infobip <span>AgentOS</span></span>
       </a>
       <div class="nav-links">
@@ -371,10 +416,8 @@
     <div class="hero-divider"><div class="hero-divider-inner"></div></div>
   </section>
 
-  <!-- PLAYBOOK (loaded from components/playbook.html) -->
-  <div id="playbook-placeholder"></div>
 
-  <!-- CHANNELS -->
+    <!-- CHANNELS -->
   <section id="channels">
     <div class="container">
       <div class="section-head text-center">
@@ -384,7 +427,22 @@
       </div>
       <div class="channels-grid" id="channelsGrid"></div>
     </div>
+  </br> 
+    <div class="container">
+      <div class="section-head text-center">
+      </div>
+      <div class="features-grid" id="featuresGrid"></div>
+    </div>
+  </br>  </br> 
   </section>
+
+
+
+
+  <!-- PLAYBOOK (loaded from components/playbook.html) -->
+  <div id="playbook-placeholder"></div>
+
+
 
   <!-- PRODUCTS -->
   <section id="products">
@@ -393,19 +451,44 @@
         <div class="section-label">Solutions</div>
         <h2 class="section-title">AgentOS 솔루션</h2>
         <p class="section-sub">비즈니스에 필요한 솔루션을 모듈형으로 조합하세요</p>
+      <div class="price-cards">
+        <a class="price-card" href="https://kjsquados.github.io/Infobip%20WA%20platform%20%EC%A0%9C%EC%95%88%20%EB%8B%A8%EA%B0%80/" target="_blank">
+          <div class="price-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/><path d="M2 12h20"/></svg>
+          </div>
+          <div>
+            <div class="price-card-title">왓츠앱 CX 플랫폼 단가표</div>
+            <div class="price-card-desc">WhatsApp 집중 특별 솔루션</div>
+          </div>
+          <svg class="price-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a class="price-card" href="https://kjsquados.github.io/Infobip%20WA%20platform%20%EC%A0%9C%EC%95%88%20%EB%8B%A8%EA%B0%80/" target="_blank">
+          <div class="price-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <div>
+            <div class="price-card-title">AgentOS 전체 솔루션 단가표</div>
+            <div class="price-card-desc">CRM/Chatbot/CCaaS/AI를 한 번에</div>
+          </div>
+          <svg class="price-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
       </div>
       <div class="products-grid" id="productsGrid"></div>
     </div>
   </section>
 
-  <!-- FEATURES -->
-  <section id="features">
+
+
+  <!-- PARTNERS -->
+  <section id="partners">
     <div class="container">
       <div class="section-head text-center">
-        <div class="section-label">Why Infobip</div>
-        <h2 class="section-title">왜 AgentOS인가</h2>
+        <div class="section-label">Official Partners</div>
+        <h2 class="section-title">Infobip Korea 공식 파트너</h2>
+        <p class="section-sub">검증된 전문 파트너들과 함께 컨설팅부터 캠페인 실행까지 End-to-End로 제공</p>
       </div>
-      <div class="features-grid" id="featuresGrid"></div>
+      <div class="partners-grid" id="partnersGrid"></div>
     </div>
   </section>
 
@@ -429,7 +512,6 @@
   <footer>
     <div class="footer-inner">
       <div class="logo">
-        <div class="logo-icon" style="width:28px;height:28px;font-size:12px;">i</div>
         <span class="logo-text">Infobip AgentOS</span>
       </div>
       <div class="footer-links">
@@ -454,22 +536,22 @@
 
     // ── DATA ──
     const CHANNELS = [
-      { name: "SMS",                color: "bg-blue-500",    icon: "msg" },
-      { name: "WhatsApp",           color: "bg-green-500",   icon: "msg" },
-      { name: "Instagram",          color: "bg-pink-500",    icon: "hash" },
-      { name: "Facebook Messenger", color: "bg-blue-600",    icon: "msg" },
-      { name: "Kakao",              color: "bg-yellow-500",  icon: "msg" },
-      { name: "Viber",              color: "bg-purple-500",  icon: "msg" },
-      { name: "Zalo",               color: "bg-sky-500",     icon: "msg" },
-      { name: "Voice",              color: "bg-emerald-500", icon: "phone" },
-      { name: "Video",              color: "bg-red-500",     icon: "video" },
-      { name: "RCS",                color: "bg-indigo-500",  icon: "msg" },
+      { name: "SMS",                color: "bg-blue-500",    icon: "msg", link: "https://www.infobip.com/sms" },
+      { name: "WhatsApp",           color: "bg-green-500",   icon: "msg", link: "https://www.infobip.com/whatsapp" },
+      { name: "Instagram",          color: "bg-pink-500",    icon: "hash", link: "https://www.infobip.com/instagram" },
+      { name: "Facebook Messenger", color: "bg-blue-600",    icon: "msg", link: "https://www.infobip.com/facebook-messenger" },
+      { name: "Kakao",              color: "bg-yellow-500",  icon: "msg", link: "https://www.infobip.com/kakao" },
+      { name: "Viber",              color: "bg-purple-500",  icon: "msg", link: "https://www.infobip.com/viber" },
+      { name: "Zalo",               color: "bg-sky-500",     icon: "msg", link: "https://www.infobip.com/zalo" },
+      { name: "Voice",              color: "bg-emerald-500", icon: "phone", link: "https://www.infobip.com/voice" },
+      { name: "Video",              color: "bg-red-500",     icon: "video", link: "https://www.infobip.com/video" },
+      { name: "RCS",                color: "bg-indigo-500",  icon: "msg", link: "https://www.infobip.com/rcs" },
     ];
 
     const PRODUCTS = [
       { name: "Broadcast", grad: "grad-blue", iconBg: "icon-blue", icon: "send",
         title: "대규모 메시징을 스마트하게",
-        desc: "마케팅 캠페인, 프로모션, 공지사항을 멀티채널로 빠르게 발송하세요. 개인화된 대규모 메시징이 가능합니다.",
+        desc: "마케팅 캠페인, 프로모션, 공지사항을 멀티채널로 빠르게 발송하세요. <br/>개인화된 대규모 메시징이 가능합니다.",
         tags: ["통합 메시징 운영", "개인화 대량 발송", "캠페인 성과 분석"] },
       { name: "Journey", grad: "grad-emerald", iconBg: "icon-emerald", icon: "route",
         title: "고객 여정을 자동화하세요",
@@ -477,11 +559,11 @@
         tags: ["옴니채널 여정 관리", "행동 기반 자동화", "전환율 최적화"] },
       { name: "Chatbot", grad: "grad-violet", iconBg: "icon-violet", icon: "bot",
         title: "맥락을 이해하는 대화",
-        desc: "FAQ 자동화부터 리드 수집까지. 24/7 양방향 고객 응대로 상담사 업무를 줄이고 고객 만족도를 높이세요.",
+        desc: "FAQ 자동화부터 리드 수집까지. <br/>24/7 양방향 고객 응대로 상담사 업무를 줄이고 고객 만족도를 높이세요.",
         tags: ["맥락 기반 대화", "24/7 자동 응대", "상담사 부담 감소"] },
       { name: "Inbox", grad: "grad-orange", iconBg: "icon-orange", icon: "inbox",
         title: "통합 클라우드 컨택센터",
-        desc: "모든 상담 채널을 하나의 인박스로. 컨택센터를 현대화하고 채널 간 연속된 상담 경험을 제공하세요.",
+        desc: "모든 상담 채널을 하나의 인박스로. <br/>컨택센터를 현대화하고 채널 간 연속된 상담 경험을 제공하세요.",
         tags: ["통합 상담 환경", "고객 이력 관리", "옴니채널 상담"] },
     ];
 
@@ -492,6 +574,17 @@
       { icon: "bar",     title: "실시간 분석",       desc: "메시지 성과를 실시간으로 추적하고 최적화" },
       { icon: "layers",  title: "유연한 API",        desc: "기존 시스템과 손쉽게 연동하는 확장 구조" },
       { icon: "clock",   title: "24/7 운영",         desc: "상시 가동으로 고객에게 끊김 없는 경험 제공" },
+    ];
+
+    const PARTNERS = [
+      { name: "Meta",           color: "#1877F2", initial: "M", desc: "WhatsApp · Messenger · Instagram 공식 파트너", url: "https://www.infobip.com/whatsapp" },
+      { name: "INNOCEAN",         color: "#4285F4", initial: "G", desc: "RCS · 비즈니스 메시징 · Cloud 파트너", url: "https://www.infobip.com/rcs" },
+      { name: "IBANK",      color: "#00A4EF", initial: "M", desc: "Azure · Dynamics 365 공식 파트너", url: "https://www.infobip.com/microsoft-teams" },
+      { name: "IB180",     color: "#00A1E0", initial: "S", desc: "Marketing Cloud · Service Cloud 통합 파트너", url: "https://www.infobip.com/salesforce" },
+      { name: "Braze",         color: "#F80000", initial: "O", desc: "Oracle Cloud · CX 통합 파트너", url: "https://www.infobip.com/oracle" },
+      { name: "CJ Olive Networks",            color: "#0FAA16", initial: "S", desc: "SAP Customer Experience 공식 파트너", url: "https://www.infobip.com/sap" },
+      { name: "Martinee",          color: "#FF0000", initial: "A", desc: "Adobe Experience Cloud 통합 파트너", url: "https://www.infobip.com/adobe" },
+      { name: "Appknot",         color: "#F22F46", initial: "T", desc: "SendGrid · Twilio Segment 에코시스템 파트너", url: "https://www.infobip.com/twilio" },
     ];
 
     // ── ICONS ──
@@ -521,6 +614,8 @@
       el.innerHTML = `
         <div class="ch-icon ${ch.color}">${ICONS[ch.icon]}</div>
         <span>${ch.name}</span>`;
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', () => window.open(ch.link, '_blank'));
       cGrid.appendChild(el);
     });
 
@@ -558,6 +653,20 @@
       fGrid.appendChild(el);
     });
 
+    // ── RENDER PARTNERS ──
+    const pnGrid = document.getElementById('partnersGrid');
+    PARTNERS.forEach((p, i) => {
+      const el = document.createElement('div');
+      el.className = 'partner-card';
+      el.style.animationDelay = (i * 0.06) + 's';
+      el.innerHTML = `
+        <div class="partner-logo" style="background:${p.color}">${p.initial}</div>
+        <h3>${p.name}</h3>
+        <p>${p.desc}</p>`;
+      el.addEventListener('click', () => window.open(p.url, '_blank'));
+      pnGrid.appendChild(el);
+    });
+
     // ── MOBILE NAV ──
     function toggleMobile() {
       const nav = document.getElementById('mobileNav');
@@ -573,7 +682,7 @@
       document.getElementById('icon-close').style.display = 'none';
     }
 
-    document.querySelectorAll('.channel-card, .product-card, .feature-item').forEach(el => {
+    document.querySelectorAll('.channel-card, .product-card, .feature-item, .partner-card').forEach(el => {
       el.style.animationPlayState = 'paused';
       observer.observe(el);
     });
